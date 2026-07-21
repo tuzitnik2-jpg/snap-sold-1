@@ -180,7 +180,7 @@ function proxyVisionGemini(req, res) {
 
     const parts = images.map(b64 => ({ inline_data: { mime_type: 'image/jpeg', data: b64 } }));
     parts.push({ text: prompt });
-    const model = 'gemini-2.5-flash'; // uprav, pokud vyjde novější Flash model
+    const model = 'gemini-3.5-flash'; // uprav, pokud vyjde novější Flash model
     const payload = JSON.stringify({
       contents: [{ parts }],
       generationConfig: { responseMimeType: 'application/json' },
