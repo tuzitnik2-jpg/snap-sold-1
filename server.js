@@ -183,7 +183,7 @@ function proxyVisionGemini(req, res) {
     const model = 'gemini-3.5-flash'; // uprav, pokud vyjde novější Flash model
     const payload = JSON.stringify({
       contents: [{ parts }],
-      generationConfig: { responseMimeType: 'application/json' },
+      generationConfig: { responseMimeType: 'application/json', temperature: 0 },
     });
 
     const up = https.request(
@@ -298,6 +298,7 @@ function serveStatic(req, res) {
 
 const server = http.createServer((req, res) => {
   const u = req.url.split('?')[0];
+  if (req.method === 'GET' && u === '/api/health') return json(res, 200, { ok: true });
   if (req.method === 'POST' && u === '/api/signup') return handleSignup(req, res);
   if (req.method === 'POST' && u === '/api/login') return handleLogin(req, res);
   if (req.method === 'POST' && u === '/api/logout') { clearSession(res); return json(res, 200, { ok: true }); }

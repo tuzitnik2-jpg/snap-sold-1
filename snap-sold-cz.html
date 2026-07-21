@@ -1834,16 +1834,24 @@ function showSkeleton(){
   for(let i=0;i<n;i++){ const s=document.createElement('div'); s.className='skeleton'; box.appendChild(s); }
   $('gamecard').classList.add('on');
 }
+/* fetch s časovým limitem (90 s) — aby výzva na uspaný server nevisela donekonečna */
+function fetchTimeout(url,opts={},ms=90000){
+  const ac=new AbortController();
+  const t=setTimeout(()=>ac.abort(),ms);
+  return fetch(url,{...opts,signal:ac.signal}).finally(()=>clearTimeout(t));
+}
 async function identify(){
   setStatus('Poznávám z fotky',{busy:true});
   showSkeleton();
+  // po pár vteřinách napovědět, že se možná probouzí uspaný server (Render free tier)
+  const wakeTimer=setTimeout(()=>{ if($('facts').querySelector('.skeleton')) setStatus('Stále poznávám — server se možná probouzí po nečinnosti (~30–50 s)',{busy:true}); },6000);
   try{
     const prompt=visionPromptFor(state.category);
     const provider=localStorage.getItem('snapSoldProvider')||'gemini';
     let text;
     if(provider==='ollama'){
       const model=localStorage.getItem('snapSoldOllamaModel')||'llava';
-      const r=await fetch('/api/vision-local',{
+      const r=await fetchTimeout('/api/vision-local',{
         method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({model,prompt,images:state.images.map(im=>im.b64)})
       });
@@ -1853,7 +1861,7 @@ async function identify(){
     }else if(provider==='gemini'){
       const apiKey=localStorage.getItem('snapSoldGeminiKey')||'';
       if(!apiKey){ setStatus('Chybí Gemini API klíč — vlož ho v Nastavení (⚙), nebo přepni na jiný model.',{err:true}); if($('facts').querySelector('.skeleton')) renderFactsPanel(); return; }
-      const r=await fetch('/api/vision-gemini',{
+      const r=await fetchTimeout('/api/vision-gemini',{
         method:'POST',headers:{'Content-Type':'application/json','x-user-key':apiKey},
         body:JSON.stringify({prompt,images:state.images.map(im=>im.b64)})
       });
@@ -1867,7 +1875,7 @@ async function identify(){
         ...state.images.map(im=>({type:'image',source:{type:'base64',media_type:'image/jpeg',data:im.b64}})),
         {type:'text',text:prompt}
       ];
-      const r = await fetch('/api/vision',{
+      const r = await fetchTimeout('/api/vision',{
         method:'POST',headers:{'Content-Type':'application/json','x-user-key':apiKey},
         body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content}]})
       });
@@ -1920,8 +1928,13 @@ async function identify(){
       render();
     }
   }catch(e){
-    setStatus('Rozpoznávání z fotky tu není dostupné ('+e.message+'). Napiš název — zbytek funguje.',{err:true});
+    const msg = e.name==='AbortError'
+      ? 'Server neodpověděl včas — nejspíš se probouzí po nečinnosti. Zkus to za chvíli znovu, nebo napiš název.'
+      : 'Rozpoznávání z fotky tu není dostupné ('+e.message+'). Napiš název — zbytek funguje.';
+    setStatus(msg,{err:true});
     if($('facts').querySelector('.skeleton')) renderFactsPanel();
+  }finally{
+    clearTimeout(wakeTimer);
   }
 }
 
@@ -2791,6 +2804,12 @@ $('onboardClose').addEventListener('click',()=>{ localStorage.setItem('snapSoldO
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('/sw.js').catch(()=>{}); });
 }
+
+/* ---------- warm-up: probudí uspaný server (Render free tier) co nejdřív ---------- */
+function warmUp(){ fetch('/api/health',{cache:'no-store'}).catch(()=>{}); }
+warmUp();
+// znovu probudit, když uživatel začne pracovat s fotkou (server mohl mezitím usnout)
+['pointerdown','focus'].forEach(ev=>$('drop').addEventListener(ev,warmUp,{passive:true}));
 
 loadTheme();
 checkAuth();
