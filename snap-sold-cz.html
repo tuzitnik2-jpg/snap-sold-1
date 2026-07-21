@@ -394,8 +394,8 @@ button.copied{background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,25
   <div class="setDiv"></div>
   <div class="eyebrow" style="margin-top:0">Fotky</div>
   <div class="setRow">
-    <label for="setImgSize">Max. rozm&ecaron;r fotky <span class="val" id="setImgSizeVal">1024 px</span></label>
-    <input id="setImgSize" type="range" min="512" max="2048" step="128" value="1024">
+    <label for="setImgSize">Max. rozm&ecaron;r fotky <span class="val" id="setImgSizeVal">1536 px</span></label>
+    <input id="setImgSize" type="range" min="512" max="2048" step="128" value="1536">
     <div class="setNote">Men&scaron;&iacute; = rychlej&scaron;&iacute; nahr&aacute;n&iacute; a rozpozn&aacute;n&iacute; (hlavn&ecaron; u lok&aacute;ln&iacute;ho modelu), v&ecaron;t&scaron;&iacute; = v&iacute;c detailu.</div>
   </div>
   <div class="setRow">
@@ -1578,7 +1578,7 @@ function setStatus(msg,{err=false,busy=false}={}){
 
 /* ---------- fotky ---------- */
 function imgSettings(){
-  const maxDim=parseInt(localStorage.getItem('snapSoldImgMaxDim'))||1024;
+  const maxDim=parseInt(localStorage.getItem('snapSoldImgMaxDim'))||1536;
   const quality=parseFloat(localStorage.getItem('snapSoldImgQuality'))||0.82;
   return {maxDim,quality};
 }

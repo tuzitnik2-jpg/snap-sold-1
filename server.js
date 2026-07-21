@@ -190,12 +190,12 @@ function proxyVisionGemini(req, res) {
 
     // Gemini občas vrátí přechodnou chybu (503 přetížení, 429 limit, 500) — zkusíme to znovu s krátkým odstupem
     const TRANSIENT = new Set([429, 500, 503]);
-    const MAX_TRIES = 3;
+    const MAX_TRIES = 5; // Gemini 503 "high demand" spiky — zkusíme víckrát (0.8s,1.6s,2.4s,3.2s)
     function attempt(n) {
       const up = https.request(url, { method: 'POST', headers: { 'Content-Type': 'application/json' } }, upRes => {
         let d = ''; upRes.on('data', c => d += c);
         upRes.on('end', () => {
-          if (TRANSIENT.has(upRes.statusCode) && n < MAX_TRIES) return setTimeout(() => attempt(n + 1), 700 * n);
+          if (TRANSIENT.has(upRes.statusCode) && n < MAX_TRIES) return setTimeout(() => attempt(n + 1), 800 * n);
           if (upRes.statusCode >= 400) {
             const friendly = upRes.statusCode === 503
               ? 'Gemini je momentálně přetížený. Zkus to prosím za chvíli znovu.'
@@ -211,7 +211,7 @@ function proxyVisionGemini(req, res) {
         });
       });
       up.on('error', e => {
-        if (n < MAX_TRIES) return setTimeout(() => attempt(n + 1), 700 * n);
+        if (n < MAX_TRIES) return setTimeout(() => attempt(n + 1), 800 * n);
         json(res, 502, { error: 'Upstream selhal: ' + e.message });
       });
       up.end(payload);
