@@ -1,0 +1,2800 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snap → Sold — Vyfoť krabici, dostaneš inzerát</title>
+<meta name="description" content="Vyfoť krabici deskové hry a během vteřiny máš hotový inzerát na Bazoš, Vinted, Aukro, eBay i Facebook. Databáze 250+ her, žádná registrace.">
+<meta name="theme-color" content="#0F231A">
+<link rel="manifest" href="/manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta property="og:title" content="Snap → Sold">
+<meta property="og:description" content="Vyfoť krabici. Dostaneš inzerát. Prodej deskových her rychle.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230F231A'/%3E%3Ctext x='50' y='68' font-size='60' text-anchor='middle' fill='%23C9A24B'%3E%E2%86%92%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --felt:#0F231A; --felt-2:#162E22; --felt-3:#1C3A2B;
+  --line:rgba(233,222,190,.14);
+  --parchment:#F3ECD9; --ink:#2A2314;
+  --brass:#C9A24B; --brass-2:#E0BC6A;
+  --cream:#EDE6D2; --dim:#9FAF9E; --bad:#D96C5A;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  --disp:'Fraunces',Georgia,serif;
+  --ui:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-pill:99px;
+  --sh-1:0 2px 6px -3px rgba(0,0,0,.45);
+  --sh-2:0 10px 26px -16px rgba(0,0,0,.62);
+  --sh-3:0 22px 48px -24px rgba(0,0,0,.74);
+  --brass-soft:rgba(201,162,75,.42);
+  --ease:cubic-bezier(.2,.7,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{color-scheme:dark}
+body{
+  background:
+    radial-gradient(1000px 560px at 85% -10%,rgba(201,162,75,.10),transparent 60%),
+    radial-gradient(700px 480px at 5% 10%,rgba(201,162,75,.05),transparent 55%),
+    linear-gradient(165deg,#122A1F 0%,var(--felt) 45%,#0A1712 100%);
+  background-attachment:fixed;
+  color:var(--cream);font-family:var(--ui);font-size:14px;line-height:1.5;
+  min-height:100vh;padding:0 16px 70px;
+}
+.col{max-width:760px;margin:0 auto}
+.hd{padding:26px 4px 18px;border-bottom:1px solid transparent;
+    border-image:linear-gradient(90deg,var(--line),transparent) 1;margin-bottom:22px;
+    display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
+.wordmark{font-family:var(--disp);font-weight:700;font-size:28px;letter-spacing:-.02em;line-height:1.05}
+.wordmark .amp{color:var(--brass);text-shadow:0 0 18px rgba(201,162,75,.5)}
+.tagline{color:var(--dim);font-size:12.5px;margin-top:3px;letter-spacing:.01em}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--brass);margin:22px 0 12px;display:flex;align-items:center;gap:10px}
+.eyebrow::after{content:'';flex:1;height:1px;background:var(--line)}
+#drop{border:1.5px dashed rgba(233,222,190,.28);border-radius:16px;
+  background:linear-gradient(160deg,rgba(255,255,255,.035),rgba(255,255,255,0)),var(--felt-2);
+  backdrop-filter:blur(6px);box-shadow:0 1px 0 rgba(255,255,255,.03) inset,0 12px 28px -18px rgba(0,0,0,.55);
+  min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;cursor:pointer;text-align:center;padding:20px;transition:border-color .18s,background .18s,box-shadow .18s}
+#drop:hover{border-color:var(--brass);background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,0)),var(--felt-3);
+  box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 16px 34px -16px rgba(0,0,0,.6)}
+#drop.over{border-color:var(--brass-2);border-style:solid;
+  background:linear-gradient(160deg,rgba(201,162,75,.12),rgba(255,255,255,0)),var(--felt-3);
+  box-shadow:0 0 0 3px var(--brass-soft),0 18px 38px -16px rgba(0,0,0,.62);transform:scale(1.01)}
+#drop .big{font-family:var(--disp);font-size:17px;font-weight:500}
+#drop .sub{color:var(--dim);font-size:12.5px}
+#thumbs{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.polaroid{position:relative;background:var(--felt-2);padding:4px;border-radius:var(--r-md);border:1px solid var(--line);
+  box-shadow:var(--sh-2);transition:transform .18s var(--ease),box-shadow .18s,border-color .18s;overflow:hidden}
+.polaroid:hover{transform:translateY(-3px);box-shadow:var(--sh-3);border-color:var(--brass-soft)}
+.polaroid img{width:100px;height:100px;object-fit:cover;display:block;border-radius:9px}
+.polaroid::after{content:'';position:absolute;inset:4px;border-radius:9px;pointer-events:none;
+  background:linear-gradient(to top,rgba(10,20,15,.55),transparent 42%);opacity:0;transition:opacity .18s}
+.polaroid:hover::after{opacity:1}
+.polaroid button{position:absolute;top:7px;right:7px;width:auto;border:0;border-radius:var(--r-pill);
+  background:rgba(10,20,15,.72);color:var(--cream);font-size:10.5px;font-family:var(--mono);letter-spacing:.04em;
+  cursor:pointer;padding:3px 9px;opacity:0;transform:translateY(-3px);transition:opacity .16s,transform .16s,background .16s;box-shadow:none;z-index:2}
+.polaroid:hover button,.polaroid button:focus-visible{opacity:1;transform:none}
+.polaroid button:hover{background:var(--bad);color:#fff}
+#status{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:12px;min-height:18px}
+#status.err{color:var(--bad)}
+#status .dots::after{content:'…';animation:d 1.2s steps(4) infinite}
+@keyframes d{to{content:''}}
+#gamecard{display:none}
+#gamecard.on{display:block}
+.namerow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+#gName{flex:1;min-width:220px;background:transparent;border:0;border-bottom:1px solid var(--line);
+  color:var(--cream);font-family:var(--disp);font-size:25px;font-weight:700;letter-spacing:-.01em;padding:2px 2px 7px}
+#gName:focus{outline:none;border-bottom-color:var(--brass);box-shadow:none}
+#gName:focus-visible{outline:none;border-bottom-color:var(--brass)}
+#typeChips{color:var(--brass-2);font-family:var(--mono);font-size:12px}
+#pickWrap{display:none;margin:8px 0 4px}
+#pickWrap.on{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+#pickWrap span{color:var(--dim);font-size:12px}
+.facts{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}
+.fact{background:linear-gradient(160deg,rgba(255,255,255,.04),rgba(255,255,255,0)),var(--felt-2);
+  border:1px solid var(--line);border-radius:12px;padding:9px 12px;min-width:86px;
+  box-shadow:0 6px 14px -10px rgba(0,0,0,.5);transition:border-color .15s,transform .15s;
+  animation:factIn .28s cubic-bezier(.2,.7,.3,1) both}
+.fact:hover{border-color:rgba(233,222,190,.24)}
+.fact:focus-within{border-color:var(--brass-soft);transform:translateY(-1px);box-shadow:0 8px 18px -10px rgba(0,0,0,.55),0 0 0 1px var(--brass-soft)}
+.fact label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+.fact input{width:100%;background:transparent;border:0;color:var(--cream);font:inherit;font-weight:600;padding:0}
+.fact input:focus-visible{outline:none;color:var(--brass-2)}
+.fact .ro{font-weight:600}
+.fact .ro small{color:var(--dim);font-weight:400}
+input,select{background:rgba(0,0,0,.24);border:1px solid var(--line);border-radius:8px;
+  color:var(--cream);font:inherit;padding:8px 10px;transition:border-color .15s,background .15s}
+select option{background:var(--felt-2);color:var(--cream)}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--brass);outline-offset:1px}
+input:focus,select:focus{border-color:var(--brass);box-shadow:0 0 0 3px rgba(201,162,75,.16),0 0 18px -6px rgba(201,162,75,.5)}
+input:hover,select:hover{border-color:rgba(233,222,190,.24)}
+select{appearance:none;padding-right:26px;background-image:linear-gradient(45deg,transparent 50%,var(--dim) 50%),linear-gradient(135deg,var(--dim) 50%,transparent 50%);background-position:calc(100% - 15px) 55%,calc(100% - 10px) 55%;background-size:5px 5px;background-repeat:no-repeat}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line);
+  background:linear-gradient(160deg,rgba(255,255,255,.035),rgba(255,255,255,0)),var(--felt-3);
+  color:var(--cream);padding:8px 13px;transition:background .15s,border-color .15s,transform .12s;
+  box-shadow:0 4px 10px -8px rgba(0,0,0,.5)}
+button:hover{background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,0)),#234A36;border-color:rgba(233,222,190,.26)}
+button:active{transform:translateY(1px)}
+button.primary{background:linear-gradient(160deg,rgba(255,255,255,.15),rgba(255,255,255,0)),var(--brass);border-color:var(--brass);color:#241C08;font-weight:600;box-shadow:0 6px 16px -8px rgba(201,162,75,.4)}
+button.primary:hover{background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,0)),var(--brass-2)}
+button.small{padding:4px 9px;font-size:12px}
+.seg{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 12px}
+.seg button{font-size:12.5px;padding:6px 11px;border-radius:99px}
+.seg button.sel{background:linear-gradient(160deg,rgba(255,255,255,.18),rgba(255,255,255,0)),var(--brass);border-color:var(--brass);color:#241C08;font-weight:600}
+.rowline{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.rowline label{display:block;font-size:11px;color:var(--dim);margin-bottom:3px}
+.rowline>div{flex:1;min-width:110px}
+.check{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.check input{width:auto}
+#missNote{display:none;margin-bottom:12px;width:100%}
+#condNotes{width:100%;margin-bottom:2px}
+.hint{font-size:11.5px;color:var(--dim)}
+#sugg{margin-top:8px;border:1px solid var(--line);border-radius:10px;max-height:230px;overflow:auto;display:none;
+  background:rgba(0,0,0,.15);backdrop-filter:blur(4px)}
+#sugg.open{display:block}
+.res{padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(233,222,190,.07);transition:background .12s,box-shadow .12s;box-shadow:inset 3px 0 0 transparent}
+.res:last-child{border-bottom:0}
+.res:hover,.res:focus-visible{background:var(--felt-3);box-shadow:inset 3px 0 0 var(--brass);outline:none}
+.res .yr{color:var(--dim);font-family:var(--mono);font-size:12px;white-space:nowrap}
+.resIcon{display:inline-block;width:20px;text-align:center;margin-right:6px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.tabs button{border-radius:99px;font-size:12.5px;padding:6px 12px}
+.tabs button.sel{background:linear-gradient(160deg,rgba(255,255,255,.18),rgba(255,255,255,0)),var(--brass);border-color:var(--brass);color:#241C08;font-weight:600}
+.card{background:var(--parchment);color:var(--ink);border-radius:var(--r-lg);padding:22px 24px 20px;
+  position:relative;box-shadow:0 1px 0 rgba(255,255,255,.35) inset,var(--sh-2),var(--sh-3)}
+@media(min-width:900px){.card{position:sticky;top:16px}}
+.card::before{content:'';position:absolute;top:13px;right:15px;width:10px;height:10px;border-radius:50%;
+  background:var(--felt);box-shadow:inset 0 1px 2px rgba(0,0,0,.5)}
+.card h3{font-family:var(--disp);font-size:18px;line-height:1.3;margin:0 24px 10px 0}
+.card pre{font-family:var(--mono);font-size:12.5px;line-height:1.62;white-space:pre-wrap;word-wrap:break-word;
+  color:#3A3220;border-top:1px dashed rgba(42,35,20,.3);padding-top:11px}
+.charcount{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;color:var(--dim);margin-top:8px;
+  background:rgba(0,0,0,.2);border:1px solid var(--line);border-radius:var(--r-pill);padding:3px 10px}
+.charcount:empty{display:none}
+.charcount.over{color:var(--bad);border-color:rgba(217,108,90,.4);background:rgba(217,108,90,.1)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center}
+.actions .spacer{flex:1}
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,14px) scale(.96);opacity:0;pointer-events:none;
+  background:linear-gradient(160deg,var(--brass-2),var(--brass));color:#241C08;font-weight:600;padding:10px 20px;border-radius:var(--r-pill);
+  transition:opacity .2s var(--ease),transform .2s var(--ease);z-index:50;font-size:13px;
+  box-shadow:0 12px 30px -10px rgba(0,0,0,.5),0 0 0 1px rgba(201,162,75,.5),0 0 22px -6px var(--brass-soft)}
+#toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
+.toastAction{pointer-events:auto;text-decoration:underline;cursor:pointer;font-weight:700;margin-left:4px}
+#batchList{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.batchRow{display:flex;align-items:center;gap:10px;background:linear-gradient(160deg,rgba(255,255,255,.03),rgba(255,255,255,0)),rgba(0,0,0,.15);border:1px solid var(--line);
+  border-radius:var(--r-md);padding:9px 12px;font-size:12.5px;box-shadow:var(--sh-1);
+  transition:border-color .15s,transform .15s,box-shadow .15s}
+.batchRow:hover{border-color:var(--brass-soft);transform:translateX(2px);box-shadow:var(--sh-2)}
+.batchRow .bc{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--brass-2);background:rgba(201,162,75,.12);border-radius:5px;padding:2px 6px;white-space:nowrap}
+.batchThumb{width:28px;height:28px;object-fit:cover;border-radius:6px;flex-shrink:0}
+.batchRow .bn{flex:1;font-weight:600}
+.batchRow .bm{color:var(--dim);font-family:var(--mono);font-size:11px}
+.batchRow button{padding:3px 8px;font-size:11px}
+body.density-compact .fact{padding:5px 8px}
+body.density-compact .card{padding:14px 16px 12px}
+body.density-compact .batchRow{padding:5px 8px}
+body.density-compact .eyebrow{margin:16px 0 8px}
+body.density-compact .rowline,body.density-compact .facts{margin-bottom:6px}
+body.density-compact .actions{margin-top:8px}
+@media(max-width:420px){
+  body{padding:0 10px 60px}
+  .hd{padding:18px 2px 14px}
+  .wordmark{font-size:21px}
+  #drop{min-height:120px;padding:14px}
+  .fact{min-width:72px;padding:7px 9px}
+  .rowline>div{min-width:100%}
+  .actions button{flex:1;min-width:120px}
+  .card{padding:16px 14px 14px}
+  .batchRow{flex-wrap:wrap}
+}
+.seg button,.tabs button{transition:background .16s var(--ease),color .16s,border-color .16s,transform .12s}
+@media(max-width:560px){
+  .actions{position:sticky;bottom:0;margin:14px -10px 0;padding:10px;gap:8px;
+    background:linear-gradient(to top,var(--felt) 40%,rgba(15,35,26,.86));
+    backdrop-filter:blur(9px);border-top:1px solid var(--line);z-index:20}
+  .actions .spacer{display:none}
+  .actions button{flex:1 1 40%;min-width:0}
+  .actions button.primary{flex-basis:100%;order:-1}
+}
+@keyframes factIn{from{opacity:0;transform:translateY(6px) scale(.98)}to{opacity:1;transform:none}}
+.facts .fact:nth-child(1){animation-delay:.00s}.facts .fact:nth-child(2){animation-delay:.03s}
+.facts .fact:nth-child(3){animation-delay:.06s}.facts .fact:nth-child(4){animation-delay:.09s}
+.facts .fact:nth-child(5){animation-delay:.12s}.facts .fact:nth-child(6){animation-delay:.15s}
+.facts .fact:nth-child(7){animation-delay:.18s}.facts .fact:nth-child(8){animation-delay:.21s}
+@keyframes shimmer{to{background-position:-200% 0}}
+.skeleton{border-radius:12px;min-width:86px;height:46px;
+  background:linear-gradient(100deg,var(--felt-2) 30%,rgba(233,222,190,.10) 50%,var(--felt-2) 70%);
+  background-size:200% 100%;animation:shimmer 1.1s linear infinite;border:1px solid var(--line)}
+button.copied{background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,0)),#2E6B47!important;
+  border-color:#3E8B5C!important;color:var(--cream)!important}
+.seg#condSeg{gap:0;background:rgba(0,0,0,.2);border:1px solid var(--line);border-radius:99px;padding:3px;width:fit-content;max-width:100%}
+.seg#condSeg button{border:0;box-shadow:none;background:transparent;border-radius:99px;transition:background .18s,color .18s}
+.seg#condSeg button.sel{background:linear-gradient(160deg,rgba(255,255,255,.18),rgba(255,255,255,0)),var(--brass);color:#241C08;font-weight:600;box-shadow:0 4px 10px -6px rgba(201,162,75,.5)}
+.eyebrow{margin:26px 0 14px}
+/* ---------- account cluster in header ---------- */
+#hdRight{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#userEmail{font-family:var(--mono);font-size:11px;color:var(--dim);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.iconbtn{width:34px;height:34px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:var(--r-pill)}
+.iconbtn svg{width:17px;height:17px}
+/* ---------- auth gate ---------- */
+#authGate{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px;
+  background:radial-gradient(900px 500px at 80% -10%,rgba(201,162,75,.12),transparent 60%),linear-gradient(165deg,#122A1F,var(--felt) 55%,#0A1712);
+  backdrop-filter:blur(3px)}
+#authGate.on{display:flex}
+.authCard{position:relative;width:100%;max-width:380px;background:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,0)),var(--felt-2);
+  border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-3);padding:26px 24px;animation:factIn .3s var(--ease) both}
+.authCard .brand{font-family:var(--disp);font-weight:700;font-size:24px;letter-spacing:-.02em;margin-bottom:2px}
+.authCard .brand .amp{color:var(--brass)}
+.authCard .sub{color:var(--dim);font-size:12.5px;margin-bottom:18px}
+.authTabs{display:flex;gap:0;background:rgba(0,0,0,.2);border:1px solid var(--line);border-radius:var(--r-pill);padding:3px;margin-bottom:16px}
+.authTabs button{flex:1;border:0;background:transparent;box-shadow:none;border-radius:var(--r-pill);font-size:13px;padding:7px}
+.authTabs button.sel{background:linear-gradient(160deg,rgba(255,255,255,.18),rgba(255,255,255,0)),var(--brass);color:#241C08;font-weight:600}
+.authField{margin-bottom:12px}
+.authField label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
+.authField input{width:100%}
+#authErr{color:var(--bad);font-size:12px;min-height:16px;margin:2px 0 10px}
+#authSubmit{width:100%;justify-content:center;padding:11px}
+/* ---------- settings drawer ---------- */
+#settingsBk{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .2s}
+#settingsBk.on{opacity:1;pointer-events:auto}
+#settings{position:fixed;top:0;right:0;bottom:0;width:min(380px,92vw);z-index:91;overflow-y:auto;
+  background:linear-gradient(160deg,rgba(255,255,255,.04),rgba(255,255,255,0)),var(--felt-2);
+  border-left:1px solid var(--line);box-shadow:var(--sh-3);transform:translateX(102%);transition:transform .26s var(--ease);padding:20px}
+#settings.on{transform:none}
+.setHd{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.setHd h2{font-family:var(--disp);font-size:19px;font-weight:700}
+#setClose{width:32px;height:32px;padding:0;border-radius:var(--r-pill)}
+.setRow{margin:14px 0}
+.setRow label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.setRow input[type=range]{width:100%;accent-color:var(--brass)}
+.setRow input[type=color]{width:44px;height:30px;padding:2px;border-radius:var(--r-sm);background:rgba(0,0,0,.24);cursor:pointer}
+.setRow .val{font-family:var(--mono);font-size:11px;color:var(--brass-2);float:right}
+.colorRow{display:flex;gap:10px;flex-wrap:wrap}
+.colorRow>div{display:flex;flex-direction:column;gap:4px;align-items:center}
+.colorRow>div span{font-family:var(--mono);font-size:9px;color:var(--dim);text-transform:uppercase}
+.setNote{font-size:11px;color:var(--dim);margin-top:4px}
+.setDiv{height:1px;background:var(--line);margin:18px 0}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div id="authGate" aria-hidden="true">
+  <div class="authCard">
+    <button id="authClose" class="iconbtn" type="button" title="Zav&rcaron;&iacute;t" aria-label="Zav&rcaron;&iacute;t" style="position:absolute;top:14px;right:14px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="brand">Snap <span class="amp">&rarr;</span> Sold</div>
+    <div class="sub">Registrace nen&iacute; povinn&aacute; &mdash; aplikace funguje i bez p&rcaron;ihl&aacute;&scaron;en&iacute;.</div>
+    <div class="authTabs">
+      <button id="tabLogin" class="sel" type="button">P&rcaron;ihl&aacute;sit</button>
+      <button id="tabSignup" type="button">Registrovat</button>
+    </div>
+    <form id="authForm">
+      <div class="authField"><label for="authEmail">E-mail</label><input id="authEmail" type="email" autocomplete="email" required></div>
+      <div class="authField"><label for="authPass">Heslo</label><input id="authPass" type="password" autocomplete="current-password" required></div>
+      <div id="authErr"></div>
+      <button id="authSubmit" class="primary" type="submit">P&rcaron;ihl&aacute;sit</button>
+    </form>
+    <button id="forgotBtn" type="button" class="small" style="width:100%;margin-top:8px;background:transparent;border-color:transparent;color:var(--dim)">Zapomenuté heslo?</button>
+    <form id="forgotForm" style="display:none">
+      <div class="authField"><label for="forgotEmail">E-mail</label><input id="forgotEmail" type="email" autocomplete="email" required></div>
+      <div id="forgotErr"></div>
+      <div id="forgotLinkBox" class="setNote" style="display:none"></div>
+      <button class="primary" type="submit" style="width:100%">Poslat odkaz na obnovu</button>
+      <button id="forgotBack" type="button" class="small" style="width:100%;margin-top:6px">Zpět na přihlášení</button>
+    </form>
+    <form id="resetForm" style="display:none">
+      <div class="authField"><label for="resetPass">Nové heslo</label><input id="resetPass" type="password" autocomplete="new-password" required></div>
+      <div id="resetErr"></div>
+      <button class="primary" type="submit" style="width:100%">Nastavit nové heslo</button>
+    </form>
+  </div>
+</div>
+
+<div id="settingsBk"></div>
+<aside id="settings" aria-label="Nastaven&iacute;">
+  <div class="setHd">
+    <h2>Nastaven&iacute;</h2>
+    <button id="setClose" class="iconbtn" title="Zav&rcaron;&iacute;t" aria-label="Zav&rcaron;&iacute;t">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="setDiv"></div>
+  <div class="eyebrow" style="margin-top:0">Rozpozn&aacute;n&iacute; z fotky</div>
+  <div class="setRow">
+    <label for="setProvider">Model pro rozpozn&aacute;n&iacute;</label>
+    <select id="setProvider" style="width:100%">
+      <option value="claude">Claude (Anthropic API kl&iacute;&ccaron; &mdash; placen&eacute;)</option>
+      <option value="gemini">Gemini (Google API kl&iacute;&ccaron; &mdash; zdarma tier)</option>
+      <option value="ollama">Lok&aacute;ln&iacute; model (Ollama &mdash; zdarma, offline)</option>
+    </select>
+  </div>
+  <div class="setRow" id="rowApiKey">
+    <label for="setApiKey">Anthropic API kl&iacute;&ccaron;</label>
+    <input id="setApiKey" type="password" placeholder="sk-ant-..." autocomplete="off" style="width:100%">
+    <div class="setNote">Ulo&zcaron;en&yacute; jen v tomto prohl&iacute;&zcaron;e&ccaron;i (localStorage), pos&iacute;l&aacute; se p&rcaron;i rozpozn&aacute;n&iacute; z fotky. Nikam se neukl&aacute;d&aacute; na server.</div>
+    <div id="apiKeyStatus" class="setNote"></div>
+  </div>
+  <div class="setRow" id="rowGeminiKey" style="display:none">
+    <label for="setGeminiKey">Gemini API kl&iacute;&ccaron;</label>
+    <input id="setGeminiKey" type="password" placeholder="AIzaSy... nebo AQ...." autocomplete="off" style="width:100%">
+    <div class="setNote">Z&iacute;sk&aacute;&scaron; zdarma na <b>aistudio.google.com/apikey</b>. Ulo&zcaron;en&yacute; jen v tomto prohl&iacute;&zcaron;e&ccaron;i, nikam se neukl&aacute;d&aacute; na server.</div>
+    <div id="geminiKeyStatus" class="setNote"></div>
+  </div>
+  <div class="setRow" id="rowOllama" style="display:none">
+    <label for="setOllamaModel">Ollama model</label>
+    <input id="setOllamaModel" type="text" placeholder="llava" autocomplete="off" style="width:100%">
+    <div class="setNote">B&ecaron;&zcaron;&iacute; lok&aacute;ln&ecaron;: nainstaluj <b>Ollama</b>, pak <code>ollama pull llava</code> (nebo <code>moondream</code>). Server ho vol&aacute; na localhost:11434. Zdarma, offline, &zcaron;&aacute;dn&yacute; kl&iacute;&ccaron;.</div>
+  </div>
+  <div class="setDiv"></div>
+  <div class="eyebrow" style="margin-top:0">Vzhled</div>
+  <div class="colorRow">
+    <div><input id="cAccent" type="color" title="Akcent"><span>Akcent</span></div>
+    <div><input id="cBg" type="color" title="Pozad&iacute;"><span>Pozad&iacute;</span></div>
+    <div><input id="cText" type="color" title="Text"><span>Text</span></div>
+    <div><input id="cCard" type="color" title="Karta inzer&aacute;tu"><span>Karta</span></div>
+  </div>
+  <div class="setRow">
+    <label for="fFamily">P&iacute;smo</label>
+    <select id="fFamily" style="width:100%">
+      <option value="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">Syst&eacute;mov&eacute; (v&yacute;choz&iacute;)</option>
+      <option value="'Fraunces',Georgia,serif">Fraunces (patkov&eacute;)</option>
+      <option value="'IBM Plex Mono',monospace">IBM Plex Mono</option>
+      <option value="Georgia,'Times New Roman',serif">Georgia</option>
+      <option value="'Trebuchet MS',Verdana,sans-serif">Trebuchet</option>
+    </select>
+  </div>
+  <div class="setRow">
+    <label for="fSize">Velikost p&iacute;sma <span class="val" id="fSizeVal">14 px</span></label>
+    <input id="fSize" type="range" min="12" max="18" step="1" value="14">
+  </div>
+  <div class="setRow">
+    <label for="fSpacing">Rozestup p&iacute;sma <span class="val" id="fSpacingVal">0.00 em</span></label>
+    <input id="fSpacing" type="range" min="-0.02" max="0.12" step="0.01" value="0">
+  </div>
+  <div class="setRow">
+    <label for="fRadius">Zaoblen&iacute; roh&uring; <span class="val" id="fRadiusVal">100%</span></label>
+    <input id="fRadius" type="range" min="0" max="200" step="10" value="100">
+  </div>
+  <div class="setRow">
+    <label for="setDensity">Hustota rozlo&zcaron;en&iacute;</label>
+    <select id="setDensity" style="width:100%">
+      <option value="comfortable">Pohodln&aacute; (v&yacute;choz&iacute;)</option>
+      <option value="compact">Kompaktn&iacute;</option>
+    </select>
+  </div>
+  <div class="setDiv"></div>
+  <div class="eyebrow" style="margin-top:0">V&yacute;choz&iacute; hodnoty inzer&aacute;tu</div>
+  <div class="setRow">
+    <label for="setDefCategory">V&yacute;choz&iacute; kategorie p&rcaron;i otev&rcaron;en&iacute;</label>
+    <select id="setDefCategory" style="width:100%"></select>
+  </div>
+  <div class="setRow">
+    <label for="setDefCond">V&yacute;choz&iacute; stav</label>
+    <select id="setDefCond" style="width:100%">
+      <option value="new">Nov&eacute;</option>
+      <option value="likenew">Jako nov&eacute;</option>
+      <option value="verygood" selected>Velmi dobr&yacute;</option>
+      <option value="good">Dobr&yacute;</option>
+      <option value="played">Pou&zcaron;it&eacute;/hran&eacute;</option>
+    </select>
+  </div>
+  <div class="setRow">
+    <label for="setDefComplete">V&yacute;choz&iacute; &ldquo;Kompletn&iacute;&rdquo; za&scaron;krtnuto</label>
+    <select id="setDefComplete" style="width:100%">
+      <option value="1" selected>Ano</option>
+      <option value="0">Ne</option>
+    </select>
+  </div>
+  <div class="setDiv"></div>
+  <div class="eyebrow" style="margin-top:0">Fotky</div>
+  <div class="setRow">
+    <label for="setImgSize">Max. rozm&ecaron;r fotky <span class="val" id="setImgSizeVal">1024 px</span></label>
+    <input id="setImgSize" type="range" min="512" max="2048" step="128" value="1024">
+    <div class="setNote">Men&scaron;&iacute; = rychlej&scaron;&iacute; nahr&aacute;n&iacute; a rozpozn&aacute;n&iacute; (hlavn&ecaron; u lok&aacute;ln&iacute;ho modelu), v&ecaron;t&scaron;&iacute; = v&iacute;c detailu.</div>
+  </div>
+  <div class="setRow">
+    <label for="setImgQuality">Kvalita JPEG <span class="val" id="setImgQualityVal">82 %</span></label>
+    <input id="setImgQuality" type="range" min="0.4" max="0.95" step="0.05" value="0.82">
+  </div>
+  <div class="setDiv"></div>
+  <button id="resetTheme" class="small" style="width:100%">Obnovit v&yacute;choz&iacute; vzhled</button>
+</aside>
+
+<div class="col">
+
+<div id="onboard" style="display:none;background:linear-gradient(160deg,rgba(255,255,255,.04),rgba(255,255,255,0)),var(--felt-2);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;margin:14px 0;box-shadow:var(--sh-1)">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+    <div class="big" style="font-family:var(--disp);font-size:15px">Vítej v Snap → Sold 👋</div>
+    <button id="onboardClose" class="iconbtn" style="width:26px;height:26px" aria-label="Zavřít">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="hint" style="margin-top:6px;line-height:1.6">
+    1) Nahoře vyber <b>kategorii</b> (deskovka, nábytek, elektronika…) 2) vyfoť předmět nebo napiš název — databáze/AI ho zkusí rozpoznat 3) uprav pole a stav 4) zkopíruj inzerát nebo přidej do dávky.<br>
+    Nastavení vzhledu, API klíč a lokální model najdeš v ⚙ vpravo nahoře. Přihlášení je nepovinné, ale ukládá ti položky a inzeráty na server.
+  </div>
+</div>
+
+<header class="hd">
+  <div>
+    <div class="wordmark">Snap <span class="amp">&rarr;</span> Sold</div>
+    <div class="tagline">Vyfo&tcaron; p&rcaron;edm&ecaron;t. Dostane&scaron; inzer&aacute;t.</div>
+  </div>
+  <div id="hdRight">
+    <select id="lang" title="Jazyk inzer&aacute;tu" style="width:auto">
+      <option value="cz" selected>Inzer&aacute;t &ccaron;esky</option>
+      <option value="sk">Inzer&aacute;t slovensky</option>
+      <option value="en">Inzer&aacute;t anglicky</option>
+    </select>
+    <button id="loginBtn" class="small" type="button">P&rcaron;ihl&aacute;sit</button>
+    <span id="userEmail"></span>
+    <button id="verifyBadge" class="small" type="button" style="display:none">Ov&ecaron;&rcaron;it e-mail</button>
+    <button id="openSettings" class="iconbtn" title="Nastaven&iacute;" aria-label="Nastaven&iacute;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
+    <button id="logoutBtn" class="iconbtn" title="Odhl&aacute;sit" aria-label="Odhl&aacute;sit">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="seg" id="catTabs" role="radiogroup" aria-label="Kategorie" style="margin-bottom:4px"></div>
+
+<!-- 1 · fotka -->
+<div id="drop" role="button" tabindex="0" aria-label="P&rcaron;idat fotky p&rcaron;edm&ecaron;tu">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--brass)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:.85;margin-bottom:2px" aria-hidden="true">
+    <path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2l1.2-1.8A1 1 0 0 1 8.5 4.7h7a1 1 0 0 1 .8.5L17.5 7h2A1.5 1.5 0 0 1 21 8.5v9A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5z"/>
+    <circle cx="12" cy="12.8" r="3.4"/>
+  </svg>
+  <div class="big">Sem p&rcaron;et&aacute;hni fotky</div>
+  <div class="sub">nebo klepni a vyfo&tcaron; &middot; a&zcaron; 3 fotky &middot; cel&yacute; p&rcaron;edm&ecaron;t = rozpozn&aacute;n&iacute;, detaily a opot&rcaron;eben&iacute; = stav</div>
+</div>
+<input type="file" id="file" accept="image/*" capture="environment" multiple hidden>
+<div id="thumbs"></div>
+<div id="status"></div>
+<div id="dbHint" style="margin-top:10px" class="hint">
+  Bez fotky? Sta&ccaron;&iacute; ps&aacute;t n&aacute;zev &mdash; datab&aacute;ze na&scaron;ept&aacute;v&aacute;:
+</div>
+<div style="margin-top:8px" class="rowline">
+  <div style="flex:3"><input id="manualName" placeholder="N&aacute;zev hry&hellip; (nap&rcaron;. Osadn&iacute;ci, Karak, Jumanji)" style="width:100%" autocomplete="off"></div>
+  <div style="flex:0"><button id="bggBtn" class="small" title="Kdy&zcaron; hra nen&iacute; v datab&aacute;zi">Hledat na BGG</button></div>
+  <div style="flex:0"><button id="customAddBtn" class="small" title="P&rcaron;esko&ccaron;it vyhled&aacute;v&aacute;n&iacute; a zadat vlastn&iacute; &uacute;daje">P&rcaron;idat vlastn&iacute;</button></div>
+</div>
+<div id="sugg"></div>
+
+<!-- 2 · fakta -->
+<div id="gamecard">
+  <div class="eyebrow" id="itemEyebrow">Hra</div>
+  <div class="namerow">
+    <input id="gName" aria-label="N&aacute;zev hry">
+    <span id="typeChips"></span>
+  </div>
+  <div id="pickWrap"><span>Nen&iacute; to ta spr&aacute;vn&aacute; hra?</span><select id="pick" style="width:auto"></select></div>
+  <div class="facts" id="facts"></div>
+
+  <div class="eyebrow">Stav a cena</div>
+  <div class="seg" id="condSeg" role="radiogroup" aria-label="Stav"></div>
+  <input id="condNotes" placeholder="Pozn&aacute;mky ke stavu (p&rcaron;edvypln&ecaron;no z fotky &mdash; klidn&ecaron; uprav)">
+  <div class="hint" style="margin-bottom:12px">Odhad z fotky = jen to, co je vid&ecaron;t na fotce. V&zcaron;dy zkontroluj.</div>
+  <div class="check">
+    <input type="checkbox" id="complete" checked>
+    <label for="complete" style="margin:0;color:var(--cream);font-size:13px">Kompletn&iacute; &mdash; komponenty spo&ccaron;&iacute;tan&eacute; (z fotky nepozn&aacute;m, potvrzuje&scaron; ty)</label>
+  </div>
+  <input id="missNote" placeholder="Co chyb&iacute;?">
+  <div class="rowline">
+    <div><label for="price">Cena</label><input id="price" inputmode="decimal" placeholder="0" style="width:100%">
+      <div id="priceHint" class="hint" style="margin-top:4px"></div>
+    </div>
+    <div><label for="curr">M&ecaron;na</label><select id="curr" style="width:100%"><option>CZK</option><option>EUR</option><option>USD</option></select></div>
+    <div><label for="ship">P&rcaron;ed&aacute;n&iacute;</label><select id="ship" style="width:100%">
+      <option value="both" selected>Zasl&aacute;n&iacute; i osobn&ecaron;</option>
+      <option value="shiponly">Pouze zas&iacute;l&aacute;m</option>
+      <option value="pickup">Pouze osobn&ecaron;</option>
+    </select></div>
+    <div><label for="loc">M&ecaron;sto (voliteln&eacute;)</label><input id="loc" style="width:100%"></div>
+    <div id="weightWrap"><label for="weight">Hmotnost bal&iacute;ku (voliteln&eacute;)</label><input id="weight" placeholder="nap&rcaron;. 2 kg" style="width:100%"></div>
+  </div>
+
+  <div class="eyebrow">Inzer&aacute;t</div>
+  <div class="tabs" id="fmtTabs"></div>
+  <div class="card">
+    <h3 id="outTitle">&mdash;</h3>
+    <pre id="outBody"></pre>
+  </div>
+  <div class="charcount" id="titleCount"></div>
+  <div class="actions">
+    <button id="copyTitle" class="small">Kop&iacute;rovat titulek</button>
+    <button id="copyBody" class="small">Kop&iacute;rovat text</button>
+    <button id="copyBoth" class="primary">Kop&iacute;rovat oboj&iacute;</button>
+    <button id="openMarket" class="small" style="display:none">Otev&rcaron;&iacute;t tr&zcaron;i&scaron;t&ecaron; &#8599;</button>
+    <span class="spacer"></span>
+    <button id="addBatch" class="small">P&rcaron;idat do d&aacute;vky</button>
+    <button id="exportBatch" class="small">Export d&aacute;vky (JSON)</button>
+    <button id="exportBatchCsv" class="small">Export d&aacute;vky (CSV)</button>
+  </div>
+  <div class="hint" style="margin-top:8px" id="batchHint"></div>
+  <input id="batchFilter" placeholder="Filtrovat dávku podle názvu…" style="width:100%;margin-top:8px;display:none">
+  <div id="batchList"></div>
+</div>
+
+<!-- 3 · účet: uložené položky a inzeráty (jen po přihlášení) -->
+<div id="accountPanels" style="display:none">
+  <div class="eyebrow">Moje ulo&zcaron;en&eacute;</div>
+  <div class="actions" style="margin-top:0">
+    <button id="saveQuick" class="small">Ulo&zcaron;it polo&zcaron;ku pro p&rcaron;&iacute;&scaron;t&ecaron;</button>
+    <button id="saveListing" class="small">Ulo&zcaron;it inzer&aacute;t na server</button>
+  </div>
+  <div class="hint" style="margin:8px 0 4px">M&eacute; polo&zcaron;ky (rychl&eacute; p&rcaron;edvypln&ecaron;n&iacute;):</div>
+  <div id="quickListBox"></div>
+  <div class="hint" style="margin:12px 0 4px">M&eacute; ulo&zcaron;en&eacute; inzer&aacute;ty:</div>
+  <div id="listingsBox"></div>
+  <div class="setDiv"></div>
+  <div class="eyebrow" style="margin-top:0">Statistiky</div>
+  <div id="statsBox" class="hint"></div>
+</div>
+
+</div>
+<div id="toast"></div>
+
+<script>
+'use strict';
+/* ============================================================
+   Snap → Sold (CZ) — fotka → rozpoznaná hra → data → inzerát
+   Lokální databáze ~230 nejběžnějších her + BGG jako záloha.
+   ============================================================ */
+const $ = id => document.getElementById(id);
+const CATEGORIES = {
+  game: { label:'Deskovka', hasDB:true, searchPlaceholder:'Název hry… (např. Osadníci, Karak, Jumanji)', fields:[
+    {id:'pMin_pMax', label:'Hráči'}, {id:'time', label:'Doba'}, {id:'age', label:'Věk'},
+    {id:'diff', label:'Pravidla', placeholder:'velmi jednoduchá (1.4/5)'}, {id:'rating', label:'BGG', placeholder:'7.1/10'}, {id:'year', label:'Rok'}
+  ]},
+  furniture: { label:'Nábytek', hasDB:true, searchPlaceholder:'Název… (např. Poäng křeslo, Billy knihovna)', fields:[
+    {id:'type', label:'Typ', placeholder:'skříň, stůl, židle…'}, {id:'dims', label:'Rozměry', placeholder:'180×80×75 cm'}, {id:'material', label:'Materiál', placeholder:'masiv dub, MDF…'},
+    {id:'color', label:'Barva', placeholder:'bílá, ořech…'}, {id:'style', label:'Styl', placeholder:'skandinávský…'}, {id:'hardware', label:'Stav kování', placeholder:'funkční, vrže…'}, {id:'age', label:'Stáří', placeholder:'2 roky'}
+  ]},
+  electronics: { label:'Elektronika', hasDB:true, searchPlaceholder:'Název… (např. iPhone 13, MacBook Air)', fields:[
+    {id:'kind', label:'Kategorie', placeholder:'monitor, notebook, kabel…'}, {id:'brand', label:'Značka', placeholder:'Dell, Sony…'}, {id:'model', label:'Model', placeholder:'P2422H'},
+    {id:'specs', label:'Specifikace', placeholder:'24", FHD, IPS'}, {id:'ports', label:'Porty', placeholder:'HDMI, USB-C…'}, {id:'accessories', label:'Příslušenství', placeholder:'nabíječka, kabel…'},
+    {id:'battery', label:'Stav baterie', placeholder:'90 % kapacity'}, {id:'warranty', label:'Záruka', placeholder:'do 12/2026'}
+  ]},
+  sport: { label:'Sport', hasDB:true, searchPlaceholder:'Název… (např. horské kolo, sjezdové lyže)', fields:[
+    {id:'kind', label:'Kategorie', placeholder:'lyže, kolo, brusle…'}, {id:'brand', label:'Značka', placeholder:'Salomon, Decathlon…'}, {id:'model', label:'Model', placeholder:'X-Rider'},
+    {id:'size', label:'Velikost', placeholder:'170 cm, vel. 42…'}, {id:'material', label:'Materiál', placeholder:'karbon, hliník…'}, {id:'wear', label:'Stav opotřebení', placeholder:'odřené hrany…'},
+    {id:'age', label:'Stáří', placeholder:'1 sezóna'}, {id:'accessories', label:'Příslušenství', placeholder:'vázání, brašna…'}
+  ]},
+  kitchen: { label:'Kuchyně', hasDB:true, searchPlaceholder:'Název… (např. mixér, kávovar)', fields:[
+    {id:'kind', label:'Kategorie', placeholder:'mixér, hrnec, příbory…'}, {id:'brand', label:'Značka', placeholder:'Tefal, Zwilling…'}, {id:'model', label:'Model', placeholder:'Actifry'},
+    {id:'material', label:'Materiál', placeholder:'nerez, litina…'}, {id:'capacity', label:'Výkon/objem', placeholder:'700 W, 1,5 l'}, {id:'wear', label:'Stav opotřebení', placeholder:'škrábance…'},
+    {id:'accessories', label:'Příslušenství', placeholder:'víko, nástavce…'}, {id:'warranty', label:'Záruka', placeholder:'do 12/2026'}
+  ]},
+  automoto: { label:'Auto-Moto', hasDB:true, searchPlaceholder:'Název… (např. zimní pneu, autosedačka)', fields:[
+    {id:'kind', label:'Kategorie', placeholder:'pneu, autodíl, moto výbava…'}, {id:'brand', label:'Značka', placeholder:'Bosch, Continental…'}, {id:'model', label:'Model', placeholder:'S4'},
+    {id:'fitment', label:'Rozměr/kompatibilita', placeholder:'205/55 R16'}, {id:'year', label:'Rok výroby', placeholder:'2020'}, {id:'quantity', label:'Počet kusů', placeholder:'4 ks'},
+    {id:'wear', label:'Stav opotřebení', placeholder:'zbytkový dezén 5 mm'}, {id:'accessories', label:'Příslušenství', placeholder:'disky, sada šroubů…'}
+  ]}
+};
+const state = { images:[], candidates:[], cond:'verygood', fmt:'bazos', batch:[], nameEdited:false, category:'game', itemFields:{}, basePc:null };
+
+/* ============================================================
+   DATABÁZE — n: název (BGG), c: český název, y: rok,
+   p: [min,max] hráčů, t: doba (min), a: věk, w: náročnost /5,
+   r: hodnocení BGG /10, k: typ česky. Hodnoty dle BGG (orientační).
+   ============================================================ */
+const DB=[
+{n:"Catan",c:"Osadníci z Katanu",y:1995,p:[3,4],t:120,a:10,w:2.3,r:7.1,k:"strategická, budovatelská",pc:550},
+{n:"Catan: Seafarers",c:"Osadníci z Katanu: Námořníci",y:1997,p:[3,4],t:120,a:10,w:2.4,r:7.0,k:"strategická, rozšíření",pc:500},
+{n:"Catan: Cities & Knights",c:"Osadníci z Katanu: Města a rytíři",y:1998,p:[3,4],t:120,a:12,w:3.2,r:7.1,k:"strategická, rozšíření",pc:550},
+{n:"Catan Junior",c:"Osadníci z Katanu: Junior",y:2012,p:[2,4],t:30,a:6,w:1.3,r:6.6,k:"dětská",pc:350},
+{n:"Carcassonne",y:2000,p:[2,5],t:45,a:7,w:1.9,r:7.4,k:"rodinná, kladení kamenů",pc:350},
+{n:"My First Carcassonne",c:"Carcassonne Junior",y:2009,p:[2,4],t:20,a:4,w:1.0,r:6.5,k:"dětská",pc:300},
+{n:"Ticket to Ride",c:"Jízdenky, prosím!",y:2004,p:[2,5],t:60,a:8,w:1.8,r:7.4,k:"rodinná",pc:550},
+{n:"Ticket to Ride: Europe",c:"Jízdenky, prosím!: Evropa",y:2005,p:[2,5],t:60,a:8,w:1.9,r:7.5,k:"rodinná",pc:600},
+{n:"Pandemic",c:"Pandemie",y:2008,p:[2,4],t:45,a:8,w:2.4,r:7.5,k:"kooperativní",pc:450},
+{n:"Pandemic Legacy: Season 1",y:2015,p:[2,4],t:60,a:13,w:2.8,r:8.5,k:"kooperativní, legacy",pc:400},
+{n:"Dixit",y:2008,p:[3,6],t:30,a:8,w:1.2,r:7.2,k:"párty, asociační",pc:400},
+{n:"Codenames",c:"Krycí jména",y:2015,p:[2,8],t:15,a:14,w:1.3,r:7.5,k:"párty, slovní",pc:250},
+{n:"Codenames: Pictures",c:"Krycí jména: Obrázky",y:2016,p:[2,8],t:15,a:10,w:1.3,r:7.3,k:"párty, slovní",pc:250},
+{n:"Codenames: Duet",c:"Krycí jména: Duet",y:2017,p:[2,2],t:30,a:11,w:1.3,r:7.4,k:"kooperativní, párty",pc:250},
+{n:"Azul",y:2017,p:[2,4],t:45,a:8,w:1.8,r:7.8,k:"abstraktní, rodinná",pc:500},
+{n:"Azul: Summer Pavilion",c:"Azul: Letní pavilon",y:2019,p:[2,4],t:45,a:8,w:1.9,r:7.7,k:"abstraktní, rodinná",pc:500},
+{n:"Splendor",y:2014,p:[2,4],t:30,a:10,w:1.8,r:7.4,k:"rodinná, strategická",pc:450},
+{n:"Splendor Duel",y:2022,p:[2,2],t:30,a:10,w:2.0,r:7.8,k:"pro dva",pc:400},
+{n:"7 Wonders",c:"7 divů světa",y:2010,p:[2,7],t:30,a:10,w:2.3,r:7.7,k:"karetní, civilizační",pc:550},
+{n:"7 Wonders Duel",c:"7 divů světa: Duel",y:2015,p:[2,2],t:30,a:10,w:2.2,r:8.1,k:"karetní, pro dva",pc:400},
+{n:"Dobble",y:2009,p:[2,8],t:15,a:6,w:1.0,r:5.8,k:"postřehová, párty",pc:150},
+{n:"Bang!",y:2002,p:[4,7],t:40,a:10,w:1.6,r:6.5,k:"karetní, párty",pc:200},
+{n:"Ubongo",y:2003,p:[1,4],t:25,a:8,w:1.6,r:6.6,k:"logická, postřehová",pc:300},
+{n:"Ubongo 3-D",c:"Ubongo 3D",y:2009,p:[1,4],t:30,a:10,w:1.9,r:6.8,k:"logická",pc:450},
+{n:"Activity",y:1990,p:[3,16],t:60,a:12,w:1.5,r:6.2,k:"párty",pc:300},
+{n:"Monopoly",y:1935,p:[2,8],t:120,a:8,w:1.7,r:4.4,k:"klasická, rodinná",pc:250},
+{n:"Scrabble",y:1948,p:[2,4],t:90,a:10,w:2.0,r:6.2,k:"slovní, klasická",pc:300},
+{n:"Kris Kros",p:[2,4],t:90,a:8,k:"slovní, klasická",pc:200},
+{n:"Risk",y:1959,p:[2,6],t:120,a:10,w:2.1,r:5.5,k:"válečná, klasická",pc:350},
+{n:"Cluedo",y:1949,p:[3,6],t:45,a:8,w:1.6,r:5.5,k:"detektivní, klasická",pc:250},
+{n:"Jumanji",y:1995,p:[2,4],t:45,a:8,w:1.6,r:5.9,k:"rodinná, dobrodružná",pc:250},
+{n:"Člověče, nezlob se!",y:1914,p:[2,4],t:30,a:4,w:1.1,r:4.0,k:"klasická, dětská",pc:100},
+{n:"Dostihy a sázky",y:1985,p:[2,6],t:90,a:8,k:"klasická, rodinná",pc:300},
+{n:"Pexeso",p:[2,6],t:15,a:4,w:1.0,k:"dětská, paměťová",pc:50},
+{n:"Super Farmer",c:"Superfarmář",y:1943,p:[2,6],t:30,a:6,w:1.1,r:5.8,k:"dětská, kostková",pc:200},
+{n:"Labyrinth",c:"Labyrint",y:1986,p:[2,4],t:30,a:7,w:1.7,r:6.7,k:"rodinná",pc:300},
+{n:"Wingspan",c:"Na křídlech",y:2019,p:[1,5],t:70,a:10,w:2.5,r:8.0,k:"strategická, přírodní",pc:900},
+{n:"Everdell",y:2018,p:[1,4],t:80,a:13,w:2.8,r:8.1,k:"strategická, budovatelská",pc:1000},
+{n:"Terraforming Mars",c:"Mars: Teraformace",y:2016,p:[1,5],t:120,a:12,w:3.3,r:8.4,k:"strategická, sci-fi",pc:800},
+{n:"Terraforming Mars: Ares Expedition",c:"Mars: Teraformace – Expedice Ares",y:2021,p:[1,4],t:60,a:14,w:2.6,r:7.5,k:"karetní, sci-fi",pc:500},
+{n:"Scythe",y:2016,p:[1,5],t:115,a:14,w:3.4,r:8.2,k:"strategická",pc:1200},
+{n:"Gloomhaven",y:2017,p:[1,4],t:120,a:14,w:3.9,r:8.6,k:"kooperativní, výpravná",pc:2000},
+{n:"Gloomhaven: Jaws of the Lion",c:"Gloomhaven: Lví chřtán",y:2020,p:[1,4],t:120,a:14,w:3.6,r:8.4,k:"kooperativní, výpravná",pc:700},
+{n:"Frosthaven",y:2022,p:[1,4],t:120,a:14,w:4.3,r:8.5,k:"kooperativní, výpravná",pc:2800},
+{n:"Brass: Birmingham",y:2018,p:[2,4],t:120,a:14,w:3.9,r:8.6,k:"ekonomická, strategická",pc:1200},
+{n:"Ark Nova",c:"Archa Nova",y:2021,p:[1,4],t:150,a:14,w:3.8,r:8.5,k:"strategická",pc:900},
+{n:"Spirit Island",y:2017,p:[1,4],t:120,a:13,w:4.1,r:8.3,k:"kooperativní, strategická",pc:1000},
+{n:"Root",y:2018,p:[2,4],t:90,a:10,w:3.8,r:8.0,k:"strategická, asymetrická",pc:900},
+{n:"Dune: Imperium",c:"Duna: Impérium",y:2020,p:[1,4],t:120,a:14,w:3.0,r:8.3,k:"strategická, karetní",pc:750},
+{n:"Lost Ruins of Arnak",c:"Ztracený ostrov Arnak",y:2020,p:[1,4],t:120,a:12,w:3.0,r:8.1,k:"strategická, dobrodružná",pc:800},
+{n:"Galaxy Trucker",y:2007,p:[2,4],t:60,a:10,w:2.3,r:7.3,k:"rodinná, vesmírná",pc:600},
+{n:"Through the Ages: A New Story of Civilization",c:"Through the Ages: Nový příběh civilizace",y:2015,p:[2,4],t:240,a:14,w:4.4,r:8.3,k:"civilizační, strategická",pc:800},
+{n:"Alchemists",c:"Alchymisté",y:2014,p:[2,4],t:120,a:13,w:3.9,r:7.7,k:"dedukční, strategická",pc:550},
+{n:"Space Alert",y:2008,p:[1,5],t:30,a:12,w:3.1,r:7.3,k:"kooperativní",pc:400},
+{n:"Dungeon Petz",y:2011,p:[2,4],t:90,a:13,w:3.6,r:7.4,k:"strategická, humorná",pc:450},
+{n:"Tzolk'in: The Mayan Calendar",c:"Tzolk'in: Mayský kalendář",y:2012,p:[2,4],t:90,a:13,w:3.7,r:7.9,k:"strategická",pc:700},
+{n:"Kutná Hora: The City of Silver",c:"Kutná Hora: Město stříbra",y:2023,p:[2,4],t:120,a:13,w:3.4,r:7.6,k:"ekonomická, strategická",pc:700},
+{n:"Praga Caput Regni",y:2020,p:[1,4],t:120,a:12,w:3.7,r:7.9,k:"strategická",pc:700},
+{n:"Karak",y:2017,p:[2,5],t:45,a:7,w:1.4,r:6.7,k:"dobrodružná, dětská",pc:350},
+{n:"King of Tokyo",c:"Vládce Tokia",y:2011,p:[2,6],t:30,a:8,w:1.5,r:7.1,k:"kostková, rodinná",pc:450},
+{n:"Dominion",y:2008,p:[2,4],t:30,a:13,w:2.3,r:7.6,k:"karetní",pc:550},
+{n:"Agricola",y:2007,p:[1,5],t:120,a:12,w:3.6,r:7.9,k:"strategická, farmářská",pc:700},
+{n:"Caverna: The Cave Farmers",c:"Caverna",y:2013,p:[1,7],t:120,a:12,w:3.8,r:8.0,k:"strategická, farmářská",pc:1000},
+{n:"Stone Age",c:"Doba kamenná",y:2008,p:[2,4],t:90,a:10,w:2.5,r:7.5,k:"rodinná, strategická",pc:500},
+{n:"Stone Age Junior",c:"Doba kamenná: Junior",y:2016,p:[2,4],t:15,a:5,w:1.0,r:6.7,k:"dětská",pc:300},
+{n:"Patchwork",y:2014,p:[2,2],t:30,a:8,w:1.6,r:7.6,k:"abstraktní, pro dva",pc:250},
+{n:"Kingdomino",y:2016,p:[2,4],t:20,a:8,w:1.2,r:7.3,k:"rodinná",pc:250},
+{n:"Cascadia",y:2021,p:[1,4],t:45,a:10,w:1.9,r:7.9,k:"rodinná, přírodní",pc:500},
+{n:"Harmonies",y:2024,p:[1,4],t:45,a:10,w:2.1,r:7.8,k:"rodinná, přírodní",pc:450},
+{n:"Sagrada",y:2017,p:[1,4],t:45,a:13,w:1.9,r:7.5,k:"kostková, abstraktní",pc:450},
+{n:"Takenoko",y:2011,p:[2,4],t:45,a:8,w:2.0,r:7.2,k:"rodinná",pc:450},
+{n:"Camel Up",y:2014,p:[2,10],t:30,a:8,w:1.5,r:6.9,k:"párty, sázecí",pc:400},
+{n:"Istanbul",y:2014,p:[2,5],t:60,a:10,w:2.6,r:7.5,k:"strategická",pc:450},
+{n:"Machi Koro",y:2012,p:[2,4],t:30,a:10,w:1.5,r:6.6,k:"kostková, rodinná",pc:250},
+{n:"The Quest for El Dorado",c:"Cesta do El Dorada",y:2017,p:[2,4],t:60,a:10,w:1.9,r:7.6,k:"závodní, rodinná",pc:450},
+{n:"The Crew: The Quest for Planet Nine",c:"Posádka: Pátrání po deváté planetě",y:2019,p:[2,5],t:20,a:10,w:2.0,r:7.8,k:"kooperativní, karetní",pc:200},
+{n:"The Crew: Mission Deep Sea",y:2021,p:[2,5],t:20,a:10,w:2.0,r:8.0,k:"kooperativní, karetní",pc:200},
+{n:"Tichu",y:1991,p:[4,4],t:60,a:10,w:2.3,r:7.6,k:"karetní, klasická",pc:100},
+{n:"Skull King",y:2013,p:[2,6],t:30,a:8,w:1.9,r:7.3,k:"karetní",pc:200},
+{n:"Love Letter",y:2012,p:[2,4],t:20,a:10,w:1.2,r:7.2,k:"karetní, mini",pc:100},
+{n:"Sushi Go!",y:2013,p:[2,5],t:15,a:8,w:1.2,r:7.0,k:"karetní, rodinná",pc:150},
+{n:"Exploding Kittens",c:"Výbušná koťátka",y:2015,p:[2,5],t:15,a:7,w:1.1,r:6.0,k:"karetní, párty",pc:250},
+{n:"Unstable Unicorns",c:"Nestabilní jednorožci",y:2017,p:[2,8],t:45,a:8,w:1.2,r:6.1,k:"karetní, párty",pc:250},
+{n:"UNO",y:1971,p:[2,10],t:30,a:6,w:1.1,r:5.4,k:"karetní, klasická",pc:100},
+{n:"Citadels",c:"Citadela",y:2000,p:[2,8],t:60,a:10,w:2.1,r:7.0,k:"karetní, blafovací",pc:250},
+{n:"Mysterium",y:2015,p:[2,7],t:42,a:10,w:1.9,r:7.3,k:"kooperativní, asociační",pc:500},
+{n:"Deception: Murder in Hong Kong",y:2014,p:[4,12],t:20,a:14,w:1.6,r:7.5,k:"dedukční, párty",pc:400},
+{n:"Spyfall",y:2014,p:[3,8],t:15,a:13,w:1.2,r:6.6,k:"párty, blafovací",pc:200},
+{n:"Just One",y:2018,p:[3,7],t:20,a:8,w:1.1,r:7.5,k:"párty, kooperativní",pc:300},
+{n:"Wavelength",y:2019,p:[2,12],t:45,a:14,w:1.1,r:7.2,k:"párty",pc:400},
+{n:"Decrypto",y:2018,p:[3,8],t:30,a:12,w:1.8,r:7.7,k:"párty, týmová",pc:250},
+{n:"Concept",y:2013,p:[4,12],t:40,a:10,w:1.5,r:6.7,k:"párty, asociační",pc:400},
+{n:"Alias",c:"Párty Alias",y:1990,p:[4,12],t:60,a:10,w:1.2,r:5.9,k:"párty, slovní",pc:250},
+{n:"Tick Tack Bumm",c:"Tik Tak Bum",y:1992,p:[2,12],t:30,a:8,w:1.1,r:5.6,k:"párty, slovní",pc:200},
+{n:"Jungle Speed",y:1991,p:[2,10],t:15,a:7,w:1.2,r:6.2,k:"postřehová, párty",pc:200},
+{n:"Ghost Blitz",c:"Duch!",y:2010,p:[2,8],t:20,a:8,w:1.1,r:6.5,k:"postřehová, dětská",pc:150},
+{n:"Halli Galli",y:1992,p:[2,6],t:15,a:6,w:1.1,r:5.8,k:"postřehová, dětská",pc:150},
+{n:"Blokus",y:2000,p:[2,4],t:30,a:7,w:1.6,r:6.9,k:"abstraktní",pc:300},
+{n:"Qwirkle",y:2006,p:[2,4],t:45,a:6,w:1.6,r:6.6,k:"abstraktní, rodinná",pc:350},
+{n:"Quoridor",y:1997,p:[2,4],t:15,a:8,w:1.9,r:6.8,k:"abstraktní",pc:350},
+{n:"Abalone",y:1987,p:[2,2],t:30,a:7,w:2.0,r:6.4,k:"abstraktní",pc:350},
+{n:"Hive",y:2001,p:[2,2],t:20,a:9,w:2.3,r:7.3,k:"abstraktní, pro dva",pc:300},
+{n:"Chess",c:"Šachy",y:1475,p:[2,2],t:60,a:6,w:3.7,r:7.1,k:"abstraktní, klasická",pc:150},
+{n:"Checkers",c:"Dáma",p:[2,2],t:30,a:6,w:1.8,r:4.9,k:"abstraktní, klasická",pc:50},
+{n:"Backgammon",c:"Vrhcáby",p:[2,2],t:30,a:8,w:2.0,r:6.4,k:"klasická",pc:150},
+{n:"Go",p:[2,2],t:90,a:8,w:3.9,r:7.6,k:"abstraktní, klasická",pc:250},
+{n:"Othello",c:"Reversi",y:1883,p:[2,2],t:30,a:8,w:1.9,r:6.0,k:"abstraktní",pc:200},
+{n:"Mastermind",c:"Logik",y:1971,p:[2,2],t:20,a:8,w:1.8,r:5.5,k:"logická, klasická",pc:100},
+{n:"Battleship",c:"Lodě",y:1967,p:[2,2],t:30,a:7,w:1.2,r:4.6,k:"klasická, pro dva",pc:100},
+{n:"Connect 4",c:"Čtyři v řadě",y:1974,p:[2,2],t:10,a:6,w:1.1,r:4.9,k:"klasická",pc:100},
+{n:"Nine Men's Morris",c:"Mlýn",p:[2,2],t:20,a:6,w:1.7,r:5.0,k:"abstraktní, klasická",pc:50},
+{n:"Dominoes",c:"Domino",p:[2,8],t:30,a:5,w:1.1,k:"klasická",pc:50},
+{n:"Kloboučku, hop!",p:[2,4],t:15,a:4,k:"dětská, klasická",pc:100},
+{n:"Rush Hour",y:1996,p:[1,1],t:20,a:8,w:1.7,r:7.0,k:"logická, pro jednoho",pc:300},
+{n:"Qwixx",y:2012,p:[2,5],t:15,a:8,w:1.1,r:6.7,k:"kostková",pc:100},
+{n:"Ganz schön clever",c:"Ostře sledované kostky",y:2018,p:[1,4],t:30,a:8,w:1.9,r:7.2,k:"kostková, zápisová",pc:200},
+{n:"Welcome To...",y:2018,p:[1,100],t:25,a:10,w:1.8,r:7.5,k:"rodinná, zápisová",pc:300},
+{n:"Railroad Ink",y:2018,p:[1,6],t:30,a:8,w:1.5,r:7.2,k:"kostková, zápisová",pc:250},
+{n:"Terra Mystica",y:2012,p:[2,5],t:150,a:12,w:3.9,r:8.1,k:"strategická",pc:900},
+{n:"Gaia Project",y:2017,p:[1,4],t:150,a:12,w:4.4,r:8.4,k:"strategická, sci-fi",pc:1200},
+{n:"The Castles of Burgundy",y:2011,p:[2,4],t:90,a:12,w:3.0,r:8.1,k:"strategická",pc:550},
+{n:"Puerto Rico",y:2002,p:[3,5],t:150,a:12,w:3.3,r:7.9,k:"strategická, ekonomická",pc:500},
+{n:"Power Grid",c:"Vysoké napětí",y:2004,p:[2,6],t:120,a:12,w:3.3,r:7.8,k:"ekonomická",pc:550},
+{n:"Le Havre",y:2008,p:[1,5],t:150,a:12,w:3.8,r:7.9,k:"ekonomická",pc:600},
+{n:"A Feast for Odin",c:"Hostina pro Odina",y:2016,p:[1,4],t:120,a:12,w:3.9,r:8.2,k:"strategická",pc:1200},
+{n:"Orléans",y:2014,p:[2,4],t:90,a:12,w:3.1,r:8.0,k:"strategická",pc:700},
+{n:"Great Western Trail",y:2016,p:[2,4],t:120,a:12,w:3.7,r:8.2,k:"strategická",pc:800},
+{n:"Concordia",y:2013,p:[2,5],t:100,a:13,w:3.1,r:8.1,k:"strategická",pc:700},
+{n:"Viticulture Essential Edition",c:"Viticulture",y:2015,p:[1,6],t:90,a:13,w:2.9,r:8.0,k:"strategická, vinařská",pc:800},
+{n:"Barrage",y:2019,p:[1,4],t:120,a:14,w:4.1,r:8.1,k:"strategická, ekonomická",pc:900},
+{n:"Anachrony",y:2017,p:[1,4],t:120,a:15,w:4.0,r:8.0,k:"strategická, sci-fi",pc:900},
+{n:"The Voyages of Marco Polo",y:2015,p:[2,4],t:120,a:12,w:3.2,r:8.0,k:"strategická",pc:650},
+{n:"PARKS",y:2019,p:[1,5],t:60,a:10,w:2.2,r:7.6,k:"rodinná, přírodní",pc:550},
+{n:"Calico",y:2020,p:[1,4],t:45,a:10,w:2.2,r:7.5,k:"abstraktní, logická",pc:450},
+{n:"Meadow",y:2021,p:[1,4],t:90,a:10,w:2.2,r:7.7,k:"přírodní, rodinná",pc:550},
+{n:"Photosynthesis",c:"Fotosyntéza",y:2017,p:[2,4],t:60,a:8,w:2.3,r:7.1,k:"abstraktní, přírodní",pc:400},
+{n:"Evolution",y:2014,p:[2,6],t:60,a:12,w:2.7,r:7.3,k:"přírodní, karetní",pc:450},
+{n:"Living Forest",y:2021,p:[2,4],t:40,a:8,w:2.2,r:7.5,k:"rodinná, přírodní",pc:450},
+{n:"Earth",y:2023,p:[1,5],t:75,a:13,w:2.9,r:7.9,k:"strategická, přírodní",pc:650},
+{n:"Planet Unknown",y:2022,p:[1,6],t:80,a:10,w:2.6,r:7.9,k:"strategická, sci-fi",pc:800},
+{n:"Betrayal at House on the Hill",y:2004,p:[3,6],t:60,a:12,w:2.4,r:7.0,k:"hororová, dobrodružná",pc:500},
+{n:"Dead of Winter",y:2014,p:[2,5],t:120,a:13,w:3.0,r:7.5,k:"kooperativní, hororová",pc:600},
+{n:"Zombicide",y:2012,p:[1,6],t:60,a:13,w:2.4,r:7.3,k:"kooperativní",pc:900},
+{n:"Blood Rage",y:2015,p:[2,4],t:90,a:14,w:2.9,r:7.9,k:"strategická, bojová",pc:900},
+{n:"Rising Sun",y:2018,p:[3,5],t:120,a:14,w:3.3,r:7.7,k:"strategická, bojová",pc:1000},
+{n:"Nemesis",y:2018,p:[1,5],t:180,a:14,w:3.4,r:8.3,k:"sci-fi, hororová",pc:1800},
+{n:"Eclipse: Second Dawn for the Galaxy",c:"Eclipse: Druhé svítání",y:2020,p:[2,6],t:200,a:14,w:3.7,r:8.4,k:"sci-fi, strategická",pc:1600},
+{n:"Twilight Imperium: Fourth Edition",y:2017,p:[3,6],t:480,a:14,w:4.3,r:8.6,k:"sci-fi, strategická",pc:2000},
+{n:"Star Wars: Rebellion",c:"Star Wars: Povstání",y:2016,p:[2,4],t:240,a:14,w:3.7,r:8.4,k:"strategická, pro dva",pc:1500},
+{n:"War of the Ring: Second Edition",c:"Válka o Prsten",y:2011,p:[2,4],t:180,a:13,w:4.2,r:8.4,k:"válečná, fantasy",pc:1300},
+{n:"Mansions of Madness: Second Edition",c:"Panství hrůzy (2. edice)",y:2016,p:[1,5],t:120,a:14,w:2.7,r:8.0,k:"kooperativní, hororová",pc:1500},
+{n:"Eldritch Horror",y:2013,p:[1,8],t:180,a:14,w:3.2,r:7.8,k:"kooperativní, hororová",pc:700},
+{n:"Arkham Horror: The Card Game",y:2016,p:[1,2],t:60,a:14,w:3.4,r:8.1,k:"karetní, kooperativní",pc:450},
+{n:"Descent: Journeys in the Dark (2nd)",c:"Descent: Výpravy do temnot",y:2012,p:[2,5],t:120,a:14,w:3.2,r:7.6,k:"výpravná, fantasy",pc:800},
+{n:"HeroQuest",y:1989,p:[2,5],t:90,a:14,w:2.4,r:7.3,k:"výpravná, fantasy",pc:1200},
+{n:"Talisman",y:1983,p:[2,6],t:180,a:9,w:2.2,r:6.0,k:"dobrodružná, fantasy",pc:700},
+{n:"Munchkin",y:2001,p:[3,6],t:90,a:10,w:1.8,r:5.8,k:"karetní, humorná",pc:250},
+{n:"Small World",y:2009,p:[2,5],t:80,a:8,w:2.4,r:7.2,k:"strategická, fantasy",pc:600},
+{n:"Alhambra",y:2003,p:[2,6],t:60,a:8,w:2.1,r:7.0,k:"rodinná",pc:400},
+{n:"Zooloretto",y:2007,p:[2,5],t:45,a:8,w:1.9,r:6.6,k:"rodinná",pc:350},
+{n:"Hanabi",y:2010,p:[2,5],t:25,a:8,w:1.7,r:7.0,k:"kooperativní, karetní",pc:100},
+{n:"The Mind",y:2018,p:[2,4],t:20,a:8,w:1.1,r:6.8,k:"kooperativní, karetní",pc:100},
+{n:"Saboteur",y:2004,p:[3,10],t:30,a:8,w:1.3,r:6.5,k:"karetní, párty",pc:150},
+{n:"The Resistance: Avalon",y:2012,p:[5,10],t:30,a:13,w:1.7,r:7.6,k:"párty, blafovací",pc:250},
+{n:"Secret Hitler",y:2016,p:[5,10],t:45,a:13,w:1.7,r:7.3,k:"párty, blafovací",pc:350},
+{n:"One Night Ultimate Werewolf",y:2014,p:[3,10],t:10,a:8,w:1.4,r:7.0,k:"párty, blafovací",pc:200},
+{n:"Coup",y:2012,p:[2,6],t:15,a:13,w:1.4,r:7.0,k:"karetní, blafovací",pc:200},
+{n:"Star Realms",y:2014,p:[2,2],t:20,a:12,w:1.9,r:7.5,k:"karetní, pro dva",pc:200},
+{n:"Hero Realms",y:2016,p:[2,4],t:30,a:12,w:2.0,r:7.5,k:"karetní",pc:250},
+{n:"Clank!: A Deck-Building Adventure",c:"Clank!",y:2016,p:[2,4],t:60,a:12,w:2.2,r:7.7,k:"karetní, dobrodružná",pc:600},
+{n:"Marvel Champions: The Card Game",y:2019,p:[1,4],t:60,a:14,w:2.9,r:8.2,k:"karetní, kooperativní",pc:700},
+{n:"Aeon's End",y:2016,p:[1,4],t:60,a:14,w:3.0,r:7.9,k:"kooperativní, karetní",pc:600},
+{n:"Exit: The Game (série)",c:"EXIT: Úniková hra (série)",y:2016,p:[1,4],t:60,a:12,w:2.0,r:7.0,k:"úniková, kooperativní",pc:150},
+{n:"Unlock! (série)",y:2017,p:[1,6],t:60,a:10,w:2.1,r:7.2,k:"úniková, kooperativní",pc:300},
+{n:"MicroMacro: Crime City",y:2020,p:[1,4],t:30,a:10,w:1.1,r:7.6,k:"detektivní, kooperativní",pc:350},
+{n:"Sherlock Holmes Consulting Detective",y:1982,p:[1,8],t:90,a:13,w:2.7,r:7.7,k:"detektivní",pc:450},
+{n:"Chronicles of Crime",y:2018,p:[1,4],t:90,a:14,w:2.1,r:7.5,k:"detektivní",pc:450},
+{n:"Detective: A Modern Crime Board Game",y:2018,p:[1,5],t:180,a:16,w:3.1,r:7.6,k:"detektivní",pc:500},
+{n:"T.I.M.E Stories",y:2015,p:[2,4],t:90,a:12,w:2.2,r:7.2,k:"kooperativní, příběhová",pc:300},
+{n:"Forbidden Island",y:2010,p:[2,4],t:30,a:10,w:1.7,r:6.7,k:"kooperativní, rodinná",pc:250},
+{n:"Forbidden Desert",y:2013,p:[2,5],t:45,a:10,w:2.0,r:7.1,k:"kooperativní",pc:350},
+{n:"Flash Point: Fire Rescue",y:2011,p:[1,6],t:45,a:10,w:2.2,r:7.2,k:"kooperativní",pc:400},
+{n:"Magic Maze",y:2017,p:[1,8],t:15,a:8,w:1.7,r:6.8,k:"kooperativní",pc:300},
+{n:"Captain Sonar",y:2016,p:[2,8],t:45,a:14,w:2.1,r:7.4,k:"týmová",pc:450},
+{n:"Colt Express",y:2014,p:[2,6],t:40,a:10,w:1.8,r:7.0,k:"rodinná, humorná",pc:400},
+{n:"Downforce",y:2017,p:[2,6],t:30,a:10,w:1.7,r:7.1,k:"závodní",pc:400},
+{n:"Flamme Rouge",y:2016,p:[2,4],t:45,a:8,w:1.7,r:7.4,k:"závodní",pc:400},
+{n:"Heat: Pedal to the Metal",y:2022,p:[1,6],t:60,a:10,w:2.2,r:8.0,k:"závodní",pc:800},
+{n:"Jamaica",y:2007,p:[2,6],t:60,a:8,w:1.7,r:7.0,k:"závodní, rodinná",pc:450},
+{n:"Survive: Escape from Atlantis!",y:1982,p:[2,4],t:60,a:8,w:1.7,r:7.0,k:"rodinná",pc:400},
+{n:"Kingdom Builder",y:2011,p:[2,4],t:45,a:8,w:2.1,r:7.0,k:"strategická, rodinná",pc:400},
+{n:"Five Tribes",y:2014,p:[2,4],t:80,a:13,w:2.9,r:7.8,k:"strategická",pc:650},
+{n:"Lords of Waterdeep",y:2012,p:[2,5],t:120,a:12,w:2.5,r:7.7,k:"strategická",pc:650},
+{n:"Architects of the West Kingdom",c:"Architekti Západního království",y:2018,p:[1,5],t:80,a:12,w:2.8,r:7.7,k:"strategická",pc:450},
+{n:"Paladins of the West Kingdom",y:2019,p:[1,4],t:120,a:12,w:3.7,r:8.0,k:"strategická",pc:550},
+{n:"Raiders of the North Sea",c:"Nájezdníci ze Severního moře",y:2015,p:[2,4],t:80,a:12,w:2.6,r:7.7,k:"strategická",pc:450},
+{n:"Century: Spice Road",y:2017,p:[2,5],t:45,a:8,w:1.8,r:7.3,k:"karetní, rodinná",pc:350},
+{n:"Jaipur",y:2009,p:[2,2],t:30,a:12,w:1.5,r:7.5,k:"karetní, pro dva",pc:200},
+{n:"Lost Cities",c:"Ztracená města",y:1999,p:[2,2],t:30,a:10,w:1.5,r:7.2,k:"karetní, pro dva",pc:250},
+{n:"Targi",y:2012,p:[2,2],t:60,a:12,w:2.3,r:7.6,k:"pro dva, strategická",pc:200},
+{n:"Watergate",y:2019,p:[2,2],t:45,a:12,w:2.4,r:7.6,k:"pro dva, historická",pc:350},
+{n:"Twilight Struggle",y:2005,p:[2,2],t:180,a:13,w:3.6,r:8.2,k:"pro dva, historická",pc:700},
+{n:"The Fox in the Forest",y:2017,p:[2,2],t:30,a:10,w:1.5,r:7.2,k:"karetní, pro dva",pc:200},
+{n:"Onitama",y:2014,p:[2,2],t:20,a:10,w:1.7,r:7.3,k:"abstraktní, pro dva",pc:300},
+{n:"Santorini",y:2016,p:[2,4],t:20,a:8,w:1.7,r:7.4,k:"abstraktní, pro dva",pc:400},
+{n:"Sky Team",y:2023,p:[2,2],t:20,a:12,w:2.0,r:7.9,k:"kooperativní, pro dva",pc:350},
+{n:"Česko: Otázky a odpovědi",y:2007,p:[2,24],t:60,a:12,k:"vědomostní",pc:250},
+{n:"Trivial Pursuit",y:1981,p:[2,6],t:90,a:12,w:1.8,r:5.6,k:"vědomostní, klasická",pc:300},
+{n:"Timeline",y:2010,p:[2,8],t:15,a:8,w:1.2,r:6.4,k:"vědomostní, karetní",pc:150},
+{n:"Terra",y:2014,p:[2,6],t:45,a:10,w:1.5,r:6.6,k:"vědomostní",pc:250},
+{n:"Fauna",y:2008,p:[2,6],t:60,a:10,w:1.6,r:6.9,k:"vědomostní, přírodní",pc:300},
+{n:"Pictionary",y:1985,p:[3,16],t:60,a:12,w:1.3,r:5.8,k:"párty, kreslicí",pc:250},
+{n:"Taboo",c:"Tabu",y:1989,p:[4,10],t:45,a:12,w:1.2,r:5.6,k:"párty, slovní",pc:250},
+{n:"Rory's Story Cubes",c:"Příběhy z kostek",y:2005,p:[1,12],t:20,a:6,w:1.0,r:5.9,k:"párty, vyprávěcí",pc:100},
+{n:"Similo",y:2019,p:[2,8],t:10,a:7,w:1.1,r:6.8,k:"kooperativní, karetní",pc:100},
+{n:"Rhino Hero",y:2011,p:[2,5],t:15,a:5,w:1.0,r:6.8,k:"dětská, zručnostní",pc:150},
+{n:"Animal Upon Animal",c:"Zvíře na zvíře",y:2005,p:[2,4],t:15,a:4,w:1.0,r:6.7,k:"dětská, zručnostní",pc:200},
+{n:"Jenga",y:1983,p:[1,8],t:20,a:6,w:1.1,r:5.6,k:"zručnostní, klasická",pc:200},
+{n:"Zombie Kidz Evolution",y:2018,p:[2,4],t:15,a:7,w:1.1,r:7.1,k:"dětská, kooperativní",pc:300},
+{n:"Disney Villainous",c:"Villainous",y:2018,p:[2,6],t:60,a:10,w:2.4,r:7.2,k:"rodinná, asymetrická",pc:450},
+{n:"Harry Potter: Hogwarts Battle",c:"Harry Potter: Boj o Bradavice",y:2016,p:[2,4],t:60,a:11,w:2.4,r:7.3,k:"kooperativní, karetní",pc:650},
+{n:"Cyclades",c:"Kyklady",y:2009,p:[2,5],t:90,a:13,w:3.2,r:7.5,k:"strategická, bojová",pc:700},
+{n:"Kemet",y:2012,p:[2,5],t:120,a:13,w:3.0,r:7.7,k:"strategická, bojová",pc:800},
+{n:"Tapestry",y:2019,p:[1,5],t:120,a:12,w:2.9,r:7.4,k:"civilizační",pc:800},
+{n:"Res Arcana",y:2019,p:[2,4],t:60,a:12,w:2.6,r:7.7,k:"karetní, strategická",pc:450},
+{n:"It's a Wonderful World",y:2019,p:[1,5],t:45,a:14,w:2.3,r:7.6,k:"karetní",pc:450},
+{n:"Space Base",y:2018,p:[2,5],t:60,a:14,w:2.2,r:7.4,k:"kostková",pc:500},
+{n:"Roll for the Galaxy",y:2014,p:[2,5],t:45,a:13,w:3.0,r:7.7,k:"kostková, strategická",pc:600},
+{n:"Race for the Galaxy",y:2007,p:[2,4],t:45,a:12,w:3.0,r:7.7,k:"karetní",pc:400},
+{n:"Port Royal",y:2014,p:[2,5],t:30,a:8,w:1.6,r:7.1,k:"karetní",pc:150},
+{n:"The Game",y:2015,p:[1,5],t:20,a:8,w:1.1,r:6.7,k:"kooperativní, karetní",pc:100},
+{n:"Skyjo",y:2015,p:[2,8],t:30,a:8,w:1.1,r:6.5,k:"karetní, rodinná",pc:150},
+{n:"Phase 10",y:1982,p:[2,6],t:60,a:10,w:1.2,r:5.4,k:"karetní, klasická",pc:100},
+{n:"Rummikub",y:1977,p:[2,4],t:60,a:8,w:1.7,r:6.5,k:"klasická, rodinná",pc:300},
+{n:"Isle of Skye",y:2015,p:[2,5],t:50,a:8,w:2.3,r:7.5,k:"rodinná, strategická",pc:400},
+{n:"Cacao",y:2015,p:[2,4],t:45,a:8,w:1.8,r:6.9,k:"rodinná",pc:300},
+{n:"Bärenpark",c:"Medvědí park",y:2017,p:[2,4],t:45,a:8,w:1.7,r:7.2,k:"rodinná, logická",pc:400},
+{n:"The Isle of Cats",c:"Ostrov koček",y:2019,p:[1,4],t:90,a:8,w:2.3,r:7.7,k:"rodinná, logická",pc:550},
+{n:"Trio",y:2022,p:[3,6],t:15,a:6,w:1.1,r:7.0,k:"karetní, párty",pc:100},
+{n:"SCOUT",y:2019,p:[2,5],t:20,a:9,w:1.3,r:7.5,k:"karetní",pc:150},
+{n:"6 nimmt!",c:"6 bere!",y:1994,p:[2,10],t:45,a:8,w:1.2,r:6.9,k:"karetní, párty",pc:100},
+{n:"Ligretto",y:1988,p:[2,4],t:10,a:8,w:1.1,r:5.9,k:"karetní, postřehová",pc:100},
+{n:"SET",y:1988,p:[1,20],t:30,a:6,w:1.7,r:6.5,k:"postřehová, karetní",pc:150},
+{n:"L.L.A.M.A.",c:"L.A.M.A.",y:2019,p:[2,6],t:20,a:8,w:1.1,r:6.2,k:"karetní, rodinná",pc:100},
+{n:"No Thanks!",y:2004,p:[3,7],t:20,a:8,w:1.1,r:6.9,k:"karetní",pc:100},
+{n:"For Sale",y:1997,p:[3,6],t:30,a:10,w:1.3,r:7.1,k:"aukční, karetní",pc:200},
+{n:"Ra",y:1999,p:[2,5],t:60,a:12,w:2.3,r:7.4,k:"strategická, aukční",pc:400},
+{n:"Sea Salt & Paper",y:2022,p:[2,4],t:30,a:8,w:1.2,r:7.3,k:"karetní",pc:150},
+{n:"Faraway",y:2023,p:[2,6],t:20,a:8,w:1.8,r:7.5,k:"karetní",pc:200},
+{n:"Castle Combo",y:2024,p:[2,5],t:25,a:10,w:1.9,r:7.4,k:"karetní",pc:200},
+{n:"Dice Forge",y:2017,p:[2,4],t:45,a:10,w:2.1,r:7.2,k:"kostková",pc:400},
+{n:"The Quacks of Quedlinburg",c:"Šarlatáni z Quedlinburku",y:2018,p:[2,4],t:45,a:10,w:1.9,r:7.7,k:"rodinná, kostková",pc:550},
+{n:"Las Vegas",y:2012,p:[2,5],t:30,a:8,w:1.4,r:7.0,k:"kostková",pc:250},
+{n:"Mice and Mystics",y:2012,p:[1,4],t:90,a:7,w:2.6,r:7.2,k:"rodinná, výpravná",pc:600},
+{n:"Legends of Andor",c:"Legendy země Andor",y:2012,p:[2,4],t:90,a:10,w:2.7,r:7.2,k:"kooperativní, fantasy",pc:500},
+{n:"Destinies",c:"Osudy",y:2021,p:[1,3],t:90,a:14,w:2.4,r:7.6,k:"příběhová",pc:600},
+{n:"Paleo",y:2020,p:[1,4],t:60,a:10,w:2.9,r:7.6,k:"kooperativní",pc:500},
+{n:"Robinson Crusoe: Adventures on the Cursed Island",c:"Robinson Crusoe",y:2012,p:[1,4],t:120,a:14,w:3.8,r:7.8,k:"kooperativní, dobrodružná",pc:700},
+{n:"This War of Mine: The Board Game",c:"This War of Mine",y:2017,p:[1,6],t:120,a:18,w:3.7,r:7.7,k:"kooperativní, válečná",pc:700},
+{n:"Mage Knight Board Game",c:"Mage Knight",y:2011,p:[1,4],t:150,a:14,w:4.3,r:8.0,k:"strategická, fantasy",pc:900},
+{n:"Cthulhu: Death May Die",y:2019,p:[1,5],t:90,a:14,w:2.5,r:7.8,k:"kooperativní, hororová",pc:1000},
+{n:"Horrified",y:2019,p:[1,5],t:60,a:10,w:2.0,r:7.4,k:"kooperativní, hororová",pc:500},
+{n:"My City",c:"Moje město",y:2020,p:[2,4],t:30,a:10,w:1.9,r:7.3,k:"rodinná",pc:350},
+{n:"Dorfromantik: The Board Game",c:"Dorfromantik",y:2022,p:[1,6],t:60,a:8,w:1.7,r:7.4,k:"rodinná, logická",pc:450},
+{n:"Tiny Towns",y:2019,p:[1,6],t:60,a:14,w:2.1,r:7.1,k:"rodinná, logická",pc:450}
+,
+{n:"The Hobbit",c:"Hobit",y:2010,p:[2,5],t:50,a:10,w:1.7,r:6.1,k:"rodinná, fantasy",pc:300},
+{n:"Cyklotoulky",y:2019,p:[2,6],t:30,a:9,w:1.2,r:6.0,k:"vědomostní, kvízová",pc:250},
+{n:"Minotaurus",y:2009,p:[2,4],t:45,a:8,w:1.5,r:6.3,k:"dětská, dobrodružná",pc:350},
+{n:"Krycí jména: Hlubina",c:"Krycí jména: Hlubina",y:2019,p:[2,8],t:15,a:14,w:1.4,r:7.4,k:"párty, slovní",pc:250},
+{n:"Pán prstenů: Putování po Středozemi",c:"Pán prstenů: Putování po Středozemi",y:2000,p:[2,5],t:90,a:12,w:2.4,r:6.9,k:"kooperativní, fantasy",pc:450},
+{n:"Lord of the Rings: The Card Game",c:"Pán prstenů: Karetní hra",y:2011,p:[1,4],t:60,a:13,w:3.3,r:8.2,k:"kooperativní, karetní",pc:600},
+{n:"Descent: Legends of the Dark",c:"Descent: Legendy temnoty",y:2021,p:[1,4],t:120,a:14,w:3.2,r:8.4,k:"výpravná, fantasy",pc:1600},
+{n:"Bloodborne: The Board Game",c:"Bloodborne: Desková hra",y:2020,p:[1,4],t:90,a:14,w:3.0,r:7.6,k:"kooperativní, hororová",pc:1600},
+{n:"Sherlock: Vraždy v Temži",c:"Sherlock: Vraždy v Temži",y:2018,p:[1,6],t:60,a:14,w:2.2,r:7.4,k:"detektivní, kooperativní",pc:350},
+{n:"Zaklínač: Stařešina krve",c:"Zaklínač: Stařešina krve",y:2020,p:[2,5],t:90,a:14,w:2.8,r:7.5,k:"kooperativní, fantasy",pc:900},
+{n:"Gloomhaven: Buttons & Bugs",y:2022,p:[1,4],t:60,a:8,w:1.9,r:7.4,k:"kooperativní, dětská",pc:450},
+{n:"Trhací kalendář (párty)",c:"Nightmarium",y:2021,p:[2,5],t:45,a:14,w:1.9,r:7.1,k:"párty, karetní",pc:350},
+{n:"Bunny Kingdom",y:2017,p:[2,4],t:60,a:8,w:2.1,r:7.4,k:"strategická, rodinná",pc:600},
+{n:"Zita: The Space Girl",y:2019,p:[1,4],t:20,a:8,w:1.5,r:6.6,k:"kooperativní, karetní",pc:250},
+{n:"Kutná Hora: Kovárna",c:"Kutná Hora: Kovárna",y:2023,p:[2,4],t:30,a:12,w:2.4,r:7.1,k:"rozšíření, strategická",pc:400},
+{n:"Praga Sacra",y:2023,p:[1,4],t:90,a:12,w:3.3,r:7.6,k:"strategická",pc:700},
+{n:"Alubie",y:2021,p:[2,4],t:30,a:8,w:1.5,r:6.5,k:"rodinná, kostková",pc:350},
+{n:"Papírové safari",c:"Papírové safari",y:2023,p:[1,4],t:20,a:8,w:1.2,r:6.9,k:"zápisová, rodinná",pc:300},
+{n:"Karak: Regent",c:"Karak: Regent",y:2020,p:[2,5],t:60,a:7,w:1.6,r:6.9,k:"rozšíření, dobrodružná",pc:400},
+{n:"Karak: Netvor v labyrintu",y:2018,p:[2,5],t:60,a:7,w:1.5,r:7.0,k:"rozšíření, dobrodružná",pc:350},
+{n:"Zvěromágové",c:"Zvěromágové",y:2022,p:[2,4],t:40,a:10,w:2.0,r:7.0,k:"karetní, tahová",pc:400},
+{n:"Fantasy Realms",y:2017,p:[3,6],t:20,a:14,w:1.7,r:7.6,k:"karetní",pc:300},
+{n:"Marco Polo II: In the Service of the Khan",c:"Marco Polo II",y:2020,p:[2,4],t:100,a:12,w:3.5,r:7.9,k:"strategická",pc:900},
+{n:"Pěší zóna",c:"Pěší zóna",y:2018,p:[1,4],t:45,a:8,w:2.2,r:6.8,k:"rodinná, budovatelská",pc:400},
+{n:"Perly Impéria",c:"Perly Impéria",y:2015,p:[1,4],t:60,a:10,w:2.4,r:6.9,k:"strategická, karetní",pc:400},
+{n:"Vikings Gone Wild",y:2018,p:[2,4],t:60,a:14,w:2.6,r:7.3,k:"strategická",pc:700},
+{n:"Signorie",c:"Signorie",y:2021,p:[1,4],t:90,a:12,w:3.4,r:7.7,k:"strategická",pc:700},
+{n:"Zrození impéria (Settlers)",c:"Settlers: Zrod impéria",y:2019,p:[2,4],t:75,a:10,w:2.5,r:7.2,k:"strategická",pc:500},
+{n:"Alta Nadílka",c:"Alta Nadílka",y:2020,p:[2,5],t:30,a:8,w:1.6,r:6.7,k:"karetní, rodinná",pc:250},
+{n:"Dostihy a sázky Junior",c:"Dostihy a sázky Junior",y:2010,p:[2,6],t:30,a:5,w:1.1,r:6.0,k:"dětská, klasická",pc:200},
+{n:"Vlny",c:"Vlny",y:2022,p:[2,4],t:30,a:8,w:1.6,r:6.7,k:"rodinná, karetní",pc:300},
+{n:"Karty na stůl",c:"Karty na stůl",y:2020,p:[3,8],t:30,a:12,w:1.3,r:6.4,k:"párty",pc:250},
+{n:"Bang! The Dice Game",c:"Bang! Kostky",y:2013,p:[3,8],t:30,a:8,w:1.5,r:6.9,k:"kostková, párty",pc:250},
+{n:"Dobble Kids",y:2016,p:[2,6],t:15,a:4,w:1.0,r:6.4,k:"dětská, postřehová",pc:200},
+{n:"Cortex Challenge",c:"Cortex",y:2018,p:[2,6],t:15,a:8,w:1.2,r:6.6,k:"postřehová, logická",pc:250},
+{n:"Dixit Odyssey",y:2011,p:[3,12],t:30,a:8,w:1.2,r:7.2,k:"párty, asociační",pc:400},
+{n:"Dixit: Disney",c:"Dixit: Disney",y:2022,p:[3,6],t:30,a:8,w:1.2,r:7.0,k:"párty, asociační",pc:400},
+{n:"Codenames: Marvel",c:"Krycí jména: Marvel",y:2022,p:[2,8],t:15,a:14,w:1.3,r:7.3,k:"párty, slovní",pc:300},
+{n:"Story Cubes: Voyages",c:"Příběhy z kostek: Cestování",y:2016,p:[1,12],t:20,a:6,w:1.0,r:6.0,k:"párty, vyprávěcí",pc:150},
+{n:"Piškvorky",c:"Piškvorky",p:[2,2],t:10,a:5,w:1.0,k:"abstraktní, klasická",pc:50},
+{n:"Šachy cestovní",c:"Cestovní šachy",p:[2,2],t:30,a:6,w:2.0,k:"abstraktní, cestovní",pc:150},
+{n:"Mariáš",c:"Mariáš",p:[3,4],t:30,a:12,w:2.2,r:6.5,k:"karetní, tradiční",pc:150},
+{n:"Prší",c:"Prší",p:[2,6],t:15,a:6,w:1.1,r:5.5,k:"karetní, tradiční",pc:80},
+{n:"Žolíky",c:"Žolíky",p:[2,6],t:30,a:8,w:1.4,r:5.8,k:"karetní, tradiční",pc:100},
+{n:"Kanasta",c:"Kanasta",p:[2,6],t:45,a:10,w:1.7,r:6.0,k:"karetní, tradiční",pc:100},
+{n:"Taroky",c:"Taroky",p:[3,4],t:45,a:14,w:2.6,r:6.2,k:"karetní, tradiční",pc:150},
+{n:"Černý Petr",c:"Černý Petr",p:[2,6],t:10,a:4,w:1.0,r:5.3,k:"karetní, dětská",pc:70},
+{n:"Kvarteto",c:"Kvarteto",p:[2,6],t:15,a:5,w:1.0,r:5.4,k:"karetní, dětská",pc:80},
+{n:"Bridž",c:"Bridž",p:[4,4],t:60,a:12,w:3.0,r:6.8,k:"karetní, tradiční",pc:150},
+{n:"Prší (Uno CZ)",c:"Čtyři barvy",p:[2,8],t:20,a:6,w:1.1,r:5.4,k:"karetní, rodinná",pc:100},
+{n:"Operation",c:"Operace",y:1965,p:[2,4],t:20,a:6,w:1.1,r:5.2,k:"zručnostní, klasická",pc:250},
+{n:"The Game of Life",c:"Hra života",y:1960,p:[2,4],t:60,a:8,w:1.5,r:5.6,k:"klasická, rodinná",pc:300},
+{n:"Sorry!",c:"Promiň!",y:1934,p:[2,4],t:30,a:6,w:1.1,r:5.2,k:"klasická, rodinná",pc:200},
+{n:"Trouble",c:"Trampoty",y:1965,p:[2,4],t:30,a:5,w:1.0,r:5.0,k:"klasická, dětská",pc:200},
+{n:"Yahtzee",c:"Kostky Yahtzee",y:1956,p:[2,8],t:30,a:8,w:1.2,r:5.9,k:"kostková, klasická",pc:150},
+{n:"Boggle",y:1972,p:[2,8],t:15,a:8,w:1.2,r:5.9,k:"slovní, klasická",pc:150},
+{n:"Guess Who?",c:"Kdo je kdo?",y:1979,p:[2,2],t:20,a:6,w:1.1,r:5.5,k:"dedukční, dětská",pc:250},
+{n:"Twister",y:1966,p:[2,4],t:15,a:6,w:1.0,r:5.3,k:"zručnostní, párty",pc:300},
+{n:"Mouse Trap",c:"Pastička na myši",y:1963,p:[2,4],t:30,a:6,w:1.3,r:5.4,k:"klasická, dětská",pc:350},
+{n:"Stratego",y:1946,p:[2,2],t:45,a:8,w:2.0,r:6.5,k:"abstraktní, válečná",pc:350},
+{n:"Diplomacy",c:"Diplomacie",y:1959,p:[2,7],t:360,a:12,w:2.6,r:7.1,k:"válečná, vyjednávací",pc:500},
+{n:"Mahjong",c:"Mahjong",p:[4,4],t:90,a:10,w:2.4,r:6.8,k:"abstraktní, tradiční",pc:400},
+{n:"Chinese Checkers",c:"Čínské dámy",p:[2,6],t:30,a:6,w:1.4,r:5.5,k:"abstraktní, klasická",pc:250},
+{n:"Snakes and Ladders",c:"Hadi a žebříky",p:[2,6],t:15,a:4,w:1.0,r:4.5,k:"klasická, dětská",pc:150},
+{n:"El Grande",y:1996,p:[2,5],t:120,a:12,w:3.1,r:7.6,k:"strategická",pc:800},
+{n:"Tigris & Euphrates",y:1997,p:[2,4],t:90,a:12,w:3.3,r:7.5,k:"strategická, abstraktní",pc:700},
+{n:"Modern Art",y:1992,p:[3,5],t:60,a:12,w:2.4,r:7.2,k:"aukční, ekonomická",pc:600},
+{n:"Acquire",y:1964,p:[2,6],t:90,a:12,w:2.5,r:7.1,k:"ekonomická, klasická",pc:500},
+{n:"Sequence",y:1982,p:[2,12],t:30,a:7,w:1.2,r:6.6,k:"abstraktní, rodinná",pc:250},
+{n:"Cartographers",y:2019,p:[1,100],t:45,a:10,w:1.9,r:7.6,k:"zápisová, logická",pc:400},
+{n:"Nova Luna",y:2019,p:[2,4],t:20,a:8,w:1.7,r:7.2,k:"abstraktní, rodinná",pc:400},
+{n:"Bohnanza",y:1997,p:[2,7],t:45,a:8,w:1.7,r:6.7,k:"karetní, vyjednávací",pc:350},
+{n:"Coloretto",y:2003,p:[2,5],t:30,a:8,w:1.3,r:6.8,k:"karetní, rodinná",pc:300},
+{n:"Incan Gold",c:"Diamant",y:2005,p:[3,8],t:30,a:8,w:1.3,r:7.1,k:"party, riskovací",pc:350},
+{n:"Are You a Werewolf?",c:"Vlkodlak",y:1997,p:[5,20],t:30,a:10,w:1.4,r:6.5,k:"párty, blafovací",pc:250},
+{n:"Battle Sheep",c:"Bitva ovcí",y:2015,p:[2,5],t:20,a:7,w:1.2,r:6.6,k:"abstraktní, rodinná",pc:300},
+{n:"King of New York",c:"Vládce New Yorku",y:2014,p:[2,6],t:45,a:8,w:1.8,r:7.1,k:"kostková, rodinná",pc:600},
+{n:"Unmatched: Battle of Legends, Volume One",c:"Unmatched",y:2020,p:[2,4],t:30,a:9,w:2.2,r:7.9,k:"bojová, karetní",pc:700},
+{n:"Nucleum",y:2023,p:[1,4],t:120,a:14,w:3.8,r:8.2,k:"strategická",pc:1200},
+{n:"Pulsar 2849",y:2017,p:[1,4],t:100,a:12,w:3.6,r:7.9,k:"strategická, sci-fi",pc:900},
+{n:"Underwater Cities",c:"Podmořská města",y:2018,p:[1,4],t:100,a:12,w:3.7,r:8.1,k:"strategická",pc:900},
+{n:"Trickerion: Legends of Illusion",c:"Trickerion",y:2015,p:[2,4],t:150,a:13,w:3.9,r:7.8,k:"strategická, dělnická",pc:1200},
+{n:"Adrenalin",y:2018,p:[3,5],t:60,a:12,w:2.4,r:7.2,k:"bojová, karetní",pc:700},
+{n:"Fromaggio",y:2019,p:[2,5],t:45,a:8,w:1.9,r:6.7,k:"rodinná, ekonomická",pc:450},
+{n:"Aqua Romana",y:2003,p:[2,4],t:60,a:10,w:2.2,r:6.7,k:"strategická, budovatelská",pc:450},
+{n:"Watch Ya Mouth",c:"(NE)MLUV s plnou pusou",y:2016,p:[2,10],t:20,a:10,w:1.1,r:6.2,k:"párty",pc:350},
+{n:"LEGO Games: Heroica Draida Bay",c:"LEGO Heroica: Zátoka Draida",y:2011,p:[2,2],t:10,a:7,w:1.3,r:6.5,k:"dobrodružná, LEGO",pc:400},
+{n:"LEGO Games: Heroica Waldurk Forest",c:"LEGO Heroica: Les Waldurk",y:2011,p:[2,4],t:15,a:7,w:1.4,r:6.6,k:"dobrodružná, LEGO",pc:450},
+{n:"LEGO Games: Heroica Fortaan",c:"LEGO Heroica: Hrad Fortaan",y:2011,p:[2,4],t:15,a:7,w:1.4,r:6.6,k:"dobrodružná, LEGO",pc:450},
+{n:"LEGO Games: Heroica Nathuz Caverns",c:"LEGO Heroica: Jeskyně v Nathuzu",y:2011,p:[2,2],t:15,a:7,w:1.3,r:6.5,k:"dobrodružná, LEGO",pc:400},
+{n:"LEGO Games: Ramses Pyramid",c:"LEGO: Ramsesova pyramida",y:2010,p:[2,4],t:30,a:8,w:1.6,r:6.4,k:"rodinná, LEGO",pc:400},
+{n:"LEGO Games: Minotaurus",c:"LEGO: Minotaurus",y:2010,p:[2,4],t:20,a:7,w:1.2,r:6.3,k:"dětská, LEGO",pc:350},
+{n:"Activity Gold Edition",c:"Aktivity Golden",y:1999,p:[4,16],t:60,a:12,w:1.4,r:6.0,k:"párty",pc:400},
+{n:"Activity Original",c:"Aktivity Original",y:1990,p:[3,16],t:60,a:12,w:1.3,r:5.9,k:"párty",pc:350},
+{n:"Activity Junior",c:"Aktivity Junior",y:2004,p:[3,16],t:45,a:6,w:1.1,r:5.8,k:"párty, dětská",pc:300},
+{n:"Minecraft: Builders & Biomes",c:"Minecraft: Stavitelé a biomy",y:2019,p:[2,4],t:60,a:10,w:1.9,r:6.7,k:"strategická, LEGO",pc:600},
+{n:"HeroQuest: Kellars Keep",c:"HeroQuest: Kellarova pevnost",y:2021,p:[2,5],t:90,a:14,w:2.5,r:7.3,k:"výpravná, rozšíření",pc:600},
+{n:"Legendy Dávnozemě",c:"Legendy Dávnozemě",y:2018,p:[1,4],t:60,a:12,w:2.6,r:7.3,k:"výpravná, fantasy",pc:900},
+{n:"Zvěromágové: Draví ptáci",c:"Zvěromágové: Dravci",y:2023,p:[2,4],t:40,a:10,w:2.0,r:7.0,k:"karetní, rozšíření",pc:300},
+{n:"Ready Set Bet",c:"Ready Set Bet",y:2022,p:[2,8],t:30,a:8,w:1.3,r:7.4,k:"párty, sázecí",pc:600},
+{n:"Wonderland's War",y:2023,p:[2,5],t:60,a:12,w:2.9,r:7.9,k:"strategická",pc:1000},
+{n:"Sleeping Gods",y:2021,p:[1,4],t:90,a:13,w:2.8,r:8.4,k:"kooperativní, dobrodružná",pc:1400},
+{n:"Kdo to Ví, Ten to Ví",c:"Kdo to ví, ten to ví",y:2015,p:[3,10],t:30,a:12,w:1.2,r:6.2,k:"vědomostní, párty",pc:250},
+{n:"Trapper",c:"Trapper",y:2020,p:[1,4],t:60,a:12,w:2.2,r:7.2,k:"karetní, dobrodružná",pc:400},
+{n:"Grabolo",c:"Grabolo",y:2010,p:[2,8],t:20,a:6,w:1.2,r:6.0,k:"postřehová, párty",pc:250},
+{n:"Duch!",c:"Duch! (Geistesblitz)",y:2010,p:[2,8],t:20,a:8,w:1.1,r:6.5,k:"postřehová, dětská",pc:250},
+{n:"Habaňáno",c:"Habaňáno",y:2018,p:[2,5],t:20,a:8,w:1.1,r:6.1,k:"karetní, párty",pc:200},
+{n:"Alta Krtek: Kolo štěstí",c:"Krtkovo kolo štěstí",p:[2,4],t:15,a:3,w:1.0,k:"dětská",pc:200},
+{n:"Pat a Mat: Nápad",c:"Pat a Mat: Deskovka",p:[2,4],t:20,a:4,w:1.0,k:"dětská",pc:200},
+{n:"Kdo je vrah?",c:"Kdo je vrah?",y:2019,p:[3,13],t:45,a:12,w:1.6,r:6.5,k:"detektivní, párty",pc:300},
+{n:"Habitats",c:"Habitats",y:2022,p:[1,4],t:60,a:10,w:2.3,r:7.3,k:"strategická, přírodní",pc:600},
+{n:"Sobi",c:"Sobi",y:2021,p:[2,4],t:30,a:8,w:1.4,r:6.9,k:"karetní, rodinná",pc:250},
+{n:"Faraway 2",c:"Faraway: Nová dobrodružství",y:2023,p:[2,6],t:20,a:8,w:1.9,r:7.4,k:"karetní",pc:250},
+{n:"Zvířátka a Petrovští",c:"Zvířátka a Petrovští",y:2001,p:[2,4],t:30,a:4,w:1.0,k:"dětská, klasická",pc:150},
+{n:"Krypt",c:"Krypt",y:2021,p:[1,6],t:60,a:10,w:2.0,r:6.9,k:"úniková, kooperativní",pc:350},
+{n:"Sagani",y:2015,p:[1,5],t:45,a:8,w:2.0,r:6.9,k:"karetní, strategická",pc:400},
+{n:"Habitat",c:"Habitat",y:2023,p:[1,4],t:60,a:10,w:2.3,r:7.2,k:"strategická, přírodní",pc:500},
+{n:"Pravěk",c:"Pravěk",y:2011,p:[2,5],t:60,a:10,w:1.9,r:6.5,k:"strategická, rodinná",pc:350},
+{n:"Zmatek v Bagdádu",c:"Zmatek v Bagdádu",y:2016,p:[3,5],t:20,a:8,w:1.4,r:6.3,k:"párty, blafovací",pc:250},
+{n:"Habitanti",c:"Habitanti",y:2020,p:[2,4],t:60,a:10,w:2.2,r:6.8,k:"strategická",pc:400},
+{n:"Soudruhu, nezlob se!",c:"Soudruhu, nezlob se!",y:1990,p:[2,6],t:50,a:10,w:1.4,r:6.3,k:"párty, satirická",pc:150},
+{n:"Formula D",c:"Formula D",y:2008,p:[2,10],t:60,a:8,w:1.9,r:6.9,k:"závodní",pc:600},
+{n:"Formula D: Circuits 2",c:"Formula D: Okruhy 2",y:2011,p:[2,10],t:60,a:8,w:1.9,r:6.9,k:"rozšíření, závodní",pc:400},
+{n:"Albi Partnerské hrátky",c:"Partnerské hrátky",y:2015,p:[2,2],t:30,a:18,w:1.2,r:5.8,k:"erotická, párová",pc:300},
+{n:"Nevinné hrátky pro dva",c:"Nevinné hrátky pro dva",y:2016,p:[2,2],t:30,a:18,w:1.1,r:5.9,k:"erotická, párová",pc:350},
+{n:"Hra o manželství",c:"Hra o manželství",y:2010,p:[2,2],t:45,a:18,w:1.3,r:6.0,k:"párová, vztahová",pc:400},
+{n:"Dokonalý pár",c:"Dokonalý pár",y:2019,p:[2,8],t:30,a:18,w:1.1,r:5.8,k:"párová, párty",pc:250},
+{n:"Hříšné kostky",c:"Hříšné kostky",y:2018,p:[2,2],t:15,a:18,w:1.0,r:5.5,k:"erotická, párová",pc:150},
+{n:"Nespoutané laškování",c:"Nespoutané laškování",y:2020,p:[2,8],t:30,a:18,w:1.2,r:5.7,k:"erotická, párty",pc:350},
+{n:"Kdyby (Would You Rather)",c:"Kdyby...",y:2015,p:[2,10],t:20,a:12,w:1.1,r:5.9,k:"párty, konverzační",pc:200},
+{n:"Story Cubes",c:"Příběhy z kostek (základní)",y:2005,p:[1,12],t:20,a:6,w:1.0,r:5.9,k:"párty, vyprávěcí",pc:150},
+{n:"Kacamba",c:"Kačamba",p:[2,4],t:20,a:6,w:1.1,k:"karetní, tradiční",pc:80},
+{n:"Sedma",c:"Sedma",p:[2,6],t:20,a:8,w:1.2,k:"karetní, tradiční",pc:80},
+{n:"Oko bere",c:"Oko bere (6 nimmt CZ)",p:[2,10],t:45,a:8,w:1.2,k:"karetní, párty",pc:150},
+{n:"Piškvorky Deluxe",c:"Piškvorky Deluxe",p:[2,2],t:15,a:5,w:1.0,k:"abstraktní, dřevěná",pc:150},
+{n:"Micro Macro: Podvodní hlídka",c:"MicroMacro: Podvodní hlídka",y:2022,p:[1,4],t:30,a:10,w:1.1,r:7.4,k:"detektivní, kooperativní",pc:350},
+{n:"Rummikub XP",c:"Rummikub XP",y:2015,p:[2,4],t:45,a:8,w:1.8,r:6.6,k:"klasická, rodinná",pc:350},
+{n:"Osadníci z Katanu: Obchodníci a Barbaři",c:"Osadníci z Katanu: Obchodníci a barbaři",y:1998,p:[3,4],t:120,a:12,w:2.5,r:6.9,k:"rozšíření, strategická",pc:450},
+{n:"Zaklínač: Cesta meče",c:"Zaklínač: Cesta meče",y:2017,p:[2,5],t:60,a:14,w:2.5,r:7.0,k:"strategická, fantasy",pc:600},
+{n:"Gaslands",y:2017,p:[2,6],t:90,a:14,w:2.8,r:7.5,k:"miniaturová, závodní",pc:800},
+{n:"Descent: Cesty do Temnot – Osud v Kartách",c:"Descent: Osud v kartách",y:2016,p:[2,4],t:60,a:14,w:2.9,r:7.4,k:"rozšíření, fantasy",pc:500},
+{n:"Dostihy a sázky Deluxe",c:"Dostihy a sázky Deluxe",y:2019,p:[2,6],t:90,a:8,w:1.5,r:6.4,k:"klasická, rodinná",pc:500},
+{n:"Náhubek (jazykolamy)",c:"Náhubek",y:2019,p:[2,10],t:20,a:8,w:1.1,r:5.8,k:"párty",pc:250},
+{n:"Krycí jména: Deep Undercover",c:"Krycí jména: Hluboké utajení",y:2020,p:[2,8],t:15,a:17,w:1.4,r:7.4,k:"párty, slovní, 18+",pc:300},
+{n:"Krycí jména: Sport",c:"Krycí jména: Sport",y:2022,p:[2,8],t:15,a:14,w:1.3,r:7.2,k:"párty, slovní",pc:250},
+{n:"Hollywood",c:"Hollywood",y:2004,p:[3,6],t:90,a:10,w:2.0,r:6.4,k:"ekonomická, filmová",pc:400},
+{n:"Dragon Valley",c:"Dračí údolí",y:2016,p:[4,6],t:20,a:6,w:1.2,r:6.5,k:"kooperativní, zručnostní",pc:450},
+{n:"Dragon's Treasure",c:"Dračí poklad",y:2018,p:[2,4],t:20,a:4,w:1.0,r:6.2,k:"kooperativní, dětská",pc:300}];
+
+/* ============================================================
+   DATABÁZE ostatních kategorií — širší orientační seznam běžných
+   položek (nelze pokrýt vše, produktových variant jsou statisíce —
+   toto je startovací sada pro rychlé vyhledání/doplnění).
+   n: název, fields: hodnoty polí kategorie, pc: cena (odhad).
+   ============================================================ */
+const ITEM_DB={
+  furniture:[
+    {n:"IKEA Poäng křeslo",fields:{type:'křeslo',material:'bříza, látka',style:'skandinávský'},pc:800},
+    {n:"IKEA Ektorp sedačka",fields:{type:'sedačka',material:'látka',style:'skandinávský'},pc:3500},
+    {n:"IKEA Hemnes komoda",fields:{type:'komoda',material:'masiv borovice',style:'skandinávský'},pc:2000},
+    {n:"IKEA Hemnes postel 160×200",fields:{type:'postel',dims:'160×200 cm',material:'masiv borovice'},pc:3000},
+    {n:"IKEA Billy knihovna",fields:{type:'knihovna',dims:'80×28×202 cm',material:'dřevotříska'},pc:900},
+    {n:"IKEA Malm postel 160×200",fields:{type:'postel',dims:'160×200 cm',material:'dřevotříska'},pc:2500},
+    {n:"IKEA Malm komoda",fields:{type:'komoda',material:'dřevotříska'},pc:1500},
+    {n:"IKEA Kallax regál 4×4",fields:{type:'regál',dims:'147×147 cm',material:'dřevotříska'},pc:1200},
+    {n:"IKEA Kallax regál 2×2",fields:{type:'regál',dims:'77×77 cm',material:'dřevotříska'},pc:600},
+    {n:"IKEA Lack konferenční stolek",fields:{type:'stolek',material:'dřevotříska',style:'minimalistický'},pc:400},
+    {n:"IKEA Ivar regál",fields:{type:'regál',material:'masiv borovice'},pc:800},
+    {n:"IKEA Pax skříň",fields:{type:'skříň',material:'dřevotříska'},pc:3500},
+    {n:"IKEA Brimnes postel s úložným prostorem",fields:{type:'postel',material:'dřevotříska'},pc:3200},
+    {n:"IKEA Vittsjö regál",fields:{type:'regál',material:'sklo, kov',style:'moderní'},pc:900},
+    {n:"IKEA Ingo jídelní stůl",fields:{type:'stůl',material:'masiv borovice'},pc:1200},
+    {n:"IKEA Norden rozkládací stůl",fields:{type:'stůl',material:'masiv bříza'},pc:2500},
+    {n:"IKEA Tarva noční stolek",fields:{type:'stolek',material:'masiv borovice'},pc:500},
+    {n:"IKEA Alex zásuvkový box",fields:{type:'stolek',material:'dřevotříska'},pc:1500},
+    {n:"IKEA Micke psací stůl",fields:{type:'stůl',style:'pracovní'},pc:1500},
+    {n:"IKEA Bekant kancelářský stůl",fields:{type:'stůl',style:'kancelářský'},pc:2000},
+    {n:"Rohová sedačka",fields:{type:'sedačka',material:'látka'},pc:4000},
+    {n:"Rozkládací gauč",fields:{type:'gauč',material:'látka'},pc:3500},
+    {n:"Třímístná pohovka",fields:{type:'pohovka',material:'látka'},pc:3000},
+    {n:"Kožená sedačka",fields:{type:'sedačka',material:'kůže'},pc:6000},
+    {n:"Jídelní stůl dřevěný",fields:{type:'stůl',material:'masiv dub'},pc:3000},
+    {n:"Jídelní židle (sada 4 ks)",fields:{type:'židle',quantity:'4 ks'},pc:2000},
+    {n:"Kancelářská židle",fields:{type:'židle',style:'kancelářský'},pc:1000},
+    {n:"Herní židle",fields:{type:'židle',style:'herní'},pc:2500},
+    {n:"Houpací křeslo",fields:{type:'křeslo',style:'retro'},pc:1500},
+    {n:"Skříň šatní 2dveřová",fields:{type:'skříň',dims:'100×60×200 cm'},pc:1800},
+    {n:"Skříň šatní rohová",fields:{type:'skříň'},pc:2500},
+    {n:"Konferenční stolek",fields:{type:'stolek',material:'sklo, kov'},pc:600},
+    {n:"TV stolek",fields:{type:'stolek'},pc:800},
+    {n:"Postel s roštem 140×200",fields:{type:'postel',dims:'140×200 cm'},pc:2000},
+    {n:"Postel manželská 180×200",fields:{type:'postel',dims:'180×200 cm'},pc:3500},
+    {n:"Patrová postel",fields:{type:'postel',style:'dětský'},pc:3000},
+    {n:"Dětská postýlka",fields:{type:'postel',style:'dětský'},pc:1500},
+    {n:"Komoda",fields:{type:'komoda',material:'dřevotříska'},pc:1200},
+    {n:"Prádelník",fields:{type:'komoda'},pc:1500},
+    {n:"Botník",fields:{type:'botník'},pc:500},
+    {n:"Věšák stojanový",fields:{type:'věšák'},pc:400},
+    {n:"Zrcadlo na stěnu",fields:{type:'zrcadlo'},pc:600},
+    {n:"Knihovna",fields:{type:'knihovna'},pc:1500},
+    {n:"Vitrína",fields:{type:'vitrína'},pc:2500},
+    {n:"Psací stůl",fields:{type:'stůl',style:'pracovní'},pc:1800},
+    {n:"Výškově nastavitelný stůl",fields:{type:'stůl',style:'pracovní'},pc:5000},
+    {n:"Regálový systém kovový",fields:{type:'regál',material:'kov'},pc:1200},
+    {n:"Zahradní set (stůl + židle)",fields:{type:'zahradní nábytek'},pc:3000},
+    {n:"Zahradní lehátko",fields:{type:'zahradní nábytek'},pc:800},
+    {n:"Houpačka zahradní",fields:{type:'zahradní nábytek'},pc:2500},
+    {n:"Slunečník",fields:{type:'zahradní nábytek'},pc:900},
+    {n:"Lavice",fields:{type:'lavice'},pc:700},
+    {n:"Barová židle",fields:{type:'židle',style:'barový'},pc:900},
+    {n:"IKEA Friheten rozkládací sedačka",fields:{type:'sedačka',material:'látka'},pc:5000},
+    {n:"IKEA Strandmon ušák",fields:{type:'křeslo',style:'retro'},pc:2500},
+    {n:"IKEA Klippan dvoumístná pohovka",fields:{type:'pohovka',material:'látka'},pc:1800},
+    {n:"IKEA Besta TV sestava",fields:{type:'stolek',material:'dřevotříska'},pc:2500},
+    {n:"IKEA Eket skříňka",fields:{type:'skříňka'},pc:500},
+    {n:"IKEA Nordli komoda",fields:{type:'komoda'},pc:2200},
+    {n:"IKEA Lisabo stůl",fields:{type:'stůl',material:'jasan'},pc:2800},
+    {n:"IKEA Stuva/Smastad dětská skříň",fields:{type:'skříň',style:'dětský'},pc:2000},
+    {n:"Sedací vak",fields:{type:'sedací vak'},pc:800},
+    {n:"Taburet/podnožka",fields:{type:'taburet'},pc:400},
+    {n:"Šatní stěna",fields:{type:'skříň'},pc:3500},
+    {n:"Obývací stěna",fields:{type:'obývací stěna'},pc:3000},
+    {n:"Noční stolky (pár)",fields:{type:'stolek',quantity:'2 ks'},pc:1000},
+    {n:"Dětský psací stůl",fields:{type:'stůl',style:'dětský'},pc:1200},
+    {n:"Přebalovací pult",fields:{type:'komoda',style:'dětský'},pc:1500},
+    {n:"Kancelářský kontejner",fields:{type:'kontejner'},pc:800},
+    {n:"Rohový psací stůl",fields:{type:'stůl',style:'pracovní'},pc:2200},
+    {n:"Servírovací stolek",fields:{type:'stolek'},pc:500},
+    {n:"Truhla/úložná lavice",fields:{type:'truhla'},pc:900},
+    {n:"Skříňka pod umyvadlo",fields:{type:'skříňka'},pc:900},
+    {n:"Matrace 90×200",fields:{type:'matrace',dims:'90×200 cm'},pc:1500},
+    {n:"Matrace 140×200",fields:{type:'matrace',dims:'140×200 cm'},pc:2200},
+    {n:"Matrace 160×200",fields:{type:'matrace',dims:'160×200 cm'},pc:2800},
+    {n:"Matrace 180×200",fields:{type:'matrace',dims:'180×200 cm'},pc:3200},
+    {n:"Lamelový rošt",fields:{type:'rošt'},pc:600},
+    {n:"Futon",fields:{type:'futon'},pc:2000},
+    {n:"Závěsné poličky (sada)",fields:{type:'police'},pc:400},
+    {n:"Zrcadlová šatní skříň",fields:{type:'skříň'},pc:4000},
+    {n:"Zahradní křeslo ratan",fields:{type:'zahradní nábytek',material:'ratan'},pc:1200},
+    {n:"Zahradní stůl kovový",fields:{type:'zahradní nábytek',material:'kov'},pc:1500},
+    {n:"Květinový stojan",fields:{type:'stojan'},pc:300},
+    {n:"Stojan na monitor",fields:{type:'stojan',style:'pracovní'},pc:400},
+    {n:"Dvoupatrová postel dospělá",fields:{type:'postel'},pc:4500},
+    {n:"Rozkládací křeslo (spací)",fields:{type:'křeslo'},pc:1800},
+    {n:"IKEA Kivik sedačka",fields:{type:'sedačka',material:'látka'},pc:4500},
+    {n:"IKEA Vimle modulární sedačka",fields:{type:'sedačka'},pc:8000},
+    {n:"IKEA Söderhamn sedačka",fields:{type:'sedačka'},pc:6000},
+    {n:"IKEA Hemnes botník",fields:{type:'botník',material:'masiv'},pc:1500},
+    {n:"IKEA Malm psací stůl",fields:{type:'stůl',style:'pracovní'},pc:1800},
+    {n:"IKEA Fjällbo TV stolek",fields:{type:'stolek',material:'kov, masiv'},pc:1500},
+    {n:"IKEA Hauga komoda",fields:{type:'komoda'},pc:1800},
+    {n:"IKEA Songesand postel",fields:{type:'postel'},pc:2500},
+    {n:"IKEA Platsa skříň",fields:{type:'skříň'},pc:2500},
+    {n:"IKEA Trofast dětské úložiště",fields:{type:'regál',style:'dětský'},pc:1200},
+    {n:"IKEA Antilop dětská židlička",fields:{type:'židlička',style:'dětský'},pc:250},
+    {n:"Jídelní kout / rohová lavice",fields:{type:'lavice'},pc:2500},
+    {n:"Ratanový zahradní set",fields:{type:'zahradní nábytek',material:'ratan'},pc:5000},
+    {n:"Plastové zahradní židle (sada)",fields:{type:'zahradní nábytek',material:'plast'},pc:600},
+    {n:"Skládací stůl (catering)",fields:{type:'stůl'},pc:800},
+    {n:"Kempinková skládací sada (stůl+židle)",fields:{type:'zahradní nábytek'},pc:900},
+    {n:"Dětská postel se šuplíky",fields:{type:'postel',style:'dětský'},pc:2800},
+    {n:"Rostoucí dětská židle",fields:{type:'židle',style:'dětský'},pc:1500},
+    {n:"Relaxační polohovací křeslo",fields:{type:'křeslo'},pc:3000},
+    {n:"Masážní křeslo",fields:{type:'křeslo'},pc:8000},
+    {n:"Šatní štendr",fields:{type:'věšák',material:'kov'},pc:300},
+    {n:"Koupelnová skříňka vysoká",fields:{type:'skříňka'},pc:1200},
+    {n:"Zrcadlo s LED osvětlením",fields:{type:'zrcadlo'},pc:1500},
+    {n:"Toaletní stolek",fields:{type:'stolek'},pc:1800},
+    {n:"Postel boxspring",fields:{type:'postel'},pc:6000},
+    {n:"Čelo postele čalouněné",fields:{type:'čelo postele'},pc:1500},
+    {n:"Předsíňová stěna",fields:{type:'věšák'},pc:1800},
+    {n:"Botníková lavice s věšákem",fields:{type:'botník'},pc:1200},
+    {n:"Komoda pod TV",fields:{type:'stolek'},pc:1500},
+    {n:"Barový stůl",fields:{type:'stůl',style:'barový'},pc:1200},
+    {n:"Bistro set (stolek + 2 židle)",fields:{type:'zahradní nábytek'},pc:1200},
+    {n:"Závěsné křeslo (kokon)",fields:{type:'křeslo',material:'ratan'},pc:2500},
+    {n:"Houpací síť",fields:{type:'zahradní nábytek'},pc:600},
+    {n:"Zahradní úložný box",fields:{type:'zahradní nábytek'},pc:1500},
+    {n:"Konferenční kancelářská židle",fields:{type:'židle',style:'kancelářský'},pc:700},
+    {n:"Jednací stůl",fields:{type:'stůl',style:'kancelářský'},pc:2500},
+    {n:"Kovová spisová skříň",fields:{type:'skříň',material:'kov',style:'kancelářský'},pc:1800},
+    {n:"Trezor",fields:{type:'trezor'},pc:2000},
+    {n:"Dílenský ponk",fields:{type:'stůl',style:'dílenský'},pc:2500},
+    {n:"Dílenský regál kovový",fields:{type:'regál',material:'kov'},pc:1000},
+    {n:"Šatní skříňka kovová (lockers)",fields:{type:'skříň',material:'kov'},pc:1500},
+    {n:"Chesterfield pohovka",fields:{type:'pohovka',material:'kůže',style:'retro'},pc:8000},
+    {n:"Retro komoda (60. léta)",fields:{type:'komoda',style:'retro'},pc:2500},
+    {n:"Starožitná skříň",fields:{type:'skříň',style:'starožitný'},pc:5000},
+    {n:"Proutěný koš/truhla",fields:{type:'truhla',material:'proutí'},pc:500}
+  ],
+  electronics:[
+    {n:"iPhone 15",fields:{kind:'telefon',brand:'Apple',model:'iPhone 15'},pc:18000},
+    {n:"iPhone 14",fields:{kind:'telefon',brand:'Apple',model:'iPhone 14'},pc:14000},
+    {n:"iPhone 13",fields:{kind:'telefon',brand:'Apple',model:'iPhone 13'},pc:9000},
+    {n:"iPhone 12",fields:{kind:'telefon',brand:'Apple',model:'iPhone 12'},pc:7000},
+    {n:"iPhone SE",fields:{kind:'telefon',brand:'Apple',model:'iPhone SE'},pc:5000},
+    {n:"Samsung Galaxy S24",fields:{kind:'telefon',brand:'Samsung',model:'Galaxy S24'},pc:15000},
+    {n:"Samsung Galaxy S23",fields:{kind:'telefon',brand:'Samsung',model:'Galaxy S23'},pc:11000},
+    {n:"Samsung Galaxy S21",fields:{kind:'telefon',brand:'Samsung',model:'Galaxy S21'},pc:6000},
+    {n:"Samsung Galaxy A54",fields:{kind:'telefon',brand:'Samsung',model:'Galaxy A54'},pc:6000},
+    {n:"Xiaomi Redmi Note 12",fields:{kind:'telefon',brand:'Xiaomi',model:'Redmi Note 12'},pc:4000},
+    {n:"Xiaomi Mi 11",fields:{kind:'telefon',brand:'Xiaomi',model:'Mi 11'},pc:5000},
+    {n:"Google Pixel 7",fields:{kind:'telefon',brand:'Google',model:'Pixel 7'},pc:8000},
+    {n:"MacBook Air M1",fields:{kind:'notebook',brand:'Apple',model:'MacBook Air M1'},pc:15000},
+    {n:"MacBook Air M2",fields:{kind:'notebook',brand:'Apple',model:'MacBook Air M2'},pc:20000},
+    {n:"MacBook Pro 13\"",fields:{kind:'notebook',brand:'Apple',model:'MacBook Pro 13"'},pc:22000},
+    {n:"MacBook Pro 14\"",fields:{kind:'notebook',brand:'Apple',model:'MacBook Pro 14"'},pc:35000},
+    {n:"Dell XPS 13",fields:{kind:'notebook',brand:'Dell',model:'XPS 13'},pc:12000},
+    {n:"Dell Inspiron 15",fields:{kind:'notebook',brand:'Dell',model:'Inspiron 15'},pc:8000},
+    {n:"Lenovo ThinkPad T14",fields:{kind:'notebook',brand:'Lenovo',model:'ThinkPad T14'},pc:10000},
+    {n:"Lenovo IdeaPad",fields:{kind:'notebook',brand:'Lenovo',model:'IdeaPad'},pc:7000},
+    {n:"HP Pavilion",fields:{kind:'notebook',brand:'HP',model:'Pavilion'},pc:9000},
+    {n:"Asus Zenbook",fields:{kind:'notebook',brand:'Asus',model:'Zenbook'},pc:14000},
+    {n:"Acer Aspire",fields:{kind:'notebook',brand:'Acer',model:'Aspire'},pc:7000},
+    {n:"Herní notebook (RTX)",fields:{kind:'notebook',specs:'dedikovaná GPU'},pc:20000},
+    {n:"Monitor Dell 24\"",fields:{kind:'monitor',brand:'Dell',model:'P2422H',specs:'24", FHD, IPS'},pc:2500},
+    {n:"Monitor LG UltraWide",fields:{kind:'monitor',brand:'LG',specs:'34", ultrawide'},pc:6000},
+    {n:"Monitor Samsung Odyssey",fields:{kind:'monitor',brand:'Samsung',specs:'herní, zakřivený'},pc:7000},
+    {n:"Monitor BenQ",fields:{kind:'monitor',brand:'BenQ'},pc:3500},
+    {n:"iPad Air",fields:{kind:'tablet',brand:'Apple',model:'iPad Air'},pc:8000},
+    {n:"iPad Pro",fields:{kind:'tablet',brand:'Apple',model:'iPad Pro'},pc:15000},
+    {n:"iPad Mini",fields:{kind:'tablet',brand:'Apple',model:'iPad Mini'},pc:9000},
+    {n:"Samsung Galaxy Tab",fields:{kind:'tablet',brand:'Samsung',model:'Galaxy Tab'},pc:5000},
+    {n:"AirPods Pro",fields:{kind:'sluchátka',brand:'Apple',model:'AirPods Pro'},pc:4500},
+    {n:"AirPods (základní)",fields:{kind:'sluchátka',brand:'Apple',model:'AirPods'},pc:2500},
+    {n:"Sony WH-1000XM4",fields:{kind:'sluchátka',brand:'Sony',model:'WH-1000XM4'},pc:4000},
+    {n:"Sony WH-1000XM5",fields:{kind:'sluchátka',brand:'Sony',model:'WH-1000XM5'},pc:6500},
+    {n:"Bose QuietComfort",fields:{kind:'sluchátka',brand:'Bose',model:'QuietComfort'},pc:5000},
+    {n:"JBL reproduktor přenosný",fields:{kind:'reproduktor',brand:'JBL'},pc:1500},
+    {n:"Sonos reproduktor",fields:{kind:'reproduktor',brand:'Sonos'},pc:5000},
+    {n:"Samsung QLED TV 55\"",fields:{kind:'televize',brand:'Samsung',specs:'55", QLED'},pc:12000},
+    {n:"LG OLED TV 55\"",fields:{kind:'televize',brand:'LG',specs:'55", OLED'},pc:18000},
+    {n:"Sony Bravia TV",fields:{kind:'televize',brand:'Sony'},pc:14000},
+    {n:"Canon EOS zrcadlovka",fields:{kind:'fotoaparát',brand:'Canon',model:'EOS'},pc:12000},
+    {n:"Nikon zrcadlovka",fields:{kind:'fotoaparát',brand:'Nikon'},pc:10000},
+    {n:"GoPro Hero",fields:{kind:'kamera',brand:'GoPro',model:'Hero'},pc:6000},
+    {n:"PlayStation 5",fields:{kind:'konzole',brand:'Sony',model:'PS5'},pc:9000},
+    {n:"PlayStation 4",fields:{kind:'konzole',brand:'Sony',model:'PS4'},pc:4000},
+    {n:"Xbox Series X",fields:{kind:'konzole',brand:'Microsoft',model:'Series X'},pc:9000},
+    {n:"Xbox Series S",fields:{kind:'konzole',brand:'Microsoft',model:'Series S'},pc:5500},
+    {n:"Nintendo Switch",fields:{kind:'konzole',brand:'Nintendo',model:'Switch'},pc:5000},
+    {n:"Steam Deck",fields:{kind:'konzole',brand:'Valve',model:'Steam Deck'},pc:10000},
+    {n:"Herní ovladač",fields:{kind:'příslušenství'},pc:800},
+    {n:"Apple Watch",fields:{kind:'chytré hodinky',brand:'Apple',model:'Watch'},pc:6000},
+    {n:"Garmin sportovní hodinky",fields:{kind:'chytré hodinky',brand:'Garmin'},pc:5000},
+    {n:"Fitbit fitness náramek",fields:{kind:'chytré hodinky',brand:'Fitbit'},pc:2000},
+    {n:"Powerbanka",fields:{kind:'příslušenství'},pc:500},
+    {n:"USB-C nabíječka 65W",fields:{kind:'kabel/nabíječka',specs:'USB-C, 65W'},pc:300},
+    {n:"USB-C hub/dokovací stanice",fields:{kind:'příslušenství'},pc:900},
+    {n:"Webkamera",fields:{kind:'příslušenství'},pc:700},
+    {n:"Klávesnice mechanická",fields:{kind:'příslušenství'},pc:1500},
+    {n:"Herní myš",fields:{kind:'příslušenství'},pc:800},
+    {n:"Mikrofon USB",fields:{kind:'příslušenství'},pc:1500},
+    {n:"WiFi router",fields:{kind:'síťové zařízení'},pc:1200},
+    {n:"NAS server",fields:{kind:'síťové zařízení'},pc:5000},
+    {n:"Tiskárna multifunkční",fields:{kind:'tiskárna'},pc:2000},
+    {n:"Projektor",fields:{kind:'projektor'},pc:5000},
+    {n:"Chytrá žárovka/zásuvka",fields:{kind:'chytrá domácnost'},pc:400},
+    {n:"Google Nest / Amazon Echo",fields:{kind:'chytrá domácnost'},pc:1500},
+    {n:"iPhone 11",fields:{kind:'telefon',brand:'Apple',model:'iPhone 11'},pc:5500},
+    {n:"iPhone XR",fields:{kind:'telefon',brand:'Apple',model:'iPhone XR'},pc:3500},
+    {n:"iPhone 8",fields:{kind:'telefon',brand:'Apple',model:'iPhone 8'},pc:2000},
+    {n:"Samsung Galaxy S22",fields:{kind:'telefon',brand:'Samsung',model:'Galaxy S22'},pc:8000},
+    {n:"Samsung Galaxy S20",fields:{kind:'telefon',brand:'Samsung',model:'Galaxy S20'},pc:4500},
+    {n:"Samsung Galaxy A34",fields:{kind:'telefon',brand:'Samsung',model:'Galaxy A34'},pc:4500},
+    {n:"OnePlus Nord",fields:{kind:'telefon',brand:'OnePlus',model:'Nord'},pc:4000},
+    {n:"Motorola Moto G",fields:{kind:'telefon',brand:'Motorola',model:'Moto G'},pc:2500},
+    {n:"MacBook Pro 16\"",fields:{kind:'notebook',brand:'Apple',model:'MacBook Pro 16"'},pc:40000},
+    {n:"Mac Mini",fields:{kind:'počítač',brand:'Apple',model:'Mac Mini'},pc:12000},
+    {n:"iMac 24\"",fields:{kind:'počítač',brand:'Apple',model:'iMac 24"'},pc:25000},
+    {n:"Microsoft Surface",fields:{kind:'notebook',brand:'Microsoft',model:'Surface'},pc:12000},
+    {n:"Chromebook",fields:{kind:'notebook'},pc:4000},
+    {n:"Herní PC sestava",fields:{kind:'počítač',specs:'dedikovaná GPU'},pc:18000},
+    {n:"Kancelářský PC",fields:{kind:'počítač'},pc:5000},
+    {n:"Grafická karta RTX 3060",fields:{kind:'komponenta',brand:'Nvidia',model:'RTX 3060'},pc:6000},
+    {n:"SSD disk 1TB",fields:{kind:'komponenta',specs:'1 TB, SATA/NVMe'},pc:1200},
+    {n:"Externí disk 2TB",fields:{kind:'komponenta',specs:'2 TB, USB'},pc:1500},
+    {n:"RAM 16GB DDR4",fields:{kind:'komponenta',specs:'16 GB DDR4'},pc:800},
+    {n:"Monitor 27\" 4K",fields:{kind:'monitor',specs:'27", 4K, IPS'},pc:5500},
+    {n:"Kindle čtečka",fields:{kind:'čtečka',brand:'Amazon',model:'Kindle'},pc:2000},
+    {n:"PocketBook čtečka",fields:{kind:'čtečka',brand:'PocketBook'},pc:2500},
+    {n:"Dron DJI Mini",fields:{kind:'dron',brand:'DJI',model:'Mini'},pc:8000},
+    {n:"Laserová tiskárna",fields:{kind:'tiskárna',specs:'ČB laser'},pc:2500},
+    {n:"Apple TV",fields:{kind:'přehrávač',brand:'Apple',model:'TV 4K'},pc:3000},
+    {n:"Chromecast",fields:{kind:'přehrávač',brand:'Google',model:'Chromecast'},pc:800},
+    {n:"Soundbar",fields:{kind:'audio'},pc:2500},
+    {n:"AV receiver",fields:{kind:'audio'},pc:4000},
+    {n:"Gramofon",fields:{kind:'audio'},pc:2500},
+    {n:"Mesh WiFi systém",fields:{kind:'síťové zařízení',specs:'2-3 jednotky'},pc:2500},
+    {n:"VR headset Meta Quest",fields:{kind:'konzole',brand:'Meta',model:'Quest'},pc:7000},
+    {n:"Chytrá váha",fields:{kind:'chytrá domácnost'},pc:600},
+    {n:"IP kamera",fields:{kind:'chytrá domácnost'},pc:900},
+    {n:"Elektronická kniha jízd / GPS tracker",fields:{kind:'chytrá domácnost'},pc:1000},
+    {n:"Apple Watch SE",fields:{kind:'chytré hodinky',brand:'Apple',model:'Watch SE'},pc:4000},
+    {n:"Apple Watch Ultra",fields:{kind:'chytré hodinky',brand:'Apple',model:'Watch Ultra'},pc:14000},
+    {n:"Samsung Galaxy Watch",fields:{kind:'chytré hodinky',brand:'Samsung',model:'Galaxy Watch'},pc:3500},
+    {n:"Xiaomi Mi Band",fields:{kind:'chytré hodinky',brand:'Xiaomi',model:'Mi Band'},pc:600},
+    {n:"Beats sluchátka",fields:{kind:'sluchátka',brand:'Beats'},pc:2500},
+    {n:"JBL Tune sluchátka",fields:{kind:'sluchátka',brand:'JBL'},pc:900},
+    {n:"Marshall reproduktor",fields:{kind:'reproduktor',brand:'Marshall'},pc:3000},
+    {n:"Bose SoundLink",fields:{kind:'reproduktor',brand:'Bose',model:'SoundLink'},pc:2500},
+    {n:"Herní sluchátka (HyperX/SteelSeries)",fields:{kind:'sluchátka',specs:'herní, mikrofon'},pc:1200},
+    {n:"Mikrofon Rode",fields:{kind:'příslušenství',brand:'Rode'},pc:2500},
+    {n:"Sony Alpha bezzrcadlovka",fields:{kind:'fotoaparát',brand:'Sony',model:'Alpha'},pc:15000},
+    {n:"Objektiv Canon EF 50mm",fields:{kind:'objektiv',brand:'Canon',model:'EF 50mm'},pc:2500},
+    {n:"Objektiv Nikkor",fields:{kind:'objektiv',brand:'Nikon'},pc:3000},
+    {n:"Externí blesk",fields:{kind:'foto příslušenství'},pc:1500},
+    {n:"Stativ",fields:{kind:'foto příslušenství'},pc:800},
+    {n:"Gimbal DJI Osmo",fields:{kind:'foto příslušenství',brand:'DJI',model:'Osmo'},pc:2500},
+    {n:"Insta360 kamera",fields:{kind:'kamera',brand:'Insta360'},pc:6000},
+    {n:"Webkamera Logitech",fields:{kind:'příslušenství',brand:'Logitech'},pc:1200},
+    {n:"Logitech MX klávesnice",fields:{kind:'příslušenství',brand:'Logitech',model:'MX Keys'},pc:1800},
+    {n:"Logitech MX Master myš",fields:{kind:'příslušenství',brand:'Logitech',model:'MX Master'},pc:1500},
+    {n:"Herní volant Logitech",fields:{kind:'příslušenství',brand:'Logitech',model:'G29'},pc:4500},
+    {n:"PlayStation 3",fields:{kind:'konzole',brand:'Sony',model:'PS3'},pc:1500},
+    {n:"Xbox 360",fields:{kind:'konzole',brand:'Microsoft',model:'Xbox 360'},pc:1200},
+    {n:"Nintendo Wii",fields:{kind:'konzole',brand:'Nintendo',model:'Wii'},pc:1500},
+    {n:"Nintendo 3DS",fields:{kind:'konzole',brand:'Nintendo',model:'3DS'},pc:2000},
+    {n:"PSP",fields:{kind:'konzole',brand:'Sony',model:'PSP'},pc:1500},
+    {n:"GameBoy",fields:{kind:'konzole',brand:'Nintendo',model:'GameBoy'},pc:1800},
+    {n:"Hra na PS5",fields:{kind:'hra',specs:'PS5'},pc:800},
+    {n:"Hra na PS4",fields:{kind:'hra',specs:'PS4'},pc:400},
+    {n:"Hra na Switch",fields:{kind:'hra',specs:'Nintendo Switch'},pc:800},
+    {n:"Hra na Xbox",fields:{kind:'hra',specs:'Xbox'},pc:500},
+    {n:"Tablet Lenovo",fields:{kind:'tablet',brand:'Lenovo'},pc:3000},
+    {n:"Grafický tablet Wacom",fields:{kind:'tablet',brand:'Wacom'},pc:2000},
+    {n:"Monitor 32\"",fields:{kind:'monitor',specs:'32"'},pc:4500},
+    {n:"Inkoustová tiskárna",fields:{kind:'tiskárna',specs:'barevná, inkoust'},pc:1200},
+    {n:"3D tiskárna",fields:{kind:'tiskárna',specs:'FDM'},pc:6000},
+    {n:"Mini projektor",fields:{kind:'projektor'},pc:2000},
+    {n:"Projekční plátno",fields:{kind:'projektor'},pc:1500},
+    {n:"TV 43\"",fields:{kind:'televize',specs:'43", 4K'},pc:5000},
+    {n:"TV 65\"",fields:{kind:'televize',specs:'65", 4K'},pc:12000},
+    {n:"Držák TV na zeď",fields:{kind:'příslušenství'},pc:500},
+    {n:"Set-top box DVB-T2",fields:{kind:'přehrávač'},pc:500},
+    {n:"UPS záložní zdroj",fields:{kind:'síťové zařízení'},pc:1500},
+    {n:"Přenosná powerstation",fields:{kind:'baterie',specs:'230V výstup'},pc:6000},
+    {n:"Přenosný solární panel",fields:{kind:'baterie'},pc:2500},
+    {n:"Bezdrátová nabíječka",fields:{kind:'kabel/nabíječka'},pc:400},
+    {n:"Klávesy Yamaha (keyboard)",fields:{kind:'hudební nástroj',brand:'Yamaha'},pc:3500},
+    {n:"Elektrická kytara",fields:{kind:'hudební nástroj'},pc:4000},
+    {n:"Kytarové kombo",fields:{kind:'hudební nástroj'},pc:2500},
+    {n:"DJ controller",fields:{kind:'hudební nástroj'},pc:4000},
+    {n:"Mixážní pult",fields:{kind:'hudební nástroj'},pc:2500},
+    {n:"Robotický vysavač",fields:{kind:'domácí spotřebič'},pc:4000},
+    {n:"Tyčový vysavač Dyson",fields:{kind:'domácí spotřebič',brand:'Dyson'},pc:6000},
+    {n:"Žehlička/napařovač",fields:{kind:'domácí spotřebič'},pc:800},
+    {n:"Fén",fields:{kind:'osobní péče'},pc:500},
+    {n:"Holicí strojek",fields:{kind:'osobní péče'},pc:1000},
+    {n:"Elektrický zubní kartáček",fields:{kind:'osobní péče'},pc:1200},
+    {n:"Mobilní klimatizace",fields:{kind:'domácí spotřebič'},pc:5000},
+    {n:"Sloupový ventilátor",fields:{kind:'domácí spotřebič'},pc:800},
+    {n:"Čistička vzduchu",fields:{kind:'domácí spotřebič'},pc:2500},
+    {n:"Přímotop",fields:{kind:'domácí spotřebič'},pc:600},
+    {n:"Meteostanice",fields:{kind:'chytrá domácnost'},pc:800},
+    {n:"Chytrý termostat",fields:{kind:'chytrá domácnost'},pc:2500},
+    {n:"Videozvonek",fields:{kind:'chytrá domácnost'},pc:2000}
+  ],
+  sport:[
+    {n:"Horské kolo",fields:{kind:'kolo'},pc:5000},
+    {n:"Silniční kolo",fields:{kind:'kolo'},pc:8000},
+    {n:"Trekingové kolo",fields:{kind:'kolo'},pc:6000},
+    {n:"Elektrokolo",fields:{kind:'kolo',brand:'e-bike'},pc:20000},
+    {n:"Gravel kolo",fields:{kind:'kolo'},pc:12000},
+    {n:"BMX kolo",fields:{kind:'kolo'},pc:4000},
+    {n:"Dětské kolo",fields:{kind:'kolo',style:'dětský'},pc:2000},
+    {n:"Elektrická koloběžka",fields:{kind:'koloběžka'},pc:8000},
+    {n:"Klasická koloběžka",fields:{kind:'koloběžka'},pc:1500},
+    {n:"Sjezdové lyže",fields:{kind:'lyže'},pc:3000},
+    {n:"Běžecké lyže",fields:{kind:'lyže'},pc:2000},
+    {n:"Skitour lyže",fields:{kind:'lyže'},pc:6000},
+    {n:"Snowboard",fields:{kind:'snowboard'},pc:3500},
+    {n:"Lyžařská helma",fields:{kind:'lyžařská výbava'},pc:1000},
+    {n:"Lyžařské boty",fields:{kind:'lyžařská výbava'},pc:2500},
+    {n:"Kolečkové brusle",fields:{kind:'brusle'},pc:1200},
+    {n:"Lední brusle",fields:{kind:'brusle'},pc:1500},
+    {n:"Longboard/skateboard",fields:{kind:'skateboard'},pc:1500},
+    {n:"Běžecký pás",fields:{kind:'fitness'},pc:6000},
+    {n:"Rotoped",fields:{kind:'fitness'},pc:4000},
+    {n:"Veslovací trenažér",fields:{kind:'fitness'},pc:5000},
+    {n:"Sada činek",fields:{kind:'fitness'},pc:1500},
+    {n:"Kettlebell",fields:{kind:'fitness'},pc:600},
+    {n:"Posilovací lavice",fields:{kind:'fitness'},pc:2000},
+    {n:"Expandery/gumy",fields:{kind:'fitness'},pc:300},
+    {n:"Jóga podložka",fields:{kind:'fitness'},pc:400},
+    {n:"TRX závěsný trenažér",fields:{kind:'fitness'},pc:900},
+    {n:"Hrazda na dveře",fields:{kind:'fitness'},pc:500},
+    {n:"Turistický stan",fields:{kind:'outdoor'},pc:2000},
+    {n:"Spací pytel",fields:{kind:'outdoor'},pc:1200},
+    {n:"Karimatka",fields:{kind:'outdoor'},pc:400},
+    {n:"Turistický batoh",fields:{kind:'outdoor'},pc:1500},
+    {n:"Trekové hole",fields:{kind:'outdoor'},pc:700},
+    {n:"Mačky na boty",fields:{kind:'outdoor'},pc:800},
+    {n:"Turistické boty",fields:{kind:'outdoor'},pc:1500},
+    {n:"Kajak",fields:{kind:'vodní sporty'},pc:8000},
+    {n:"Paddleboard (SUP)",fields:{kind:'vodní sporty'},pc:6000},
+    {n:"Neoprenový oblek",fields:{kind:'vodní sporty'},pc:2500},
+    {n:"Šnorchlovací sada",fields:{kind:'vodní sporty'},pc:800},
+    {n:"Nafukovací člun",fields:{kind:'vodní sporty'},pc:3000},
+    {n:"Tenisová raketa",fields:{kind:'raketové sporty'},pc:1000},
+    {n:"Badmintonový set",fields:{kind:'raketové sporty'},pc:500},
+    {n:"Stolní tenis pálky",fields:{kind:'raketové sporty'},pc:400},
+    {n:"Squashová raketa",fields:{kind:'raketové sporty'},pc:800},
+    {n:"Fotbalový míč",fields:{kind:'míčové sporty'},pc:400},
+    {n:"Basketbalový míč",fields:{kind:'míčové sporty'},pc:400},
+    {n:"Volejbalový míč",fields:{kind:'míčové sporty'},pc:400},
+    {n:"Fotbalové kopačky",fields:{kind:'míčové sporty'},pc:1000},
+    {n:"Basketbalový koš",fields:{kind:'míčové sporty'},pc:1500},
+    {n:"Hokejka",fields:{kind:'lední hokej'},pc:1500},
+    {n:"Hokejové brusle",fields:{kind:'lední hokej'},pc:2500},
+    {n:"Hokejová výstroj (chrániče)",fields:{kind:'lední hokej'},pc:3000},
+    {n:"Boxovací pytel",fields:{kind:'bojové sporty'},pc:2000},
+    {n:"Boxerské rukavice",fields:{kind:'bojové sporty'},pc:900},
+    {n:"Judo/karate kimono",fields:{kind:'bojové sporty'},pc:800},
+    {n:"Běžecké boty",fields:{kind:'běh'},pc:2000},
+    {n:"Sportovní hodinky (běžecké)",fields:{kind:'běh',brand:'Garmin'},pc:5000},
+    {n:"Golfová sada",fields:{kind:'golf'},pc:8000},
+    {n:"Horolezecké lano a úvazek",fields:{kind:'horolezectví'},pc:2500},
+    {n:"Spinningové kolo",fields:{kind:'fitness'},pc:5000},
+    {n:"Eliptický trenažér",fields:{kind:'fitness'},pc:5500},
+    {n:"Posilovací věž",fields:{kind:'fitness'},pc:7000},
+    {n:"Olympijská tyč + kotouče",fields:{kind:'fitness'},pc:3500},
+    {n:"Švihadlo/gymnastické kruhy",fields:{kind:'fitness'},pc:300},
+    {n:"Žebřiny",fields:{kind:'fitness'},pc:2500},
+    {n:"Cyklistická helma",fields:{kind:'cyklo doplňky'},pc:800},
+    {n:"Cyklistické tretry",fields:{kind:'cyklo doplňky'},pc:1200},
+    {n:"Cyklovozík za kolo",fields:{kind:'cyklo doplňky'},pc:4000},
+    {n:"Dětská sedačka na kolo",fields:{kind:'cyklo doplňky'},pc:1200},
+    {n:"Cyklotrenažér/rolny",fields:{kind:'cyklo doplňky'},pc:3000},
+    {n:"Lyžařské brýle",fields:{kind:'lyžařská výbava'},pc:800},
+    {n:"Dětské lyže + boty",fields:{kind:'lyže',style:'dětský'},pc:1800},
+    {n:"Sáně/boby",fields:{kind:'zimní'},pc:600},
+    {n:"Hokejová branka",fields:{kind:'lední hokej'},pc:1500},
+    {n:"Florbalová hokejka",fields:{kind:'florbal'},pc:600},
+    {n:"Florbalová branka + míčky",fields:{kind:'florbal'},pc:900},
+    {n:"Stolní fotbálek",fields:{kind:'stolní hry'},pc:3000},
+    {n:"Šipky + terč",fields:{kind:'stolní hry'},pc:800},
+    {n:"Stolní tenis stůl",fields:{kind:'stolní hry'},pc:5000},
+    {n:"Rybářský prut + naviják",fields:{kind:'rybaření'},pc:1500},
+    {n:"Rybářský box/výbava",fields:{kind:'rybaření'},pc:1000},
+    {n:"Airsoft zbraň",fields:{kind:'airsoft'},pc:2000},
+    {n:"Freestyle koloběžka",fields:{kind:'koloběžka'},pc:2000},
+    {n:"Penny board",fields:{kind:'skateboard'},pc:800},
+    {n:"Dětské brusle (nastavitelné)",fields:{kind:'brusle',style:'dětský'},pc:800},
+    {n:"Chrániče inline (sada)",fields:{kind:'brusle'},pc:400},
+    {n:"Horolezecká přilba",fields:{kind:'horolezectví'},pc:900},
+    {n:"Expresky + magnézium",fields:{kind:'horolezectví'},pc:1200},
+    {n:"Slackline",fields:{kind:'outdoor'},pc:700},
+    {n:"Badmintonová síť",fields:{kind:'raketové sporty'},pc:600},
+    {n:"Pétanque koule",fields:{kind:'venkovní hry'},pc:500},
+    {n:"Kroket set",fields:{kind:'venkovní hry'},pc:800},
+    {n:"Spikeball set",fields:{kind:'venkovní hry'},pc:900},
+    {n:"Trampolína",fields:{kind:'venkovní hry'},pc:3500}
+  ],
+  kitchen:[
+    {n:"Lednice",fields:{kind:'spotřebič'},pc:4000},
+    {n:"Lednice s mrazákem",fields:{kind:'spotřebič'},pc:6000},
+    {n:"Mraznička samostatná",fields:{kind:'spotřebič'},pc:3500},
+    {n:"Myčka nádobí",fields:{kind:'spotřebič'},pc:5000},
+    {n:"Pračka",fields:{kind:'spotřebič'},pc:5000},
+    {n:"Sušička prádla",fields:{kind:'spotřebič'},pc:6000},
+    {n:"Vestavná trouba",fields:{kind:'spotřebič'},pc:3000},
+    {n:"Indukční varná deska",fields:{kind:'spotřebič'},pc:4000},
+    {n:"Mikrovlnná trouba",fields:{kind:'spotřebič'},pc:1500},
+    {n:"Digestoř",fields:{kind:'spotřebič'},pc:2000},
+    {n:"Mixér tyčový",fields:{kind:'mixér',brand:'Bosch'},pc:600},
+    {n:"Mixér stolní",fields:{kind:'mixér',brand:'Tefal'},pc:800},
+    {n:"Kávovar pákový",fields:{kind:'kávovar',brand:'De\'Longhi'},pc:4000},
+    {n:"Kávovar kapslový Nespresso",fields:{kind:'kávovar',brand:'Nespresso'},pc:1500},
+    {n:"Kávovar automatický",fields:{kind:'kávovar'},pc:6000},
+    {n:"Mlýnek na kávu",fields:{kind:'kávovar'},pc:800},
+    {n:"Rychlovarná konvice",fields:{kind:'spotřebič'},pc:400},
+    {n:"Toustovač",fields:{kind:'spotřebič'},pc:400},
+    {n:"Kontaktní gril",fields:{kind:'spotřebič'},pc:900},
+    {n:"Horkovzdušná fritéza",fields:{kind:'spotřebič'},pc:1500},
+    {n:"Sendvičovač",fields:{kind:'spotřebič'},pc:500},
+    {n:"Odšťavňovač",fields:{kind:'spotřebič'},pc:1500},
+    {n:"Kuchyňský robot",fields:{kind:'spotřebič',brand:'KitchenAid'},pc:2500},
+    {n:"Ruční šlehač",fields:{kind:'spotřebič'},pc:400},
+    {n:"Kuchyňská váha",fields:{kind:'spotřebič'},pc:400},
+    {n:"Tlakový hrnec elektrický",fields:{kind:'spotřebič'},pc:1800},
+    {n:"Sada nožů",fields:{kind:'nádobí'},pc:600},
+    {n:"Nůž kuchařský",fields:{kind:'nádobí'},pc:400},
+    {n:"Sada hrnců nerez",fields:{kind:'nádobí',material:'nerez'},pc:1200},
+    {n:"Sada pánví",fields:{kind:'nádobí'},pc:900},
+    {n:"Wok pánev",fields:{kind:'nádobí'},pc:600},
+    {n:"Tlakový hrnec",fields:{kind:'nádobí'},pc:1000},
+    {n:"Forma na pečení",fields:{kind:'nádobí'},pc:300},
+    {n:"Plech na pečení",fields:{kind:'nádobí'},pc:200},
+    {n:"Sada talířů",fields:{kind:'nádobí'},pc:800},
+    {n:"Sada sklenic",fields:{kind:'nádobí'},pc:500},
+    {n:"Sada příborů",fields:{kind:'nádobí'},pc:600},
+    {n:"Hrnky (sada)",fields:{kind:'nádobí'},pc:400},
+    {n:"Dózy na potraviny (sada)",fields:{kind:'nádobí'},pc:400},
+    {n:"Termoska",fields:{kind:'nádobí'},pc:400},
+    {n:"Krájecí prkénka (sada)",fields:{kind:'nádobí'},pc:300},
+    {n:"Remoska",fields:{kind:'spotřebič'},pc:1500},
+    {n:"Minitrouba",fields:{kind:'spotřebič'},pc:1200},
+    {n:"Přenosný indukční vařič",fields:{kind:'spotřebič'},pc:800},
+    {n:"Elektrický gril",fields:{kind:'gril'},pc:1200},
+    {n:"Plynový gril",fields:{kind:'gril'},pc:4000},
+    {n:"Gril na dřevěné uhlí",fields:{kind:'gril'},pc:1500},
+    {n:"Udírna",fields:{kind:'gril'},pc:2500},
+    {n:"Raclette gril",fields:{kind:'gril'},pc:900},
+    {n:"Palačinkovač",fields:{kind:'spotřebič'},pc:600},
+    {n:"Vaflovač",fields:{kind:'spotřebič'},pc:500},
+    {n:"Pekárna chleba",fields:{kind:'spotřebič'},pc:1500},
+    {n:"Mlýnek na maso",fields:{kind:'spotřebič'},pc:1200},
+    {n:"Elektrický kráječ",fields:{kind:'spotřebič'},pc:800},
+    {n:"Sušička potravin",fields:{kind:'spotřebič'},pc:1200},
+    {n:"Vakuovačka",fields:{kind:'spotřebič'},pc:1000},
+    {n:"Mlýnek na kávu elektrický",fields:{kind:'kávovar'},pc:1200},
+    {n:"SodaStream",fields:{kind:'spotřebič',brand:'SodaStream'},pc:1000},
+    {n:"Filtrační konvice",fields:{kind:'nádobí',brand:'Brita'},pc:300},
+    {n:"Zavařovací hrnec",fields:{kind:'spotřebič'},pc:1500},
+    {n:"Fondue set",fields:{kind:'nádobí'},pc:600},
+    {n:"Litinový hrnec",fields:{kind:'nádobí',material:'litina'},pc:1200},
+    {n:"Rýžovar",fields:{kind:'spotřebič'},pc:900},
+    {n:"Multifunkční hrnec (Instant Pot)",fields:{kind:'spotřebič'},pc:2200},
+    {n:"Sous-vide cirkulátor",fields:{kind:'spotřebič'},pc:2000},
+    {n:"Kávové kapsle zásobník + doplňky",fields:{kind:'doplňky'},pc:300}
+  ],
+  automoto:[
+    {n:"Zimní pneu sada 4 ks",fields:{kind:'pneu',quantity:'4 ks'},pc:4000},
+    {n:"Letní pneu sada 4 ks",fields:{kind:'pneu',quantity:'4 ks'},pc:3500},
+    {n:"Celoroční pneu sada 4 ks",fields:{kind:'pneu',quantity:'4 ks'},pc:3800},
+    {n:"Motopneu",fields:{kind:'pneu'},pc:1500},
+    {n:"Alu disky sada 4 ks",fields:{kind:'disky',quantity:'4 ks'},pc:5000},
+    {n:"Plechové disky sada 4 ks",fields:{kind:'disky',quantity:'4 ks'},pc:2000},
+    {n:"Autobaterie",fields:{kind:'baterie'},pc:1500},
+    {n:"Motobaterie",fields:{kind:'baterie'},pc:800},
+    {n:"Brzdové destičky",fields:{kind:'díl'},pc:800},
+    {n:"Tlumiče (pár)",fields:{kind:'díl'},pc:2500},
+    {n:"Výfuk/tlumič výfuku",fields:{kind:'díl'},pc:2000},
+    {n:"Čelní sklo",fields:{kind:'díl'},pc:3000},
+    {n:"Stěrače",fields:{kind:'díl'},pc:400},
+    {n:"Žárovky/LED sada",fields:{kind:'díl'},pc:500},
+    {n:"Chladič",fields:{kind:'díl'},pc:2000},
+    {n:"Dětská autosedačka",fields:{kind:'autosedačka'},pc:1500},
+    {n:"Potahy sedadel",fields:{kind:'příslušenství'},pc:1200},
+    {n:"Střešní box",fields:{kind:'příslušenství'},pc:2500},
+    {n:"Střešní nosič kol",fields:{kind:'příslušenství'},pc:2000},
+    {n:"Tažné zařízení",fields:{kind:'díl'},pc:2000},
+    {n:"Autorádio",fields:{kind:'elektronika'},pc:1000},
+    {n:"Navigace GPS",fields:{kind:'elektronika'},pc:1200},
+    {n:"Parkovací senzory",fields:{kind:'elektronika'},pc:1500},
+    {n:"Kamera do auta",fields:{kind:'elektronika'},pc:1000},
+    {n:"Motocyklová helma",fields:{kind:'helma'},pc:2000},
+    {n:"Moto bunda",fields:{kind:'moto výbava'},pc:2500},
+    {n:"Moto rukavice",fields:{kind:'moto výbava'},pc:800},
+    {n:"Moto boty",fields:{kind:'moto výbava'},pc:2000},
+    {n:"Sada nářadí do auta",fields:{kind:'nářadí'},pc:500},
+    {n:"Kompresor/hustilka",fields:{kind:'nářadí'},pc:600},
+    {n:"Startovací kabely",fields:{kind:'nářadí'},pc:300},
+    {n:"Zvedák",fields:{kind:'nářadí'},pc:800},
+    {n:"Autokosmetika sada",fields:{kind:'příslušenství'},pc:400},
+    {n:"Vosk na auto",fields:{kind:'příslušenství'},pc:300},
+    {n:"Sněhové řetězy",fields:{kind:'příslušenství'},pc:800},
+    {n:"Síť na náklad/střešní box",fields:{kind:'příslušenství'},pc:300},
+    {n:"Střešní příčníky",fields:{kind:'příslušenství'},pc:1500},
+    {n:"Nosič kol na tažné zařízení",fields:{kind:'příslušenství'},pc:4000},
+    {n:"Autochladnička",fields:{kind:'příslušenství'},pc:1500},
+    {n:"Startovací stanice (jump starter)",fields:{kind:'nářadí'},pc:1200},
+    {n:"Nabíječka autobaterií",fields:{kind:'nářadí'},pc:800},
+    {n:"Měnič napětí 12V/230V",fields:{kind:'elektronika'},pc:800},
+    {n:"Kožené autopotahy",fields:{kind:'příslušenství'},pc:2500},
+    {n:"Gumové koberce (sada)",fields:{kind:'příslušenství'},pc:500},
+    {n:"Vana do kufru",fields:{kind:'příslušenství'},pc:700},
+    {n:"Deflektory oken",fields:{kind:'příslušenství'},pc:400},
+    {n:"Tažné lano",fields:{kind:'nářadí'},pc:200},
+    {n:"Lékárnička + trojúhelník set",fields:{kind:'povinná výbava'},pc:300},
+    {n:"Moto kufr (top case)",fields:{kind:'moto výbava'},pc:1800},
+    {n:"Moto brašny boční",fields:{kind:'moto výbava'},pc:1500},
+    {n:"Moto chrániče (páteř/kolena)",fields:{kind:'moto výbava'},pc:1200},
+    {n:"Moto intercom",fields:{kind:'moto výbava'},pc:1500},
+    {n:"Přilba integrální",fields:{kind:'helma'},pc:2500},
+    {n:"Přilba otevřená (jet)",fields:{kind:'helma'},pc:1500},
+    {n:"Moto kalhoty",fields:{kind:'moto výbava'},pc:1800},
+    {n:"Plachta na moto",fields:{kind:'moto výbava'},pc:500},
+    {n:"Stojan na moto (paddock)",fields:{kind:'moto výbava'},pc:1000},
+    {n:"Couvací kamera",fields:{kind:'elektronika'},pc:900},
+    {n:"OBD diagnostika",fields:{kind:'elektronika'},pc:600},
+    {n:"Mechanické zabezpečení (zámek)",fields:{kind:'zabezpečení'},pc:1200},
+    {n:"Autoalarm",fields:{kind:'zabezpečení'},pc:1500},
+    {n:"Střešní stan",fields:{kind:'příslušenství'},pc:15000},
+    {n:"Přívěsný vozík",fields:{kind:'vozík'},pc:8000},
+    {n:"Podsedák dětský",fields:{kind:'autosedačka'},pc:500},
+    {n:"Isofix základna",fields:{kind:'autosedačka'},pc:1500}
+  ]
+};
+
+/* ---------- toast + schránka ---------- */
+let toastT;
+function toast(m,opts){
+  opts=opts||{};
+  const t=$('toast');
+  if(opts.onAction){
+    t.innerHTML=''; t.append(document.createTextNode(m+' '));
+    const a=document.createElement('span'); a.className='toastAction'; a.tabIndex=0; a.textContent=opts.actionLabel||'Zpět';
+    const run=()=>{ opts.onAction(); t.classList.remove('show'); clearTimeout(toastT); };
+    a.addEventListener('click',run); a.addEventListener('keydown',e=>{ if(e.key==='Enter') run(); });
+    t.appendChild(a);
+  }else{ t.textContent=m; }
+  t.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),opts.duration||1600);
+}
+async function copy(text,label,btn){
+  if(!text||text==='—'){ toast('Není co kopírovat'); return; }
+  try{ await navigator.clipboard.writeText(text); }
+  catch{ const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta);
+         ta.select(); document.execCommand('copy'); ta.remove(); }
+  toast(label||'Zkopírováno');
+  if(btn){
+    const orig=btn.textContent;
+    btn.classList.add('copied'); btn.textContent='✓ Zkopírováno';
+    clearTimeout(btn._t); btn._t=setTimeout(()=>{ btn.classList.remove('copied'); btn.textContent=orig; },1400);
+  }
+}
+function setStatus(msg,{err=false,busy=false}={}){
+  const el=$('status'); el.classList.toggle('err',err);
+  el.innerHTML = msg ? (busy?`<span class="dots">${msg}</span>`:msg) : '';
+}
+
+/* ---------- fotky ---------- */
+function imgSettings(){
+  const maxDim=parseInt(localStorage.getItem('snapSoldImgMaxDim'))||1024;
+  const quality=parseFloat(localStorage.getItem('snapSoldImgQuality'))||0.82;
+  return {maxDim,quality};
+}
+async function fileToImg(file){
+  const {maxDim,quality}=imgSettings();
+  const bmp = await createImageBitmap(file);
+  const scale = Math.min(1, maxDim/Math.max(bmp.width,bmp.height));
+  const c = document.createElement('canvas');
+  c.width = Math.max(1,Math.round(bmp.width*scale));
+  c.height = Math.max(1,Math.round(bmp.height*scale));
+  c.getContext('2d').drawImage(bmp,0,0,c.width,c.height);
+  const dataUrl = c.toDataURL('image/jpeg',quality);
+  return { dataUrl, b64:dataUrl.split(',')[1] };
+}
+function renderThumbs(){
+  const t=$('thumbs'); t.innerHTML='';
+  state.images.forEach((im,i)=>{
+    const d=document.createElement('div'); d.className='polaroid';
+    const img=document.createElement('img'); img.src=im.dataUrl; img.alt='fotka '+(i+1);
+    const x=document.createElement('button'); x.textContent='odebrat';
+    x.addEventListener('click',()=>{
+      const removed=state.images.splice(i,1)[0];
+      renderThumbs();
+      toast('Fotka odebrána',{actionLabel:'Zpět',duration:5000,onAction:()=>{ state.images.splice(i,0,removed); renderThumbs(); }});
+    });
+    d.append(img,x); t.appendChild(d);
+  });
+}
+async function addFiles(files){
+  for(const f of [...files].slice(0, 3-state.images.length)){
+    try{ state.images.push(await fileToImg(f)); }
+    catch{ setStatus('Nešlo načíst '+f.name+' (HEIC? převeď na JPG).',{err:true}); }
+  }
+  renderThumbs();
+  if(state.images.length) identify();
+}
+$('drop').addEventListener('click',()=>$('file').click());
+$('drop').addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' ') $('file').click(); });
+$('file').addEventListener('change',e=>{ addFiles(e.target.files); e.target.value=''; });
+['dragover','dragleave','drop'].forEach(ev=>$('drop').addEventListener(ev,e=>{
+  e.preventDefault();
+  $('drop').classList.toggle('over',ev==='dragover');
+  if(ev==='drop') addFiles(e.dataTransfer.files);
+}));
+
+/* ---------- lokální vyhledávání ---------- */
+const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+function findLocal(q,limit=8){
+  const nq=norm(q); if(nq.length<2) return [];
+  const scored=[];
+  for(const e of DB){
+    const a=norm(e.n), b=norm(e.c||'');
+    let s=0;
+    if(a===nq||b===nq) s=3;
+    else if(a.startsWith(nq)||b.startsWith(nq)) s=2;
+    else if(a.includes(nq)||b.includes(nq)) s=1;
+    if(s) scored.push([s,e]);
+  }
+  return scored.sort((x,y)=>y[0]-x[0]).slice(0,limit).map(x=>x[1]);
+}
+function fillFromDB(e){
+  state.game={ name:e.c||e.n, nameCz:e.c||e.n, nameEn:e.n, year:e.y||'',
+    pMin:e.p?.[0]||'', pMax:e.p?.[1]||'', time:e.t||'', age:e.a||'',
+    rating:e.r, weight:e.w, catStr:e.k||'' };
+  state.nameEdited=false;
+  state.basePc=e.pc||null;
+  if(e.pc) $('price').value=e.pc;
+  state.candidates=[]; renderPick();
+  showCard();
+}
+/* ---------- ikonky pro našeptávač (náhrada za skutečné fotky) ---------- */
+const ICON_RULES=[
+  [/sedačka na kolo|autosedačk|isofix|podsedák/,'🚼'],
+  [/stolní tenis/,'🎾'],
+  [/zrcadlovka|bezzrcadlovka/,'📷'],
+  [/postel|matrace|rošt|futon|čelo postele|boxspring/,'🛏️'],
+  [/sedačk|pohovk|gauč|křesl|chesterfield|kivik|vimle|söderhamn|strandmon|poäng/,'🛋️'],
+  [/stůl|stolek|lisabo/,'🪵'],
+  [/židl|taburet|barová/,'🪑'],
+  [/skříň|komod|botník|věšák|lockers|trezor|hemnes|nordli|hauga|platsa/,'🚪'],
+  [/regál|knihovn|vitrín|billy|kallax|ivar|trofast|besta/,'📚'],
+  [/\bzrcadlo\b/,'🪞'],
+  [/zahradní|houpač|slunečník|ratan|bistro|kempink/,'🌳'],
+  [/telefon|iphone|galaxy|xiaomi|pixel|redmi|moto g/i,'📱'],
+  [/notebook|macbook|thinkpad|zenbook|aspire|inspiron|ideapad|chromebook|surface/i,'💻'],
+  [/monitor/,'🖥️'],
+  [/tablet|ipad/i,'📲'],
+  [/sluchátk|airpods|beats/i,'🎧'],
+  [/reproduktor|soundbar|gramofon|marshall|sonos/i,'🔊'],
+  [/televize|\btv\b/i,'📺'],
+  [/fotoaparát|kamera|gopro|objektiv|dron/i,'📷'],
+  [/konzole|playstation|xbox|switch|steam deck|gameboy|\bps[0-9]\b/i,'🎮'],
+  [/hra na (ps|switch|xbox)/i,'🎮'],
+  [/hodinky|fitbit|garmin/i,'⌚'],
+  [/klávesnice|myš|webkamer|mikrofon|volant|router|nas server/i,'⌨️'],
+  [/tiskárn|projektor/,'🖨️'],
+  [/kolo|bicykl|elektrokolo|gravel|bmx/,'🚲'],
+  [/koloběžk/,'🛴'],
+  [/lyž|snowboard|skitour/,'⛷️'],
+  [/brusl/,'⛸️'],
+  [/fitness|posilov|činek|činka|činky|kettlebell|expander|jóga|trx|hrazd|spinning|eliptick/,'🏋️'],
+  [/\bstan\b|spac[íi]|karimatk|batoh|trekov|mačky|outdoor|slackline/,'🏕️'],
+  [/kajak|paddleboard|neopren|šnorchl|člun/,'🛶'],
+  [/tenis|badminton|squash|stolní tenis|raket/,'🎾'],
+  [/fotbal|basketbal|volejbal|kopačk/,'⚽'],
+  [/hokej/,'🏒'],
+  [/boxovac|boxersk|kimono|\bjudo\b|karate/,'🥊'],
+  [/golf/,'⛳'],
+  [/horolezeck|lano a úvazek|expresky/,'🧗'],
+  [/rybářsk|rybaření/,'🎣'],
+  [/airsoft/,'🔫'],
+  [/trampolína|spikeball|kroket|pétanque/,'🤸'],
+  [/lednice|mraznič|myčka|pračk|sušičk|trouba|varná deska|mikrovlnn|digesto/,'🧊'],
+  [/kávovar|mlýnek na kávu/,'☕'],
+  [/mixér|kuchyňský robot|šlehač|odšťavňovač/,'🥣'],
+  [/fritéza|gril|toustovač|sendvičovač|vaflovač|palačinkovač|raclette|udírna/,'🍳'],
+  [/hrnc|hrnec|pánv|nůž|nádob|talíř|sklenic|příbor|hrnk|prkénk|dóz/,'🍽️'],
+  [/pneu|disky|kolo \(auto\)/,'🛞'],
+  [/baterie|autobaterie|motobaterie/,'🔋'],
+  [/helma|přilba/,'🪖'],
+  [/\bmoto\b/,'🏍️'],
+  [/autosedačk|isofix|podsedák/,'🚼'],
+  [/deskov|hru\b/,'🎲']
+];
+function iconFor(cat,entry){
+  const hay=(entry.n+' '+Object.values(entry.fields||{}).join(' ')).toLowerCase();
+  for(const [re,ic] of ICON_RULES) if(re.test(hay)) return ic;
+  return {furniture:'🪑',electronics:'📱',sport:'⚽',kitchen:'🍳',automoto:'🚗',game:'🎲'}[cat]||'📦';
+}
+function findLocalItem(cat,q,limit=8){
+  const nq=norm(q); if(nq.length<2) return [];
+  const list=ITEM_DB[cat]||[];
+  const scored=[];
+  for(const e of list){
+    const a=norm(e.n);
+    let s=0;
+    if(a===nq) s=3; else if(a.startsWith(nq)) s=2; else if(a.includes(nq)) s=1;
+    if(s) scored.push([s,e]);
+  }
+  return scored.sort((x,y)=>y[0]-x[0]).slice(0,limit).map(x=>x[1]);
+}
+function fillItemFromDB(cat,e){
+  state.game=null; state.vision=null; state.candidates=[]; renderPick();
+  state.itemFields={...e.fields}; state.nameEdited=true;
+  showCard();
+  $('gName').value=e.n;
+  Object.entries(e.fields||{}).forEach(([id,v])=>{ const el=$('fld_'+id); if(el) el.value=v; });
+  state.basePc=e.pc||null;
+  if(e.pc) $('price').value=e.pc;
+  render();
+}
+function addCustom(){
+  const name=$('manualName').value.trim();
+  $('sugg').classList.remove('open'); $('sugg').innerHTML='';
+  state.game={name}; state.vision=null; state.candidates=[]; state.itemFields={}; state.nameEdited=true; state.basePc=null;
+  renderPick();
+  showCard();
+  setStatus(name?'Vlastní položka — vyplň pole ručně':'Vlastní položka — nejdřív napiš název, pak vyplň pole ručně');
+}
+
+/* ---------- našeptávač ---------- */
+$('manualName').addEventListener('input',()=>{
+  const box=$('sugg'); box.innerHTML='';
+  if(state.category==='game'){
+    const hits=findLocal($('manualName').value);
+    hits.forEach(e=>{
+      const row=document.createElement('div'); row.className='res'; row.tabIndex=0;
+      row.innerHTML=`<span><span class="resIcon">${iconFor('game',e)}</span>${e.c?e.c+' <span style="color:var(--dim)">('+e.n+')</span>':e.n}</span><span class="yr">${e.y||''} · ${e.k.split(',')[0]}</span>`;
+      const pick=()=>{ box.classList.remove('open'); $('manualName').value=e.c||e.n;
+        setStatus('Načteno z databáze ✓ · cena = odhad bazaru, uprav dle stavu'); fillFromDB(e); };
+      row.addEventListener('click',pick);
+      row.addEventListener('keydown',ev=>{ if(ev.key==='Enter') pick(); });
+      box.appendChild(row);
+    });
+    box.classList.toggle('open',hits.length>0);
+  }else{
+    const hits=findLocalItem(state.category,$('manualName').value);
+    hits.forEach(e=>{
+      const row=document.createElement('div'); row.className='res'; row.tabIndex=0;
+      row.innerHTML=`<span><span class="resIcon">${iconFor(state.category,e)}</span>${e.n}</span><span class="yr">${e.pc?'~'+e.pc+' Kč':''}</span>`;
+      const pick=()=>{ box.classList.remove('open'); $('manualName').value=e.n;
+        setStatus('Načteno z databáze ✓ · cena = odhad, uprav dle stavu'); fillItemFromDB(state.category,e); };
+      row.addEventListener('click',pick);
+      row.addEventListener('keydown',ev=>{ if(ev.key==='Enter') pick(); });
+      box.appendChild(row);
+    });
+    box.classList.toggle('open',hits.length>0);
+  }
+});
+$('manualName').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    if(state.category==='game'){
+      const hits=findLocal($('manualName').value);
+      if(hits.length){ $('sugg').classList.remove('open');
+        setStatus('Načteno z databáze ✓ · cena = odhad bazaru, uprav dle stavu'); fillFromDB(hits[0]); }
+      else $('bggBtn').click();
+    }else{
+      const hits=findLocalItem(state.category,$('manualName').value);
+      if(hits.length){ $('sugg').classList.remove('open');
+        setStatus('Načteno z databáze ✓ · cena = odhad, uprav dle stavu'); fillItemFromDB(state.category,hits[0]); }
+      else addCustom();
+    }
+  }
+});
+$('bggBtn').addEventListener('click',()=>{ const n=$('manualName').value.trim(); if(n) bggLookup(n); });
+$('customAddBtn').addEventListener('click',addCustom);
+
+/* ---------- vision: rozpoznání hry + stavu ---------- */
+function visionPromptFor(category){
+  const base = `Respond with ONLY minified JSON, no markdown fences.
+Common base fields (always include): {"printed_title":string,"confidence":number,"condition_grade":string,"condition_notes":string}
+Rules: confidence = 0 to 1, how sure you are an identifiable item is in the photo. condition_grade = one of "new","likenew","verygood","good","played" based ONLY on what is visible (wear, scuffs, scratches, fading, shrink wrap); default "verygood" if unclear. condition_notes = max 120 chars IN CZECH describing what you actually see; empty string if nothing notable. If nothing identifiable is in the photo, set printed_title to "" and confidence to 0.`;
+  if(category==='game'){
+    return `You identify board games from photos of their boxes for a second-hand listing tool. Czech editions are common.
+${base}
+Also include: {"bgg_search_name":string,"edition_language":string,"category_guess":string}
+bgg_search_name = the game's primary English name on BoardGameGeek if you know it, otherwise the printed title. edition_language = two-letter guess like "cs","en","de" or "unknown". category_guess = 2-4 words in CZECH, e.g. "rodinná dobrodružná hra".`;
+  }
+  if(category==='furniture'){
+    return `You identify furniture from photos for a second-hand listing tool.
+${base}
+Also include: {"material_guess":string,"dimensions_guess":string}
+material_guess = short CZECH phrase, e.g. "masiv dub", "MDF laminovaná". dimensions_guess = approximate size IN CZECH if visually estimable, e.g. "cca 180×80×75 cm"; empty string if not estimable from the photo.`;
+  }
+  if(category==='electronics'){
+    return `You identify electronics/accessories from photos for a second-hand listing tool.
+${base}
+Also include: {"brand_model_guess":string,"specs_guess":string}
+brand_model_guess = brand and model if visible on the item/label, e.g. "Sony WH-1000XM4"; empty string if not visible. specs_guess = short CZECH phrase of any visible spec (ports, capacity, size), e.g. "USB-C, 65W"; empty string if not visible.`;
+  }
+  if(category==='sport'){
+    return `You identify sports/fitness equipment from photos for a second-hand listing tool.
+${base}
+Also include: {"brand_model_guess":string,"size_guess":string,"wear_guess":string}
+brand_model_guess = brand and model if visible, e.g. "Salomon X-Rider"; empty string if not visible. size_guess = size/length IN CZECH if visually estimable (ski/bike/clothing size, shoe size), e.g. "vel. 42", "170 cm"; empty string if not estimable. wear_guess = short CZECH phrase describing wear on treads/edges/grips beyond the general condition_notes; empty string if nothing notable.`;
+  }
+  if(category==='kitchen'){
+    return `You identify kitchen equipment/appliances from photos for a second-hand listing tool.
+${base}
+Also include: {"brand_model_guess":string,"capacity_guess":string}
+brand_model_guess = brand and model if visible on the item/label, e.g. "Tefal Actifry"; empty string if not visible. capacity_guess = short CZECH phrase of visible power/volume rating, e.g. "1,5 l", "2000 W"; empty string if not visible.`;
+  }
+  return `You identify auto/moto parts and accessories from photos for a second-hand listing tool.
+${base}
+Also include: {"brand_model_guess":string,"fitment_guess":string}
+brand_model_guess = brand and model/part number if visible, e.g. "Bosch S4"; empty string if not visible. fitment_guess = short CZECH phrase of visible size/fitment (tire size, part dimensions), e.g. "205/55 R16"; empty string if not visible.`;
+}
+
+function showSkeleton(){
+  const n=(CATEGORIES[state.category].fields||[]).length||6;
+  $('itemEyebrow').textContent=CATEGORIES[state.category].label;
+  const box=$('facts'); box.innerHTML='';
+  for(let i=0;i<n;i++){ const s=document.createElement('div'); s.className='skeleton'; box.appendChild(s); }
+  $('gamecard').classList.add('on');
+}
+async function identify(){
+  setStatus('Poznávám z fotky',{busy:true});
+  showSkeleton();
+  try{
+    const prompt=visionPromptFor(state.category);
+    const provider=localStorage.getItem('snapSoldProvider')||'ollama';
+    let text;
+    if(provider==='ollama'){
+      const model=localStorage.getItem('snapSoldOllamaModel')||'llava';
+      const r=await fetch('/api/vision-local',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({model,prompt,images:state.images.map(im=>im.b64)})
+      });
+      const d=await r.json();
+      if(!r.ok) throw new Error(d.error||('AI '+r.status));
+      text=(d.response||'').replace(/```json|```/g,'').trim();
+    }else if(provider==='gemini'){
+      const apiKey=localStorage.getItem('snapSoldGeminiKey')||'';
+      if(!apiKey){ setStatus('Chybí Gemini API klíč — vlož ho v Nastavení (⚙), nebo přepni na jiný model.',{err:true}); if($('facts').querySelector('.skeleton')) renderFactsPanel(); return; }
+      const r=await fetch('/api/vision-gemini',{
+        method:'POST',headers:{'Content-Type':'application/json','x-user-key':apiKey},
+        body:JSON.stringify({prompt,images:state.images.map(im=>im.b64)})
+      });
+      const d=await r.json();
+      if(!r.ok) throw new Error(d.error||('AI '+r.status));
+      text=(d.text||'').replace(/```json|```/g,'').trim();
+    }else{
+      const apiKey=localStorage.getItem('snapSoldApiKey')||'';
+      if(!apiKey){ setStatus('Chybí API klíč — vlož ho v Nastavení (⚙), nebo přepni na lokální model.',{err:true}); if($('facts').querySelector('.skeleton')) renderFactsPanel(); return; }
+      const content = [
+        ...state.images.map(im=>({type:'image',source:{type:'base64',media_type:'image/jpeg',data:im.b64}})),
+        {type:'text',text:prompt}
+      ];
+      const r = await fetch('/api/vision',{
+        method:'POST',headers:{'Content-Type':'application/json','x-user-key':apiKey},
+        body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content}]})
+      });
+      if(!r.ok) throw new Error('AI '+r.status+': '+await r.text());
+      const data = await r.json();
+      text = data.content.filter(b=>b.type==='text').map(b=>b.text).join('\n')
+                   .replace(/```json|```/g,'').trim();
+    }
+    const v = JSON.parse(text);
+    if(!v.printed_title || v.confidence===0){
+      setStatus('Na fotce nic nepoznávám — zkus ostřejší záběr, nebo napiš název.',{err:true});
+      renderFactsPanel();
+      return;
+    }
+    state.vision = v;
+    setCond(['new','likenew','verygood','good','played'].includes(v.condition_grade)?v.condition_grade:'verygood');
+    $('condNotes').value = v.condition_notes || '';
+    if(state.category==='game'){
+      const local = findLocal(v.bgg_search_name,1)[0] || findLocal(v.printed_title,1)[0];
+      if(local){
+        fillFromDB(local);
+        setStatus(`Rozpoznáno: ${v.printed_title} · databáze ✓ · cena = odhad${v.confidence<0.55?' (nízká jistota — zkontroluj)':''}`);
+      }else{
+        setStatus(`Rozpoznáno: ${v.printed_title} — hledám na BGG`,{busy:true});
+        await bggLookup(v.bgg_search_name || v.printed_title);
+      }
+    }else{
+      $('gName').value = v.printed_title; state.nameEdited=true;
+      renderFactsPanel();
+      if(state.category==='furniture'){
+        if(v.material_guess) $('fld_material').value=v.material_guess;
+        if(v.dimensions_guess) $('fld_dims').value=v.dimensions_guess;
+      }else if(state.category==='electronics'){
+        if(v.brand_model_guess){ const parts=v.brand_model_guess.split(' '); $('fld_brand').value=parts[0]||''; $('fld_model').value=parts.slice(1).join(' '); }
+        if(v.specs_guess) $('fld_specs').value=v.specs_guess;
+      }else if(state.category==='sport'){
+        if(v.brand_model_guess){ const parts=v.brand_model_guess.split(' '); $('fld_brand').value=parts[0]||''; $('fld_model').value=parts.slice(1).join(' '); }
+        if(v.size_guess) $('fld_size').value=v.size_guess;
+        if(v.wear_guess) $('fld_wear').value=v.wear_guess;
+      }else if(state.category==='kitchen'){
+        if(v.brand_model_guess){ const parts=v.brand_model_guess.split(' '); $('fld_brand').value=parts[0]||''; $('fld_model').value=parts.slice(1).join(' '); }
+        if(v.capacity_guess) $('fld_capacity').value=v.capacity_guess;
+      }else if(state.category==='automoto'){
+        if(v.brand_model_guess){ const parts=v.brand_model_guess.split(' '); $('fld_brand').value=parts[0]||''; $('fld_model').value=parts.slice(1).join(' '); }
+        if(v.fitment_guess) $('fld_fitment').value=v.fitment_guess;
+      }
+      state.itemFields=readFieldValues();
+      $('gamecard').classList.add('on');
+      setStatus(`Rozpoznáno: ${v.printed_title}${v.confidence<0.55?' (nízká jistota — zkontroluj)':''}`);
+      render();
+    }
+  }catch(e){
+    setStatus('Rozpoznávání z fotky tu není dostupné ('+e.message+'). Napiš název — zbytek funguje.',{err:true});
+    if($('facts').querySelector('.skeleton')) renderFactsPanel();
+  }
+}
+
+/* ---------- BGG (online záloha) ---------- */
+async function bggXML(url){
+  const tries=[url,'https://api.allorigins.win/raw?url='+encodeURIComponent(url)];
+  let last;
+  for(const u of tries){
+    try{
+      const r=await fetch(u); if(!r.ok) throw new Error('HTTP '+r.status);
+      const doc=new DOMParser().parseFromString(await r.text(),'text/xml');
+      if(doc.querySelector('parsererror')) throw new Error('bad xml');
+      return doc;
+    }catch(e){ last=e; }
+  }
+  throw last;
+}
+async function bggLookup(name){
+  try{
+    setStatus('Hledám na BoardGameGeeku',{busy:true});
+    const doc=await bggXML('https://boardgamegeek.com/xmlapi2/search?type=boardgame&query='+encodeURIComponent(name));
+    const items=[...doc.querySelectorAll('item')];
+    if(!items.length){ setStatus('BGG nezná „'+name+'“ — pole jsou editovatelná, doplň ručně.',{err:true});
+      state.game={name}; showCard(); return; }
+    state.candidates = items.slice(0,8).map(it=>({
+      id:it.getAttribute('id'),
+      name:it.querySelector('name')?.getAttribute('value')||'?',
+      year:it.querySelector('yearpublished')?.getAttribute('value')||''
+    }));
+    const exact = state.candidates.find(c=>norm(c.name)===norm(name));
+    renderPick();
+    await loadThing((exact||state.candidates[0]).id);
+  }catch(e){ setStatus('BGG nedostupné ('+e.message+') — pole jsou editovatelná, doplň ručně.',{err:true});
+    state.game={name}; showCard(); }
+}
+function renderPick(){
+  const w=$('pickWrap'), s=$('pick'); s.innerHTML='';
+  state.candidates.forEach(c=>{
+    const o=document.createElement('option'); o.value=c.id;
+    o.textContent=c.name+(c.year?' ('+c.year+')':''); s.appendChild(o);
+  });
+  w.classList.toggle('on',state.candidates.length>1);
+}
+$('pick').addEventListener('change',e=>loadThing(e.target.value));
+
+const CAT_CZ = {'Economic':'ekonomická','Fantasy':'fantasy','Card Game':'karetní','Wargame':'válečná',
+ 'Party Game':'párty','Dice':'kostková','Adventure':'dobrodružná','Science Fiction':'sci-fi',
+ 'Deduction':'dedukční','Abstract Strategy':'abstraktní','Negotiation':'vyjednávací','Horror':'hororová',
+ 'Puzzle':'logická','Exploration':'objevitelská','City Building':'budovatelská','Medieval':'středověká',
+ 'Humor':'humorná',"Children's Game":'dětská','Racing':'závodní','Fighting':'bojová','Bluffing':'blafovací',
+ 'Animals':'se zvířaty','Territory Building':'budovatelská','Farming':'farmářská','Trains':'vláčková',
+ 'Nautical':'námořní','Ancient':'starověká','Mythology':'mytologická','Educational':'vzdělávací'};
+
+async function loadThing(id){
+  setStatus('Načítám data hry',{busy:true});
+  try{
+    const doc=await bggXML('https://boardgamegeek.com/xmlapi2/thing?stats=1&id='+id);
+    const it=doc.querySelector('item'); if(!it) throw new Error('prázdné');
+    const at=(sel)=>it.querySelector(sel)?.getAttribute('value')||'';
+    const nm=it.querySelector('name[type="primary"]')?.getAttribute('value')||'';
+    state.game={
+      name:nm, nameEn:nm, nameCz:'',
+      year:at('yearpublished'), pMin:at('minplayers'), pMax:at('maxplayers'),
+      time:at('playingtime'), age:at('minage'),
+      rating:parseFloat(at('statistics ratings average')),
+      weight:parseFloat(at('statistics ratings averageweight')),
+      catStr:[...it.querySelectorAll('link[type="boardgamecategory"]')].map(l=>CAT_CZ[l.getAttribute('value')]||l.getAttribute('value')).slice(0,2).join(', ')
+    };
+    state.nameEdited=false; state.basePc=null;
+    showCard();
+    setStatus('Načteno z BGG ✓');
+  }catch(e){ setStatus('Detaily se nenačetly ('+e.message+').',{err:true}); }
+}
+
+/* ---------- karta hry ---------- */
+function diffInfo(w,lang){
+  if(!w||isNaN(w)) return null;
+  const scale=[[1.8,'velmi jednoduchá','very easy'],[2.5,'jednoduchá','easy'],
+               [3.2,'středně náročná','medium'],[3.8,'náročná','heavy'],[9,'expertní','expert']];
+  for(const [th,cz,en] of scale) if(w<th) return {label:lang==='cz'?cz:en, w:w.toFixed(1)};
+}
+function renderFactsPanel(){
+  $('itemEyebrow').textContent=CATEGORIES[state.category].label;
+  const box=$('facts'); box.innerHTML='';
+  CATEGORIES[state.category].fields.forEach(f=>{
+    const d=document.createElement('div'); d.className='fact';
+    const lab=document.createElement('label'); lab.textContent=f.label; d.appendChild(lab);
+    if(f.readonly){
+      const ro=document.createElement('div'); ro.className='ro'; ro.id='fld_'+f.id; ro.innerHTML='&mdash;';
+      d.appendChild(ro);
+    }else{
+      const inp=document.createElement('input'); inp.id='fld_'+f.id; inp.size=8;
+      if(f.placeholder) inp.placeholder=f.placeholder;
+      inp.value=state.itemFields[f.id]||'';
+      inp.addEventListener('input',()=>{ state.itemFields[f.id]=inp.value; render(); });
+      d.appendChild(inp);
+    }
+    box.appendChild(d);
+  });
+}
+function readFieldValues(){
+  const out={};
+  CATEGORIES[state.category].fields.forEach(f=>{
+    if(f.readonly) return;
+    const el=$('fld_'+f.id); out[f.id]=el?el.value.trim():'';
+  });
+  return out;
+}
+function showCard(){
+  const g=state.game||{};
+  $('gamecard').classList.add('on');
+  $('gName').value=g.name||'';
+  renderFactsPanel();
+  if(state.category==='game'){
+    $('fld_year').value=g.year||'';
+    $('fld_pMin_pMax').value=g.pMin?(String(g.pMin)===String(g.pMax)||!g.pMax?g.pMin:`${g.pMin}–${g.pMax}`):'';
+    $('fld_time').value=g.time||'';
+    $('fld_age').value=g.age||'';
+    const diff=diffInfo(g.weight,'cz');
+    $('fld_diff').value=diff?`${diff.label} (${diff.w}/5)`:'';
+    $('fld_rating').value=(g.rating&&!isNaN(g.rating))?Number(g.rating).toFixed(1)+'/10':'';
+    state.itemFields=readFieldValues();
+  }
+  $('typeChips').textContent=g.catStr||state.vision?.category_guess||'';
+  render();
+  $('gamecard').scrollIntoView({behavior:'smooth',block:'start'});
+}
+$('gName').addEventListener('input',()=>{ state.nameEdited=true; });
+
+/* ---------- stav ---------- */
+const CONDITIONS={
+  game:{
+    cz:{new:'Nová ve fólii',likenew:'Jako nová',verygood:'Velmi dobrý',good:'Dobrý',played:'Hraná'},
+    en:{new:'New in shrink',likenew:'Like new',verygood:'Very good',good:'Good',played:'Played'},
+    phraseCz:{new:'nová, stále ve fólii',likenew:'jako nová, hráno max. párkrát',verygood:'velmi dobrý stav',good:'dobrý stav, běžné známky hraní',played:'hraná, viditelné známky používání'},
+    phraseEn:{new:'new in shrink',likenew:'like new, played a handful of times',verygood:'very good condition',good:'good condition, normal signs of play',played:'played, visible wear'},
+    phraseSk:{new:'nová, stále vo fólii',likenew:'ako nová, hraná max. párkrát',verygood:'veľmi dobrý stav',good:'dobrý stav, bežné známky hrania',played:'hraná, viditeľné známky používania'}
+  },
+  furniture:{
+    cz:{new:'Nový',likenew:'Jako nový',verygood:'Velmi dobrý',good:'Dobrý',played:'Opotřebený'},
+    en:{new:'New',likenew:'Like new',verygood:'Very good',good:'Good',played:'Worn'},
+    phraseCz:{new:'nový, nepoužitý',likenew:'jako nový, minimální stopy používání',verygood:'velmi dobrý stav',good:'dobrý stav, běžné známky používání',played:'opotřebený, viditelné stopy používání'},
+    phraseEn:{new:'new, unused',likenew:'like new, minimal signs of use',verygood:'very good condition',good:'good condition, normal signs of use',played:'worn, visible signs of use'},
+    phraseSk:{new:'nový, nepoužitý',likenew:'ako nový, minimálne stopy používania',verygood:'veľmi dobrý stav',good:'dobrý stav, bežné známky používania',played:'opotrebovaný, viditeľné stopy používania'}
+  },
+  electronics:{
+    cz:{new:'Nové (v krabici)',likenew:'Jako nové',verygood:'Velmi dobrý',good:'Dobrý',played:'Použité, funkční'},
+    en:{new:'New (boxed)',likenew:'Like new',verygood:'Very good',good:'Good',played:'Used, working'},
+    phraseCz:{new:'nové, v původním balení',likenew:'jako nové, minimálně používané',verygood:'velmi dobrý stav',good:'dobrý stav, běžné známky používání',played:'použité, funkční, viditelné opotřebení'},
+    phraseEn:{new:'new, original packaging',likenew:'like new, minimally used',verygood:'very good condition',good:'good condition, normal signs of use',played:'used, working, visible wear'},
+    phraseSk:{new:'nové, v pôvodnom balení',likenew:'ako nové, minimálne používané',verygood:'veľmi dobrý stav',good:'dobrý stav, bežné známky používania',played:'použité, funkčné, viditeľné opotrebenie'}
+  },
+  sport:{
+    cz:{new:'Nové',likenew:'Jako nové',verygood:'Velmi dobrý',good:'Dobrý',played:'Použité, opotřebené'},
+    en:{new:'New',likenew:'Like new',verygood:'Very good',good:'Good',played:'Used, worn'},
+    phraseCz:{new:'nové, nepoužité',likenew:'jako nové, použito párkrát',verygood:'velmi dobrý stav',good:'dobrý stav, běžné známky používání',played:'použité, viditelné opotřebení'},
+    phraseEn:{new:'new, unused',likenew:'like new, used a few times',verygood:'very good condition',good:'good condition, normal signs of use',played:'used, visible wear'},
+    phraseSk:{new:'nové, nepoužité',likenew:'ako nové, použité párkrát',verygood:'veľmi dobrý stav',good:'dobrý stav, bežné známky používania',played:'použité, viditeľné opotrebenie'}
+  },
+  kitchen:{
+    cz:{new:'Nové (nepoužité)',likenew:'Jako nové',verygood:'Velmi dobrý',good:'Dobrý',played:'Použité, funkční'},
+    en:{new:'New (unused)',likenew:'Like new',verygood:'Very good',good:'Good',played:'Used, working'},
+    phraseCz:{new:'nové, nepoužité',likenew:'jako nové, minimálně používané',verygood:'velmi dobrý stav',good:'dobrý stav, běžné známky používání',played:'použité, funkční, viditelné opotřebení'},
+    phraseEn:{new:'new, unused',likenew:'like new, minimally used',verygood:'very good condition',good:'good condition, normal signs of use',played:'used, working, visible wear'},
+    phraseSk:{new:'nové, nepoužité',likenew:'ako nové, minimálne používané',verygood:'veľmi dobrý stav',good:'dobrý stav, bežné známky používania',played:'použité, funkčné, viditeľné opotrebenie'}
+  },
+  automoto:{
+    cz:{new:'Nové',likenew:'Jako nové',verygood:'Velmi dobrý',good:'Dobrý',played:'Použité, opotřebené'},
+    en:{new:'New',likenew:'Like new',verygood:'Very good',good:'Good',played:'Used, worn'},
+    phraseCz:{new:'nové, nepoužité',likenew:'jako nové, minimální opotřebení',verygood:'velmi dobrý stav',good:'dobrý stav, běžné opotřebení',played:'použité, viditelné opotřebení'},
+    phraseEn:{new:'new, unused',likenew:'like new, minimal wear',verygood:'very good condition',good:'good condition, normal wear',played:'used, visible wear'},
+    phraseSk:{new:'nové, nepoužité',likenew:'ako nové, minimálne opotrebenie',verygood:'veľmi dobrý stav',good:'dobrý stav, bežné opotrebenie',played:'použité, viditeľné opotrebenie'}
+  }
+};
+function condSet(cat){ return CONDITIONS[cat]||CONDITIONS.game; }
+function condLabel(cat,cond){ return condSet(cat).cz[cond]; }
+function condLabelEn(cat,cond){ return condSet(cat).en[cond]; }
+function condPhrase(cat,lang,cond){ return condSet(cat)[lang==='en'?'phraseEn':lang==='sk'?'phraseSk':'phraseCz'][cond]; }
+function buildSeg(){
+  const seg=$('condSeg'); seg.innerHTML='';
+  const labels=condSet(state.category).cz;
+  Object.keys(labels).forEach(k=>{
+    const b=document.createElement('button');
+    b.textContent=labels[k]; b.dataset.k=k;
+    b.setAttribute('role','radio');
+    b.classList.toggle('sel',state.cond===k);
+    b.addEventListener('click',()=>setCond(k));
+    seg.appendChild(b);
+  });
+}
+function setCond(k){ state.cond=k; buildSeg(); render(); }
+
+function buildCatTabs(){
+  const t=$('catTabs'); t.innerHTML='';
+  Object.entries(CATEGORIES).forEach(([k,cat])=>{
+    const b=document.createElement('button'); b.textContent=cat.label;
+    b.setAttribute('role','radio');
+    b.classList.toggle('sel',state.category===k);
+    b.addEventListener('click',()=>setCategory(k));
+    t.appendChild(b);
+  });
+}
+function setCategory(k){
+  if(state.category===k) return;
+  state.category=k; state.itemFields={}; state.game=null; state.vision=null;
+  state.candidates=[]; state.nameEdited=false; state.basePc=null;
+  $('manualName').value=''; $('sugg').innerHTML=''; $('sugg').classList.remove('open');
+  $('gamecard').classList.remove('on');
+  $('dbHint').style.display = CATEGORIES[k].hasDB?'block':'none';
+  $('manualName').closest('.rowline').style.display = CATEGORIES[k].hasDB?'flex':'none';
+  $('manualName').placeholder = CATEGORIES[k].searchPlaceholder||'';
+  $('bggBtn').style.display = k==='game'?'':'none';
+  buildCatTabs();
+  renderFactsPanel();
+  buildSeg();
+  if(k!=='game'){ $('gName').value=''; $('gamecard').classList.add('on'); render(); }
+}
+
+/* ---------- formáty ---------- */
+const FORMATS=[['bazos','Bazoš'],['zatrolene','Zatrolené hry'],['fb','Facebook'],['vinted','Vinted'],['aukro','Aukro'],['ebay','eBay'],['plain','Univerzální']];
+function buildTabs(){
+  const t=$('fmtTabs'); t.innerHTML='';
+  FORMATS.forEach(([k,label])=>{
+    const b=document.createElement('button'); b.textContent=label;
+    b.classList.toggle('sel',state.fmt===k);
+    b.addEventListener('click',()=>{ state.fmt=k; buildTabs(); render(); savePrefs(); });
+    t.appendChild(b);
+  });
+}
+
+/* ---------- šablony inzerátu ---------- */
+const L10N={
+  cz:{sell:'Prodám deskovou hru',type:'Typ',players:'Hráči',time:'Doba',age:'Věk',
+      rules:'Náročnost pravidel',cond:'Stav',complete:'Kompletní, komponenty spočítány.',
+      missing:'Chybí:',price:'Cena',weight:'Hmotnost balíku',edCZ:'České vydání.',edEN:'Anglické vydání.',
+      ship:{both:'Osobní předání nebo zaslání.',shiponly:'Pouze zasílám.',pickup:'Pouze osobní předání.'},
+      sellByCat:{game:'Prodám deskovou hru',furniture:'Prodám nábytek',electronics:'Prodám elektroniku',sport:'Prodám sportovní vybavení',kitchen:'Prodám kuchyňské vybavení',automoto:'Prodám auto-moto vybavení'},
+      nounByCat:{game:'desková hra',furniture:'nábytek',electronics:'elektronika',sport:'sportovní vybavení',kitchen:'kuchyňské vybavení',automoto:'auto-moto vybavení'},
+      completeByCat:{game:'Kompletní, komponenty spočítány.',furniture:'Kompletní, nic nechybí.',electronics:'Kompletní, nic nechybí.',sport:'Kompletní, nic nechybí.',kitchen:'Kompletní, nic nechybí.',automoto:'Kompletní, nic nechybí.'}},
+  en:{sell:'For sale: board game',type:'Type',players:'Players',time:'Time',age:'Age',
+      rules:'Rules difficulty',cond:'Condition',complete:'100% complete, components counted.',
+      missing:'Missing:',price:'Price',weight:'Package weight',edCZ:'Czech edition.',edEN:'English edition.',
+      ship:{both:'Shipping or local pickup.',shiponly:'Shipping only.',pickup:'Local pickup only.'},
+      sellByCat:{game:'For sale: board game',furniture:'For sale: furniture',electronics:'For sale: electronics',sport:'For sale: sports equipment',kitchen:'For sale: kitchen equipment',automoto:'For sale: auto-moto part'},
+      nounByCat:{game:'board game',furniture:'furniture',electronics:'electronics',sport:'sports equipment',kitchen:'kitchen equipment',automoto:'auto-moto part'},
+      completeByCat:{game:'100% complete, components counted.',furniture:'Complete, nothing missing.',electronics:'Complete, nothing missing.',sport:'Complete, nothing missing.',kitchen:'Complete, nothing missing.',automoto:'Complete, nothing missing.'}},
+  sk:{sell:'Predám spoločenskú hru',type:'Typ',players:'Hráči',time:'Čas',age:'Vek',
+      rules:'Náročnosť pravidiel',cond:'Stav',complete:'Kompletná, komponenty spočítané.',
+      missing:'Chýba:',price:'Cena',weight:'Hmotnosť balíka',edCZ:'České vydanie.',edEN:'Anglické vydanie.',
+      ship:{both:'Osobné odovzdanie alebo zaslanie.',shiponly:'Iba zasielam.',pickup:'Iba osobné odovzdanie.'},
+      sellByCat:{game:'Predám spoločenskú hru',furniture:'Predám nábytok',electronics:'Predám elektroniku',sport:'Predám športové vybavenie',kitchen:'Predám kuchynské vybavenie',automoto:'Predám auto-moto vybavenie'},
+      nounByCat:{game:'spoločenská hra',furniture:'nábytok',electronics:'elektronika',sport:'športové vybavenie',kitchen:'kuchynské vybavenie',automoto:'auto-moto vybavenie'},
+      completeByCat:{game:'Kompletná, komponenty spočítané.',furniture:'Kompletné, nič nechýba.',electronics:'Kompletné, nič nechýba.',sport:'Kompletné, nič nechýba.',kitchen:'Kompletné, nič nechýba.',automoto:'Kompletné, nič nechýba.'}}
+};
+function gather(){
+  const lang=$('lang').value, g=state.game||{};
+  const fr=readFieldValues();
+  const nums=(fr.pMin_pMax||'').match(/\d+/g)||[];
+  let name=$('gName').value.trim();
+  if(!state.nameEdited && lang==='en' && g.nameEn) name=g.nameEn;
+  return {
+    lang, fmt:state.fmt, name, category:state.category, fieldsRaw:fr,
+    year:fr.year||'', pMin:nums[0], pMax:nums[1],
+    time:fr.time||'', age:fr.age||'',
+    rating:g.rating, weight:g.weight, typeStr:$('typeChips').textContent,
+    cond:state.cond, condNotes:$('condNotes').value.trim(),
+    complete:$('complete').checked, missNote:$('missNote').value.trim(),
+    price:$('price').value.trim(), curr:$('curr').value,
+    ship:$('ship').value, loc:$('loc').value.trim(), pkgWeight:$('weight').value.trim(),
+    edLang:state.vision?.edition_language
+  };
+}
+function buildListing(d){
+  const t=L10N[d.lang];
+  const players=d.pMin?(d.pMin===d.pMax||!d.pMax?d.pMin:`${d.pMin}–${d.pMax}`):'';
+  const diffText=(d.fieldsRaw&&d.fieldsRaw.diff)||'';
+  const ratingText=(d.fieldsRaw&&d.fieldsRaw.rating)||'';
+  const priceStr=d.price?`${d.price} ${d.curr}`:'—';
+  const edLine=d.edLang==='cs'?t.edCZ:d.edLang==='en'?t.edEN:'';
+
+  const noun=L10N.en.nounByCat[d.category]||L10N.en.nounByCat.game;
+  const nounCap=noun.replace(/\b\w/g,c=>c.toUpperCase());
+  const nounLoc=t.nounByCat[d.category]||t.nounByCat.game;
+
+  let title;
+  if(d.fmt==='ebay'){
+    title=[d.name,nounCap,d.year,condLabelEn(d.category,d.cond),d.complete?'Complete':''].filter(Boolean).join(' ').slice(0,80).trim();
+  }else if(d.fmt==='zatrolene'){
+    title=d.name+(d.edLang==='cs'?' (CZ)':d.edLang==='en'?' (EN)':'');
+  }else if(d.fmt==='vinted'){
+    title=[d.name,d.year?`(${d.year})`:'',condLabel(d.category,d.cond)].filter(Boolean).join(' ').slice(0,60).trim();
+  }else if(d.fmt==='aukro'){
+    title=`${d.name}${d.year?` ${d.year}`:''} – ${condLabel(d.category,d.cond)}, ${nounLoc}`.slice(0,80).trim();
+  }else{
+    title=`${d.name}${d.year?` (${d.year})`:''} – ${nounLoc}${d.price?` – ${priceStr}`:''}`;
+  }
+
+  const completeText=t.completeByCat[d.category]||t.complete;
+  const condLine=`${t.cond}: ${condPhrase(d.category,d.lang,d.cond)}. `+
+    (d.complete?completeText:`${t.missing} ${d.missNote||'—'}`)+
+    (d.condNotes?` ${d.condNotes}${/[.!?]$/.test(d.condNotes)?'':'.'}`:'');
+  const shipLine=`${t.price}: ${priceStr}. ${t.ship[d.ship]}${d.loc?` ${d.loc}.`:''}${d.pkgWeight&&d.ship!=='pickup'?` ${t.weight}: ${d.pkgWeight}.`:''}`;
+
+  const B=[];
+  if(d.fmt==='zatrolene'){
+    B.push(condLine);
+    if(edLine) B.push(edLine);
+    B.push(shipLine);
+  }else if(d.fmt==='vinted'){
+    B.push(condLine);
+    if(edLine) B.push(edLine);
+    if(d.category==='game'){
+      if(d.typeStr) B.push(d.typeStr);
+      if(players) B.push(`${t.players}: ${players}`);
+    }else{
+      (CATEGORIES[d.category]?.fields||[]).forEach(f=>{
+        const v=d.fieldsRaw[f.id];
+        if(v) B.push(`${f.label}: ${v}`);
+      });
+    }
+    B.push(d.loc?`${t.ship[d.ship]} ${d.loc}.`:t.ship[d.ship]);
+  }else{
+    const dash=d.fmt==='ebay'?'- ':'• ';
+    const sellLine=t.sellByCat[d.category]||t.sell;
+    B.push(`${sellLine} ${d.name}${d.year?` (${d.year})`:''}.`);
+    B.push('');
+    if(d.category==='game'){
+      if(d.typeStr) B.push(`${dash}${t.type}: ${d.typeStr}`);
+      if(players)   B.push(`${dash}${t.players}: ${players}`);
+      if(d.time)    B.push(`${dash}${t.time}: ~${d.time} min`);
+      if(d.age)     B.push(`${dash}${t.age}: ${d.age}+`);
+      if(diffText)   B.push(`${dash}${t.rules}: ${diffText}`);
+      if(ratingText) B.push(`${dash}BGG: ${ratingText}`);
+    }else{
+      (CATEGORIES[d.category]?.fields||[]).forEach(f=>{
+        const v=d.fieldsRaw[f.id];
+        if(v) B.push(`${dash}${f.label}: ${v}`);
+      });
+    }
+    B.push('');
+    B.push(condLine);
+    if(edLine) B.push(edLine);
+    B.push('');
+    B.push(shipLine);
+  }
+  return {title, body:B.join('\n').replace(/\n{3,}/g,'\n\n').trim()};
+}
+
+/* ---------- vykreslení ---------- */
+const COND_MULT={new:1.15,likenew:1.0,verygood:0.85,good:0.7,played:0.5};
+function updatePriceHint(){
+  const el=$('priceHint');
+  if(!state.basePc){ el.textContent=''; return; }
+  const mult=COND_MULT[state.cond]||0.85;
+  const lo=Math.round(state.basePc*mult*0.85/10)*10, hi=Math.round(state.basePc*mult*1.15/10)*10;
+  el.textContent=`Typický bazar dle stavu: ~${lo}–${hi} Kč`;
+}
+function render(){
+  $('missNote').style.display=$('complete').checked?'none':'block';
+  updatePriceHint();
+  const d=gather();
+  saveDraft(d);
+  $('openMarket').style.display=MARKET_URLS[d.fmt]?'':'none';
+  if(!d.name){ $('outTitle').textContent='—'; $('outBody').textContent=''; $('titleCount').textContent=''; return; }
+  const out=buildListing(d);
+  $('outTitle').textContent=out.title;
+  $('outBody').textContent=out.body;
+  if(d.fmt==='ebay'){
+    $('titleCount').textContent=`Titulek eBay: ${out.title.length}/80 znaků`;
+    $('titleCount').classList.toggle('over',out.title.length>80);
+  }else if(d.fmt==='vinted'){
+    $('titleCount').textContent=`Titulek Vinted: ${out.title.length}/60 znaků`;
+    $('titleCount').classList.toggle('over',out.title.length>60);
+  }else $('titleCount').textContent='';
+}
+['gName','condNotes','missNote','price','loc','weight'].forEach(id=>$(id).addEventListener('input',render));
+['curr','ship'].forEach(id=>$(id).addEventListener('change',render));
+$('ship').addEventListener('change',()=>{ $('weightWrap').style.display=$('ship').value==='pickup'?'none':''; });
+$('complete').addEventListener('change',render);
+$('lang').addEventListener('change',()=>{
+  if(!state.nameEdited && state.game){
+    $('gName').value = $('lang').value==='en' ? (state.game.nameEn||state.game.name) : (state.game.nameCz||state.game.name);
+  }
+  render();
+});
+
+/* ---------- kopírování + dávka ---------- */
+$('copyTitle').addEventListener('click',e=>copy($('outTitle').textContent,'Titulek zkopírován',e.currentTarget));
+$('copyBody').addEventListener('click',e=>copy($('outBody').textContent,'Text zkopírován',e.currentTarget));
+$('copyBoth').addEventListener('click',e=>copy($('outTitle').textContent+'\n\n'+$('outBody').textContent,'Inzerát zkopírován',e.currentTarget));
+function restoreSnapshot(r){
+  state.category=r.category||'game'; state.itemFields={...(r.fieldsRaw||{})};
+  $('dbHint').style.display = CATEGORIES[state.category].hasDB?'block':'none';
+  $('manualName').closest('.rowline').style.display = CATEGORIES[state.category].hasDB?'flex':'none';
+  $('manualName').placeholder = CATEGORIES[state.category].searchPlaceholder||'';
+  $('bggBtn').style.display = state.category==='game'?'':'none';
+  buildCatTabs();
+  state.game=r._game||{}; state.nameEdited=true; state.basePc=null;
+  if(r.lang) $('lang').value=r.lang;
+  if(r.fmt){ state.fmt=r.fmt; buildTabs(); }
+  showCard();
+  $('gName').value=r.name||'';
+  Object.entries(r.fieldsRaw||{}).forEach(([id,v])=>{ const el=$('fld_'+id); if(el) el.value=v; });
+  setCond(r.cond||'verygood');
+  $('condNotes').value=r.condNotes||'';
+  $('complete').checked=r.complete!==false; $('missNote').value=r.missNote||'';
+  $('price').value=r.price||''; if(r.curr) $('curr').value=r.curr; if(r.ship) $('ship').value=r.ship;
+  $('loc').value=r.loc||''; $('weight').value=r.pkgWeight||'';
+  render();
+}
+function editBatchItem(i){
+  const b=state.batch[i]; const r=b._raw;
+  state.batch.splice(i,1); renderBatchList(); updateBatchHint();
+  state.images=(b.images||[]).map(u=>({dataUrl:u,b64:(u.split(',')[1]||'')}));
+  renderThumbs();
+  restoreSnapshot(r);
+  $('gamecard').scrollIntoView({behavior:'smooth',block:'start'});
+  toast('Načteno k úpravě: '+r.name);
+}
+function renderBatchList(){
+  const box=$('batchList'); box.innerHTML='';
+  $('batchFilter').style.display=state.batch.length>3?'':'none';
+  const q=norm($('batchFilter').value);
+  state.batch.forEach((b,i)=>{
+    if(q&&!norm(b.name).includes(q)) return;
+    const row=document.createElement('div'); row.className='batchRow';
+    const catLabel=CATEGORIES[b.category]?.label||'';
+    const thumb=b.images&&b.images[0]?`<img src="${b.images[0]}" class="batchThumb" alt="">`:'';
+    row.innerHTML=`${thumb}<span class="bc">${catLabel}</span><span class="bn">${b.name}</span><span class="bm">${b.fmt} · ${b.price?b.price+' '+b.curr:'—'}</span>`;
+    const ed=document.createElement('button'); ed.textContent='upravit'; ed.className='small';
+    ed.addEventListener('click',()=>editBatchItem(i));
+    const dup=document.createElement('button'); dup.textContent='duplikovat'; dup.className='small';
+    dup.addEventListener('click',()=>{
+      const clone=JSON.parse(JSON.stringify(state.batch[i]));
+      state.batch.splice(i+1,0,clone);
+      renderBatchList(); updateBatchHint();
+      toast('Duplikováno: '+clone.name);
+    });
+    const rm=document.createElement('button'); rm.textContent='odebrat'; rm.className='small';
+    rm.addEventListener('click',()=>{
+      const removed=state.batch.splice(i,1)[0];
+      renderBatchList(); updateBatchHint();
+      toast('Položka odebrána',{actionLabel:'Zpět',duration:5000,onAction:()=>{ state.batch.splice(i,0,removed); renderBatchList(); updateBatchHint(); }});
+    });
+    row.append(ed,dup,rm); box.appendChild(row);
+  });
+}
+$('batchFilter').addEventListener('input',renderBatchList);
+function updateBatchHint(){
+  if(!state.batch.length){ $('batchHint').textContent=''; return; }
+  const sums={};
+  state.batch.forEach(b=>{ const v=parseFloat(b.price); if(!isNaN(v)) sums[b.curr]=(sums[b.curr]||0)+v; });
+  const totalStr=Object.entries(sums).map(([c,v])=>`${v} ${c}`).join(' + ');
+  $('batchHint').textContent=`Dávka: ${state.batch.length} inzerát(ů)${totalStr?` · celkem ${totalStr}`:''} — drží se jen v paměti, před zavřením exportuj. Formát sedí přímo do bg-autoposteru.`;
+}
+$('addBatch').addEventListener('click',()=>{
+  const d=gather(); if(!d.name) return toast('Nejdřív vyber hru');
+  const out=buildListing(d);
+  state.batch.push({name:d.name,fmt:d.fmt,lang:d.lang,category:d.category,price:d.price,curr:d.curr,cond:d.cond,
+                    title:out.title,body:out.body,images:state.images.map(im=>im.dataUrl),_raw:{...d,_game:state.game}});
+  updateBatchHint(); renderBatchList();
+  localStorage.removeItem(DRAFT_KEY);
+  toast('Přidáno: '+d.name);
+});
+$('exportBatch').addEventListener('click',()=>{
+  if(!state.batch.length) return toast('Dávka je prázdná');
+  const clean=state.batch.map(({_raw,...rest})=>rest);
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(clean,null,2)],{type:'application/json'}));
+  a.download='listings.json'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),30000);
+  toast('listings.json exportováno');
+});
+function csvEscape(v){ const s=String(v??''); return /[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; }
+$('exportBatchCsv').addEventListener('click',()=>{
+  if(!state.batch.length) return toast('Dávka je prázdná');
+  const cols=['name','category','fmt','lang','cond','price','curr','title','body'];
+  const rows=[cols.join(',')].concat(state.batch.map(b=>cols.map(c=>csvEscape(b[c])).join(',')));
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(['﻿'+rows.join('\n')],{type:'text/csv;charset=utf-8'}));
+  a.download='listings.csv'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),30000);
+  toast('listings.csv exportováno');
+});
+
+/* ---------- otevřít tržiště ---------- */
+const MARKET_URLS={
+  vinted:'https://www.vinted.cz/items/new',
+  fb:'https://www.facebook.com/marketplace/create/item',
+  ebay:'https://www.ebay.com/sl/sell',
+  bazos:'https://www.bazos.cz/',
+  aukro:'https://www.aukro.cz/'
+};
+$('openMarket').addEventListener('click',()=>{
+  const url=MARKET_URLS[state.fmt];
+  if(url) window.open(url,'_blank','noopener');
+});
+
+/* ---------- uložené preference ---------- */
+const PREFS_KEY='snapSoldPrefs';
+function loadPrefs(){
+  try{
+    const p=JSON.parse(localStorage.getItem(PREFS_KEY)||'{}');
+    if(p.lang) $('lang').value=p.lang;
+    if(p.fmt) state.fmt=p.fmt;
+    if(p.curr) $('curr').value=p.curr;
+    if(p.ship) $('ship').value=p.ship;
+  }catch{}
+}
+function savePrefs(){
+  localStorage.setItem(PREFS_KEY, JSON.stringify({
+    lang:$('lang').value, fmt:state.fmt, curr:$('curr').value, ship:$('ship').value
+  }));
+}
+['lang','curr','ship'].forEach(id=>$(id).addEventListener('change',savePrefs));
+
+loadPrefs();
+(function applyListingDefaultsOnInit(){
+  try{
+    const d=JSON.parse(localStorage.getItem('snapSoldListingDefaults')||'null');
+    if(d){
+      if(d.category&&CATEGORIES[d.category]) state.category=d.category;
+      if(d.cond) state.cond=d.cond;
+      $('complete').checked=d.complete!==false;
+    }
+  }catch{}
+})();
+$('dbHint').style.display = CATEGORIES[state.category].hasDB?'block':'none';
+$('manualName').closest('.rowline').style.display = CATEGORIES[state.category].hasDB?'flex':'none';
+$('manualName').placeholder = CATEGORIES[state.category].searchPlaceholder||'';
+$('bggBtn').style.display = state.category==='game'?'':'none';
+buildSeg(); buildTabs(); buildCatTabs();
+
+/* ============================================================
+   Účet, nastavení, vzhled
+   ============================================================ */
+/* ---------- vzhled (theme) ---------- */
+const THEME_KEY='snapSoldTheme';
+const THEME_DEFAULT={accent:'#C9A24B',bg:'#0F231A',text:'#EDE6D2',card:'#F3ECD9',family:"-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif",size:14,spacing:0,radius:100,density:'comfortable'};
+function applyTheme(t){
+  const r=document.documentElement.style;
+  r.setProperty('--brass',t.accent); r.setProperty('--brass-2',t.accent);
+  r.setProperty('--cream',t.text); r.setProperty('--felt',t.bg);
+  r.setProperty('--parchment',t.card||THEME_DEFAULT.card);
+  r.setProperty('--ui',t.family);
+  const rad=(t.radius!=null?t.radius:100)/100;
+  r.setProperty('--r-sm',(8*rad).toFixed(1)+'px');
+  r.setProperty('--r-md',(12*rad).toFixed(1)+'px');
+  r.setProperty('--r-lg',(16*rad).toFixed(1)+'px');
+  document.body.style.fontSize=t.size+'px';
+  document.body.style.letterSpacing=t.spacing+'em';
+  document.body.classList.toggle('density-compact',t.density==='compact');
+}
+function loadTheme(){
+  let t; try{ t={...THEME_DEFAULT,...JSON.parse(localStorage.getItem(THEME_KEY)||'{}')}; }catch{ t={...THEME_DEFAULT}; }
+  applyTheme(t); syncThemeControls(t); return t;
+}
+function saveTheme(t){ localStorage.setItem(THEME_KEY,JSON.stringify(t)); }
+function currentTheme(){
+  return {accent:$('cAccent').value,bg:$('cBg').value,text:$('cText').value,card:$('cCard').value,
+    family:$('fFamily').value,size:+$('fSize').value,spacing:+$('fSpacing').value,
+    radius:+$('fRadius').value,density:$('setDensity').value};
+}
+function syncThemeControls(t){
+  $('cAccent').value=t.accent; $('cBg').value=t.bg; $('cText').value=t.text; $('cCard').value=t.card||THEME_DEFAULT.card;
+  $('fFamily').value=t.family; $('fSize').value=t.size; $('fSpacing').value=t.spacing;
+  $('fRadius').value=t.radius!=null?t.radius:100; $('setDensity').value=t.density||'comfortable';
+  $('fSizeVal').textContent=t.size+' px'; $('fSpacingVal').textContent=(+t.spacing).toFixed(2)+' em';
+  $('fRadiusVal').textContent=(t.radius!=null?t.radius:100)+'%';
+}
+function onThemeChange(){
+  const t=currentTheme(); applyTheme(t); saveTheme(t);
+  $('fSizeVal').textContent=t.size+' px'; $('fSpacingVal').textContent=t.spacing.toFixed(2)+' em';
+  $('fRadiusVal').textContent=t.radius+'%';
+}
+['cAccent','cBg','cText','cCard','fFamily','fSize','fSpacing','fRadius','setDensity'].forEach(id=>{
+  $(id).addEventListener('input',onThemeChange); $(id).addEventListener('change',onThemeChange);
+});
+$('resetTheme').addEventListener('click',()=>{ localStorage.removeItem(THEME_KEY); applyTheme(THEME_DEFAULT); syncThemeControls(THEME_DEFAULT); toast('Vzhled obnoven'); });
+
+/* ---------- API klíč ---------- */
+function refreshApiKeyStatus(){
+  const k=localStorage.getItem('snapSoldApiKey')||'';
+  $('apiKeyStatus').textContent=k?('✓ Klíč uložen ('+k.slice(0,7)+'…)'):'Klíč zatím nezadán.';
+  $('apiKeyStatus').style.color=k?'var(--brass-2)':'var(--dim)';
+}
+$('setApiKey').addEventListener('input',()=>{
+  const v=$('setApiKey').value.trim();
+  if(v) localStorage.setItem('snapSoldApiKey',v); else localStorage.removeItem('snapSoldApiKey');
+  refreshApiKeyStatus();
+});
+function refreshGeminiKeyStatus(){
+  const k=localStorage.getItem('snapSoldGeminiKey')||'';
+  $('geminiKeyStatus').textContent=k?('✓ Klíč uložen ('+k.slice(0,7)+'…)'):'Klíč zatím nezadán.';
+  $('geminiKeyStatus').style.color=k?'var(--brass-2)':'var(--dim)';
+}
+$('setGeminiKey').addEventListener('input',()=>{
+  const v=$('setGeminiKey').value.trim();
+  if(v) localStorage.setItem('snapSoldGeminiKey',v); else localStorage.removeItem('snapSoldGeminiKey');
+  refreshGeminiKeyStatus();
+});
+function applyProviderUI(){
+  const p=localStorage.getItem('snapSoldProvider')||'ollama';
+  $('setProvider').value=p;
+  $('rowApiKey').style.display=p==='claude'?'':'none';
+  $('rowGeminiKey').style.display=p==='gemini'?'':'none';
+  $('rowOllama').style.display=p==='ollama'?'':'none';
+}
+$('setProvider').addEventListener('change',()=>{ localStorage.setItem('snapSoldProvider',$('setProvider').value); applyProviderUI(); });
+$('setOllamaModel').addEventListener('input',()=>{
+  const v=$('setOllamaModel').value.trim();
+  if(v) localStorage.setItem('snapSoldOllamaModel',v); else localStorage.removeItem('snapSoldOllamaModel');
+});
+
+/* ---------- otevření/zavření nastavení ---------- */
+function syncImgControls(){
+  const {maxDim,quality}=imgSettings();
+  $('setImgSize').value=maxDim; $('setImgSizeVal').textContent=maxDim+' px';
+  $('setImgQuality').value=quality; $('setImgQualityVal').textContent=Math.round(quality*100)+' %';
+}
+$('setImgSize').addEventListener('input',()=>{
+  localStorage.setItem('snapSoldImgMaxDim',$('setImgSize').value);
+  $('setImgSizeVal').textContent=$('setImgSize').value+' px';
+});
+$('setImgQuality').addEventListener('input',()=>{
+  localStorage.setItem('snapSoldImgQuality',$('setImgQuality').value);
+  $('setImgQualityVal').textContent=Math.round($('setImgQuality').value*100)+' %';
+});
+/* ---------- výchozí hodnoty nového inzerátu ---------- */
+const LISTING_DEFAULTS_KEY='snapSoldListingDefaults';
+function listingDefaults(){
+  try{ return {category:'game',cond:'verygood',complete:true,...JSON.parse(localStorage.getItem(LISTING_DEFAULTS_KEY)||'{}')}; }
+  catch{ return {category:'game',cond:'verygood',complete:true}; }
+}
+function populateDefCategory(){
+  $('setDefCategory').innerHTML=Object.entries(CATEGORIES).map(([k,c])=>`<option value="${k}">${c.label}</option>`).join('');
+}
+function syncListingDefaultControls(){
+  populateDefCategory();
+  const d=listingDefaults();
+  $('setDefCategory').value=d.category; $('setDefCond').value=d.cond; $('setDefComplete').value=d.complete?'1':'0';
+}
+function saveListingDefaults(){
+  localStorage.setItem(LISTING_DEFAULTS_KEY,JSON.stringify({
+    category:$('setDefCategory').value, cond:$('setDefCond').value, complete:$('setDefComplete').value==='1'
+  }));
+}
+['setDefCategory','setDefCond','setDefComplete'].forEach(id=>$(id).addEventListener('change',saveListingDefaults));
+
+function openSettings(){
+  $('setApiKey').value=localStorage.getItem('snapSoldApiKey')||'';
+  $('setGeminiKey').value=localStorage.getItem('snapSoldGeminiKey')||'';
+  $('setOllamaModel').value=localStorage.getItem('snapSoldOllamaModel')||'';
+  applyProviderUI();
+  refreshApiKeyStatus(); refreshGeminiKeyStatus(); syncThemeControls(loadTheme()); syncImgControls(); syncListingDefaultControls();
+  $('settings').classList.add('on'); $('settingsBk').classList.add('on');
+}
+function closeSettings(){ $('settings').classList.remove('on'); $('settingsBk').classList.remove('on'); }
+$('openSettings').addEventListener('click',openSettings);
+$('setClose').addEventListener('click',closeSettings);
+$('settingsBk').addEventListener('click',closeSettings);
+
+/* ---------- účet (přihlášení je nepovinné) ---------- */
+let authMode='login';
+function openGate(){ $('authErr').textContent=''; $('authGate').classList.add('on'); }
+function hideGate(){ $('authGate').classList.remove('on'); }
+function setUser(email,verified){
+  const on=!!email;
+  $('userEmail').textContent=email||'';
+  $('userEmail').style.display=on?'':'none';
+  $('logoutBtn').style.display=on?'':'none';
+  $('loginBtn').style.display=on?'none':'';
+  $('accountPanels').style.display=on?'':'none';
+  $('verifyBadge').style.display=(on&&!verified)?'':'none';
+  if(on){ loadQuick(); loadListings(); pullPrefs(); }
+}
+$('verifyBadge').addEventListener('click',async()=>{
+  try{
+    const r=await fetch('/api/request-verify',{method:'POST'});
+    const d=await r.json();
+    if(!r.ok){ toast(d.error||'Nepovedlo se'); return; }
+    window.open(d.verifyLink,'_blank');
+    toast('Žádný e-mail server není nastaven — odkaz se otevřel rovnou.');
+  }catch{ toast('Server nedostupný'); }
+});
+$('loginBtn').addEventListener('click',()=>{ showAuthView('login'); openGate(); });
+$('authClose').addEventListener('click',hideGate);
+$('authGate').addEventListener('click',e=>{ if(e.target===$('authGate')) hideGate(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&$('authGate').classList.contains('on')) hideGate(); });
+document.addEventListener('keydown',e=>{
+  if(!(e.ctrlKey||e.metaKey)) return;
+  if(e.key==='Enter'){ e.preventDefault(); $('copyBoth').click(); }
+  else if(e.key.toLowerCase()==='b'){ e.preventDefault(); $('addBatch').click(); }
+});
+$('tabLogin').addEventListener('click',()=>{ authMode='login'; $('tabLogin').classList.add('sel'); $('tabSignup').classList.remove('sel'); $('authSubmit').textContent='Přihlásit'; $('authPass').autocomplete='current-password'; $('authErr').textContent=''; });
+$('tabSignup').addEventListener('click',()=>{ authMode='signup'; $('tabSignup').classList.add('sel'); $('tabLogin').classList.remove('sel'); $('authSubmit').textContent='Registrovat'; $('authPass').autocomplete='new-password'; $('authErr').textContent=''; });
+$('authForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const email=$('authEmail').value.trim(), password=$('authPass').value;
+  $('authErr').textContent=''; $('authSubmit').disabled=true;
+  try{
+    const r=await fetch('/api/'+(authMode==='signup'?'signup':'login'),{
+      method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+    const d=await r.json();
+    if(!r.ok){ $('authErr').textContent=d.error||'Něco se nepovedlo'; return; }
+    setUser(d.email,d.verified);
+    hideGate(); $('authPass').value='';
+    toast('Přihlášen: '+d.email);
+  }catch(err){ $('authErr').textContent='Server nedostupný.'; }
+  finally{ $('authSubmit').disabled=false; }
+});
+$('logoutBtn').addEventListener('click',async()=>{
+  try{ await fetch('/api/logout',{method:'POST'}); }catch{}
+  setUser(''); toast('Odhlášen');
+});
+async function checkAuth(){
+  setUser('');
+  try{ const r=await fetch('/api/me'); if(r.ok){ const d=await r.json(); setUser(d.email,d.verified); } }catch{}
+}
+
+/* ---------- zapomenuté heslo / reset ---------- */
+function showAuthView(view){
+  $('authForm').style.display=view==='login'?'':'none';
+  $('forgotForm').style.display=view==='forgot'?'':'none';
+  $('resetForm').style.display=view==='reset'?'':'none';
+  $('forgotBtn').style.display=view==='login'?'':'none';
+  document.querySelector('.authTabs').style.display=view==='login'?'flex':'none';
+}
+$('forgotBtn').addEventListener('click',()=>showAuthView('forgot'));
+$('forgotBack').addEventListener('click',()=>showAuthView('login'));
+$('forgotForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  $('forgotErr').textContent=''; $('forgotLinkBox').style.display='none';
+  try{
+    const r=await fetch('/api/forgot-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('forgotEmail').value.trim()})});
+    const d=await r.json();
+    if(!r.ok){ $('forgotErr').textContent=d.error||'Nepovedlo se'; return; }
+    if(d.resetLink){
+      $('forgotLinkBox').style.display='block';
+      $('forgotLinkBox').innerHTML=`${d.note}<br><a href="${d.resetLink}" id="devResetLink">Otevřít odkaz pro obnovu hesla</a>`;
+    }else{
+      $('forgotLinkBox').style.display='block';
+      $('forgotLinkBox').textContent='Pokud účet existuje, byl by na něj poslán odkaz.';
+    }
+  }catch{ $('forgotErr').textContent='Server nedostupný.'; }
+});
+$('resetForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  $('resetErr').textContent='';
+  const token=new URLSearchParams(location.search).get('resetToken');
+  try{
+    const r=await fetch('/api/reset-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token,password:$('resetPass').value})});
+    const d=await r.json();
+    if(!r.ok){ $('resetErr').textContent=d.error||'Nepovedlo se'; return; }
+    setUser(d.email,false);
+    history.replaceState(null,'',location.pathname);
+    hideGate(); showAuthView('login');
+    toast('Heslo změněno, přihlášen: '+d.email);
+  }catch{ $('resetErr').textContent='Server nedostupný.'; }
+});
+(function checkResetToken(){
+  if(new URLSearchParams(location.search).get('resetToken')){ showAuthView('reset'); openGate(); }
+})();
+/* ---------- autosave rozpracovaného inzerátu ---------- */
+const DRAFT_KEY='snapSoldDraft';
+let draftT;
+function saveDraft(d){
+  clearTimeout(draftT);
+  draftT=setTimeout(()=>{
+    if(!d.name){ localStorage.removeItem(DRAFT_KEY); return; }
+    localStorage.setItem(DRAFT_KEY,JSON.stringify({...d,_game:state.game}));
+  },600);
+}
+function restoreDraft(){
+  let d; try{ d=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null'); }catch{ d=null; }
+  if(!d||!d.name) return;
+  restoreSnapshot(d);
+  toast('Rozpracovaný inzerát obnoven',{actionLabel:'Zahodit',duration:6000,onAction:()=>{ localStorage.removeItem(DRAFT_KEY); location.reload(); }});
+}
+
+/* ---------- mé položky + mé inzeráty (server, jen po přihlášení) ---------- */
+function accountRow(label,meta,buttons){
+  const row=document.createElement('div'); row.className='batchRow';
+  row.innerHTML=`<span class="bn">${label}</span><span class="bm">${meta||''}</span>`;
+  buttons.forEach(([txt,fn])=>{ const b=document.createElement('button'); b.textContent=txt; b.className='small'; b.addEventListener('click',fn); row.appendChild(b); });
+  return row;
+}
+async function loadQuick(){
+  try{
+    const r=await fetch('/api/quicklist'); if(!r.ok) return;
+    const {items}=await r.json();
+    const box=$('quickListBox'); box.innerHTML='';
+    items.forEach(it=>box.appendChild(accountRow(it.name,CATEGORIES[it.category]?.label||'',[
+      ['použít',()=>{ restoreSnapshot(it); toast('Předvyplněno: '+it.name); }],
+      ['smazat',async()=>{ await fetch('/api/quicklist/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:it.id})}); loadQuick(); }]
+    ])));
+    if(!items.length) box.innerHTML='<div class="hint">Zatím prázdné.</div>';
+  }catch{}
+}
+async function loadListings(){
+  try{
+    const r=await fetch('/api/listings'); if(!r.ok) return;
+    const {items}=await r.json();
+    const box=$('listingsBox'); box.innerHTML='';
+    items.forEach(it=>box.appendChild(accountRow(it.title||it.name,(CATEGORIES[it.category]?.label||'')+(it.price?' · '+it.price+' '+(it.curr||''):''),[
+      ['kopírovat',()=>copy((it.title||'')+'\n\n'+(it.body||''),'Inzerát zkopírován')],
+      ['smazat',async()=>{ await fetch('/api/listings/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:it.id})}); loadListings(); }]
+    ])));
+    if(!items.length) box.innerHTML='<div class="hint">Zatím prázdné.</div>';
+    const sums={}, byCat={};
+    items.forEach(it=>{
+      const v=parseFloat(it.price); if(!isNaN(v)) sums[it.curr||'CZK']=(sums[it.curr||'CZK']||0)+v;
+      const cl=CATEGORIES[it.category]?.label||it.category||'?'; byCat[cl]=(byCat[cl]||0)+1;
+    });
+    const totalStr=Object.entries(sums).map(([c,v])=>`${v} ${c}`).join(' + ')||'—';
+    const catStr=Object.entries(byCat).map(([c,n])=>`${c}: ${n}`).join(' · ')||'—';
+    $('statsBox').innerHTML=`Celkem uloženo: <b>${items.length}</b> inzerátů<br>Souhrnná hodnota: <b>${totalStr}</b><br>Podle kategorie: ${catStr}`;
+  }catch{}
+}
+$('saveQuick').addEventListener('click',async()=>{
+  const d=gather(); if(!d.name) return toast('Nejdřív vyplň položku');
+  try{
+    const r=await fetch('/api/quicklist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({item:{...d,_game:state.game}})});
+    if(!r.ok) throw 0;
+    toast('Uloženo do mých položek'); loadQuick();
+  }catch{ toast('Uložení selhalo'); }
+});
+$('saveListing').addEventListener('click',async()=>{
+  const d=gather(); if(!d.name) return toast('Nejdřív vyplň položku');
+  const out=buildListing(d);
+  try{
+    const r=await fetch('/api/listings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({item:{name:d.name,category:d.category,fmt:d.fmt,lang:d.lang,price:d.price,curr:d.curr,title:out.title,body:out.body}})});
+    if(!r.ok) throw 0;
+    toast('Inzerát uložen na server'); loadListings();
+  }catch{ toast('Uložení selhalo'); }
+});
+
+/* ---------- synchronizace nastavení mezi zařízeními ---------- */
+let prefsT;
+function pushPrefsDebounced(){
+  if(!$('userEmail').textContent) return;
+  clearTimeout(prefsT);
+  prefsT=setTimeout(()=>{
+    fetch('/api/prefs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prefs:{
+      theme:currentTheme(),
+      provider:localStorage.getItem('snapSoldProvider')||'ollama',
+      ollamaModel:localStorage.getItem('snapSoldOllamaModel')||''
+    }})}).catch(()=>{});
+  },800);
+}
+async function pullPrefs(){
+  try{
+    const r=await fetch('/api/prefs'); if(!r.ok) return;
+    const {prefs}=await r.json();
+    if(prefs.theme){ localStorage.setItem(THEME_KEY,JSON.stringify(prefs.theme)); loadTheme(); }
+    if(prefs.provider) localStorage.setItem('snapSoldProvider',prefs.provider);
+    if(prefs.ollamaModel) localStorage.setItem('snapSoldOllamaModel',prefs.ollamaModel);
+  }catch{}
+}
+['cAccent','cBg','cText','fFamily','fSize','fSpacing'].forEach(id=>$(id).addEventListener('change',pushPrefsDebounced));
+$('setProvider').addEventListener('change',pushPrefsDebounced);
+$('setOllamaModel').addEventListener('input',pushPrefsDebounced);
+
+/* ---------- první návštěva ---------- */
+if(!localStorage.getItem('snapSoldOnboarded')) $('onboard').style.display='block';
+$('onboardClose').addEventListener('click',()=>{ localStorage.setItem('snapSoldOnboarded','1'); $('onboard').style.display='none'; });
+
+/* ---------- PWA ---------- */
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{ navigator.serviceWorker.register('/sw.js').catch(()=>{}); });
+}
+
+loadTheme();
+checkAuth();
+restoreDraft();
+</script>
+</body>
+</html>
