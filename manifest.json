@@ -1,7 +1,12 @@
-.worktrees/
-
-users.json
-.session-secret
-quicklist.json
-listings.json
-prefs.json
+{
+  "name": "Snap → Sold",
+  "short_name": "Snap→Sold",
+  "description": "Vyfoť předmět. Dostaneš inzerát.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F231A",
+  "theme_color": "#0F231A",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

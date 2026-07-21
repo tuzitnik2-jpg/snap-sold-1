@@ -1,0 +1,7 @@
+.worktrees/
+
+users.json
+.session-secret
+quicklist.json
+listings.json
+prefs.json

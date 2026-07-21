@@ -310,7 +310,7 @@ button.copied{background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,25
     <label for="setProvider">Model pro rozpozn&aacute;n&iacute;</label>
     <select id="setProvider" style="width:100%">
       <option value="claude">Claude (Anthropic API kl&iacute;&ccaron; &mdash; placen&eacute;)</option>
-      <option value="gemini">Gemini (Google API kl&iacute;&ccaron; &mdash; zdarma tier)</option>
+      <option value="gemini" selected>Gemini (Google API kl&iacute;&ccaron; &mdash; zdarma tier)</option>
       <option value="ollama">Lok&aacute;ln&iacute; model (Ollama &mdash; zdarma, offline)</option>
     </select>
   </div>
@@ -1839,7 +1839,7 @@ async function identify(){
   showSkeleton();
   try{
     const prompt=visionPromptFor(state.category);
-    const provider=localStorage.getItem('snapSoldProvider')||'ollama';
+    const provider=localStorage.getItem('snapSoldProvider')||'gemini';
     let text;
     if(provider==='ollama'){
       const model=localStorage.getItem('snapSoldOllamaModel')||'llava';
@@ -2522,7 +2522,7 @@ $('setGeminiKey').addEventListener('input',()=>{
   refreshGeminiKeyStatus();
 });
 function applyProviderUI(){
-  const p=localStorage.getItem('snapSoldProvider')||'ollama';
+  const p=localStorage.getItem('snapSoldProvider')||'gemini';
   $('setProvider').value=p;
   $('rowApiKey').style.display=p==='claude'?'':'none';
   $('rowGeminiKey').style.display=p==='gemini'?'':'none';
@@ -2765,7 +2765,7 @@ function pushPrefsDebounced(){
   prefsT=setTimeout(()=>{
     fetch('/api/prefs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prefs:{
       theme:currentTheme(),
-      provider:localStorage.getItem('snapSoldProvider')||'ollama',
+      provider:localStorage.getItem('snapSoldProvider')||'gemini',
       ollamaModel:localStorage.getItem('snapSoldOllamaModel')||''
     }})}).catch(()=>{});
   },800);
