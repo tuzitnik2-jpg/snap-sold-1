@@ -180,19 +180,28 @@ function proxyVisionGemini(req, res) {
 
     const parts = images.map(b64 => ({ inline_data: { mime_type: 'image/jpeg', data: b64 } }));
     parts.push({ text: prompt });
-    const model = 'gemini-3.5-flash'; // uprav, pokud vyjde novější Flash model
+    // model lze přepnout přes proměnnou prostředí GEMINI_MODEL (bez úpravy kódu / redeploye)
+    const model = process.env.GEMINI_MODEL || 'gemini-3.5-flash';
     const payload = JSON.stringify({
       contents: [{ parts }],
       generationConfig: { responseMimeType: 'application/json', temperature: 0 },
     });
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`;
 
-    const up = https.request(
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`,
-      { method: 'POST', headers: { 'Content-Type': 'application/json' } },
-      upRes => {
+    // Gemini občas vrátí přechodnou chybu (503 přetížení, 429 limit, 500) — zkusíme to znovu s krátkým odstupem
+    const TRANSIENT = new Set([429, 500, 503]);
+    const MAX_TRIES = 3;
+    function attempt(n) {
+      const up = https.request(url, { method: 'POST', headers: { 'Content-Type': 'application/json' } }, upRes => {
         let d = ''; upRes.on('data', c => d += c);
         upRes.on('end', () => {
-          if (upRes.statusCode >= 400) return json(res, upRes.statusCode, { error: 'Gemini API chyba: ' + d.slice(0, 300) });
+          if (TRANSIENT.has(upRes.statusCode) && n < MAX_TRIES) return setTimeout(() => attempt(n + 1), 700 * n);
+          if (upRes.statusCode >= 400) {
+            const friendly = upRes.statusCode === 503
+              ? 'Gemini je momentálně přetížený. Zkus to prosím za chvíli znovu.'
+              : 'Gemini API chyba: ' + d.slice(0, 300);
+            return json(res, upRes.statusCode, { error: friendly });
+          }
           try {
             const parsed = JSON.parse(d);
             const text = parsed?.candidates?.[0]?.content?.parts?.[0]?.text || '';
@@ -200,10 +209,14 @@ function proxyVisionGemini(req, res) {
             json(res, 200, { text });
           } catch { json(res, 502, { error: 'Gemini vrátil neplatná data' }); }
         });
-      }
-    );
-    up.on('error', e => json(res, 502, { error: 'Upstream selhal: ' + e.message }));
-    up.end(payload);
+      });
+      up.on('error', e => {
+        if (n < MAX_TRIES) return setTimeout(() => attempt(n + 1), 700 * n);
+        json(res, 502, { error: 'Upstream selhal: ' + e.message });
+      });
+      up.end(payload);
+    }
+    attempt(1);
   }).catch(() => json(res, 400, { error: 'Neplatný požadavek' }));
 }
 
