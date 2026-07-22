@@ -188,8 +188,9 @@ function proxyVisionGemini(req, res) {
     });
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`;
 
-    // Gemini občas vrátí přechodnou chybu (503 přetížení, 429 limit, 500) — zkusíme to znovu s krátkým odstupem
-    const TRANSIENT = new Set([429, 500, 503]);
+    // Přechodné chyby serveru (503 přetížení, 500) zkusíme znovu. 429 (kvóta/limit) NEZkoušíme
+    // znovu — opakování kvótu nevrátí a jen ji dál spotřebovává.
+    const TRANSIENT = new Set([500, 503]);
     const MAX_TRIES = 5; // Gemini 503 "high demand" spiky — zkusíme víckrát (0.8s,1.6s,2.4s,3.2s)
     function attempt(n) {
       const up = https.request(url, { method: 'POST', headers: { 'Content-Type': 'application/json' } }, upRes => {
@@ -199,6 +200,8 @@ function proxyVisionGemini(req, res) {
           if (upRes.statusCode >= 400) {
             const friendly = upRes.statusCode === 503
               ? 'Gemini je momentálně přetížený. Zkus to prosím za chvíli znovu.'
+              : upRes.statusCode === 429
+              ? 'Vyčerpal jsi kvótu Gemini API klíče. Free tier má minutový i denní limit — počkej chvíli (minutový limit), nebo to zkus později (denní limit). Kvótu zkontroluješ / navýšíš v Google AI Studio.'
               : 'Gemini API chyba: ' + d.slice(0, 300);
             return json(res, upRes.statusCode, { error: friendly });
           }
