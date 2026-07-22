@@ -1797,34 +1797,17 @@ ${base}
 Also include: {"bgg_search_name":string,"edition_language":string,"category_guess":string}
 bgg_search_name = the game's primary English name on BoardGameGeek if you know it, otherwise the printed title. edition_language = two-letter guess like "cs","en","de" or "unknown". category_guess = 2-4 words in CZECH, e.g. "rodinná dobrodružná hra".`;
   }
-  if(category==='furniture'){
-    return `You identify furniture from photos for a second-hand listing tool.
+  // ostatní kategorie: seznam polí se generuje přímo z definice formuláře,
+  // takže AI vrátí přesně ta pole, která formulář obsahuje
+  const cat = CATEGORIES[category] || CATEGORIES.automoto;
+  const fieldLines = cat.fields.map(f=>{
+    const hint = f.placeholder ? ' — např. '+String(f.placeholder).replace(/…/g,'').trim() : '';
+    return `  "${f.id}": ${f.label}${hint}`;
+  }).join('\n');
+  return `You identify a second-hand "${cat.label}" item from photos for a listing tool. It may be a plain unbranded object (e.g. a knife, a chair) or a branded product.
 ${base}
-Also include: {"material_guess":string,"dimensions_guess":string}
-material_guess = short CZECH phrase, e.g. "masiv dub", "MDF laminovaná". dimensions_guess = approximate size IN CZECH if visually estimable, e.g. "cca 180×80×75 cm"; empty string if not estimable from the photo.`;
-  }
-  if(category==='electronics'){
-    return `You identify electronics/accessories from photos for a second-hand listing tool.
-${base}
-Also include: {"brand_model_guess":string,"specs_guess":string}
-brand_model_guess = brand and model if visible on the item/label, e.g. "Sony WH-1000XM4"; empty string if not visible. specs_guess = short CZECH phrase of any visible spec (ports, capacity, size), e.g. "USB-C, 65W"; empty string if not visible.`;
-  }
-  if(category==='sport'){
-    return `You identify sports/fitness equipment from photos for a second-hand listing tool.
-${base}
-Also include: {"brand_model_guess":string,"size_guess":string,"wear_guess":string}
-brand_model_guess = brand and model if visible, e.g. "Salomon X-Rider"; empty string if not visible. size_guess = size/length IN CZECH if visually estimable (ski/bike/clothing size, shoe size), e.g. "vel. 42", "170 cm"; empty string if not estimable. wear_guess = short CZECH phrase describing wear on treads/edges/grips beyond the general condition_notes; empty string if nothing notable.`;
-  }
-  if(category==='kitchen'){
-    return `You identify kitchen equipment/appliances from photos for a second-hand listing tool.
-${base}
-Also include: {"brand_model_guess":string,"capacity_guess":string}
-brand_model_guess = brand and model if visible on the item/label, e.g. "Tefal Actifry"; empty string if not visible. capacity_guess = short CZECH phrase of visible power/volume rating, e.g. "1,5 l", "2000 W"; empty string if not visible.`;
-  }
-  return `You identify auto/moto parts and accessories from photos for a second-hand listing tool.
-${base}
-Also include: {"brand_model_guess":string,"fitment_guess":string}
-brand_model_guess = brand and model/part number if visible, e.g. "Bosch S4"; empty string if not visible. fitment_guess = short CZECH phrase of visible size/fitment (tire size, part dimensions), e.g. "205/55 R16"; empty string if not visible.`;
+Also include a "fields" object with EXACTLY these keys. Fill each value IN CZECH, but ONLY from what is actually visible or clearly inferable in the photo. Use an empty string "" for anything you cannot determine from the photo — never invent a warranty date, age, battery health, price, or a specification that is not visible:
+${fieldLines}`;
 }
 
 function showSkeleton(){
@@ -1915,22 +1898,10 @@ async function identify(){
     }else{
       $('gName').value = v.printed_title; state.nameEdited=true;
       renderFactsPanel();
-      if(state.category==='furniture'){
-        if(v.material_guess) $('fld_material').value=v.material_guess;
-        if(v.dimensions_guess) $('fld_dims').value=v.dimensions_guess;
-      }else if(state.category==='electronics'){
-        if(v.brand_model_guess){ const parts=v.brand_model_guess.split(' '); $('fld_brand').value=parts[0]||''; $('fld_model').value=parts.slice(1).join(' '); }
-        if(v.specs_guess) $('fld_specs').value=v.specs_guess;
-      }else if(state.category==='sport'){
-        if(v.brand_model_guess){ const parts=v.brand_model_guess.split(' '); $('fld_brand').value=parts[0]||''; $('fld_model').value=parts.slice(1).join(' '); }
-        if(v.size_guess) $('fld_size').value=v.size_guess;
-        if(v.wear_guess) $('fld_wear').value=v.wear_guess;
-      }else if(state.category==='kitchen'){
-        if(v.brand_model_guess){ const parts=v.brand_model_guess.split(' '); $('fld_brand').value=parts[0]||''; $('fld_model').value=parts.slice(1).join(' '); }
-        if(v.capacity_guess) $('fld_capacity').value=v.capacity_guess;
-      }else if(state.category==='automoto'){
-        if(v.brand_model_guess){ const parts=v.brand_model_guess.split(' '); $('fld_brand').value=parts[0]||''; $('fld_model').value=parts.slice(1).join(' '); }
-        if(v.fitment_guess) $('fld_fitment').value=v.fitment_guess;
+      const ff = (v.fields && typeof v.fields==='object') ? v.fields : {};
+      for(const def of CATEGORIES[state.category].fields){
+        const el=$('fld_'+def.id), val=ff[def.id];
+        if(el && typeof val==='string' && val.trim()) el.value=val.trim();
       }
       state.itemFields=readFieldValues();
       $('gamecard').classList.add('on');
